@@ -260,6 +260,155 @@ button {
   gap: 18px;
 }
 
+.docs-shell {
+  max-width: 1380px;
+}
+
+.docs-layout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 24px;
+}
+
+.docs-nav {
+  gap: 8px;
+}
+
+.docs-group-title {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.docs-link {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.docs-link-active {
+  background: rgba(15, 118, 110, 0.12);
+  border-color: rgba(15, 118, 110, 0.28);
+}
+
+.docs-content {
+  min-width: 0;
+}
+
+.docs-topbar {
+  margin-bottom: 24px;
+}
+
+.docs-title {
+  margin-top: 8px;
+}
+
+.doc-prose {
+  display: grid;
+  gap: 16px;
+}
+
+.doc-prose h1,
+.doc-prose h2,
+.doc-prose h3,
+.doc-prose h4,
+.doc-prose h5,
+.doc-prose h6 {
+  margin: 0;
+  scroll-margin-top: 24px;
+}
+
+.doc-prose h1 {
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1;
+}
+
+.doc-prose h2 {
+  font-size: 28px;
+  margin-top: 8px;
+}
+
+.doc-prose h3 {
+  font-size: 22px;
+}
+
+.doc-prose p,
+.doc-prose li,
+.doc-prose td,
+.doc-prose th,
+.doc-prose blockquote {
+  line-height: 1.7;
+}
+
+.doc-prose p,
+.doc-prose ul,
+.doc-prose ol,
+.doc-prose blockquote,
+.doc-prose pre,
+.doc-prose table {
+  margin: 0;
+}
+
+.doc-prose ul,
+.doc-prose ol {
+  padding-left: 22px;
+}
+
+.doc-prose a {
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.doc-prose code {
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", monospace;
+  font-size: 0.92em;
+  background: rgba(19, 33, 48, 0.08);
+  border-radius: 8px;
+  padding: 0.14em 0.42em;
+}
+
+.doc-code {
+  margin: 0;
+  padding: 18px;
+  overflow-x: auto;
+  border-radius: 20px;
+  background: rgba(19, 33, 48, 0.94);
+  color: #edf6ff;
+}
+
+.doc-code code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.doc-table th {
+  background: rgba(19, 33, 48, 0.05);
+}
+
+.doc-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 12px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.doc-prose blockquote {
+  border-left: 4px solid rgba(15, 118, 110, 0.34);
+  padding-left: 16px;
+  color: var(--muted);
+}
+
 .section-gap {
   margin-bottom: 24px;
 }
@@ -389,12 +538,17 @@ button {
   .masthead,
   .hero,
   .cards,
-  .grid {
+  .grid,
+  .docs-layout {
     grid-template-columns: 1fr;
   }
 
   .masthead {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .docs-sidebar {
+    position: static;
   }
 }

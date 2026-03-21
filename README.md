@@ -96,6 +96,7 @@ docker compose up --build
 Then open:
 
 - Web UI: `http://localhost:3000`
+- Documentation center: `http://localhost:3000/docs`
 - API health: `http://localhost:4000/api/v1/health`
 - OpenAPI draft: [`docs/api/openapi.yaml`](./docs/api/openapi.yaml)
 - Community files: [CONTRIBUTING](./CONTRIBUTING.md), [CODE_OF_CONDUCT](./CODE_OF_CONDUCT.md), [SECURITY](./SECURITY.md), [CHANGELOG](./CHANGELOG.md)
@@ -116,6 +117,7 @@ Default seeded account:
 
 ## Documentation
 
+- In-app docs center: start the frontend and open `/docs` to browse the repository Markdown with bilingual navigation and full-page rendering
 - [English overview](./docs/en/README.md)
 - [Chinese overview](./docs/zh/README.md)
 - [Architecture](./docs/en/ARCHITECTURE.md)

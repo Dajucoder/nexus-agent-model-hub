@@ -20,6 +20,9 @@ export default function HomePage() {
             <Link className="btn" href="/login">
               Open Auth Demo
             </Link>
+            <Link className="ghost" href="/docs">
+              Read Docs
+            </Link>
             <Link className="ghost" href="/models">Browse Models</Link>
             <Link className="ghost" href="/leaderboard">View Leaderboard</Link>
             <Link className="ghost" href="/chat">Try Chat Demo</Link>

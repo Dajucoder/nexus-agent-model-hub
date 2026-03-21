@@ -1,13 +1,14 @@
 import Link from 'next/link';
 
 const links = [
-  { href: '/', label: '首页' },
-  { href: '/models', label: '模型库' },
-  { href: '/leaderboard', label: '排行榜' },
-  { href: '/compare', label: '模型对比' },
-  { href: '/chat', label: '对话演示' },
+  { href: '/', label: 'Home 首页' },
+  { href: '/docs', label: 'Docs 文档' },
+  { href: '/models', label: 'Models 模型库' },
+  { href: '/leaderboard', label: 'Leaderboard 排行榜' },
+  { href: '/compare', label: 'Compare 模型对比' },
+  { href: '/chat', label: 'Chat 对话演示' },
   { href: '/settings', label: 'API Key' },
-  { href: '/dashboard', label: '租户控制台' }
+  { href: '/dashboard', label: 'Dashboard 控制台' }
 ];
 
 export function SiteHeader() {
@@ -18,7 +19,7 @@ export function SiteHeader() {
           <Link href="/" className="brand-link">
             Nexus Agent Model Hub
           </Link>
-          <div className="fine">多租户 Agent 平台 + 大模型百科 + 对话与排行榜演示</div>
+          <div className="fine">Multi-tenant Agent platform, model hub, chat demo, and bilingual docs</div>
         </div>
         <nav className="toolbar">
           {links.map((link) => (
