@@ -1,0 +1,59 @@
+---
+id: "MODEL-ID"
+name: "模型名称"
+slug: "model-slug"
+provider_id: "provider-id"
+release_date: "YYYY-MM-DD"
+model_family: "模型系列"
+status: "active"
+tags: ["tag1", "tag2"]
+meta_title: "模型名称 — 简短描述"
+meta_description: "SEO 描述 (150字以内)"
+keywords: ["关键词1", "关键词2"]
+---
+
+## 概述
+
+<!-- 模型的基本介绍，2-3 段话 -->
+
+## 核心优势
+
+- **优势 1**: 详细描述
+- **优势 2**: 详细描述
+- **优势 3**: 详细描述
+
+## 局限性
+
+- 局限 1: 详细描述
+- 局限 2: 详细描述
+
+## 使用建议
+
+1. 场景 1 的推荐用法
+2. 场景 2 的推荐用法
+3. 场景 3 的推荐用法
+
+## API 使用示例
+
+```typescript
+// 基本调用示例
+const response = await client.chat.completions.create({
+  model: "MODEL-ID",
+  messages: [
+    { role: "system", content: "你是一个助手" },
+    { role: "user", content: "你好" }
+  ],
+  temperature: 0.7,
+  max_tokens: 1024,
+});
+```
+
+## 常见问题
+
+### Q: 这个模型适合什么场景？
+
+A: 适合的场景描述。
+
+### Q: 如何获取 API Key？
+
+A: [点击这里](PROVIDER_KEY_URL) 获取 API Key。

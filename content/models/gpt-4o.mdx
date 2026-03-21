@@ -1,0 +1,73 @@
+---
+id: "gpt-4o"
+name: "GPT-4o"
+slug: "gpt-4o"
+provider_id: "openai"
+release_date: "2024-05-13"
+model_family: "GPT-4"
+status: "active"
+tags: ["multimodal", "fast", "reasoning", "coding"]
+meta_title: "GPT-4o 模型介绍 — OpenAI 多模态旗舰"
+meta_description: "全面了解 OpenAI GPT-4o 模型的技术规格、能力评分、定价及 API 使用方法。"
+keywords: ["GPT-4o", "OpenAI", "多模态", "大模型", "API"]
+---
+
+## 概述
+
+GPT-4o ("o" 代表 "omni") 是 OpenAI 于 2024 年 5 月发布的旗舰多模态模型。它能够在同一个模型中理解和生成文本、图像和音频，实现了真正意义上的多模态统一处理。
+
+与前代 GPT-4 Turbo 相比，GPT-4o 在保持高性能的同时，将 API 定价降低了 50%，响应速度提升了 2 倍，成为 OpenAI 迄今为止最实用的模型。
+
+## 核心优势
+
+- **多模态原生**: 文本、图像、音频统一处理，无需多模型串联
+- **低延迟**: 比 GPT-4 Turbo 快 2x，适合实时交互场景
+- **性价比高**: 定价降低 50%，输入 $2.5/1M tokens，输出 $10/1M tokens
+- **广泛语言支持**: 支持 50+ 种语言，中文表现优秀
+- **强大的工具调用**: 支持 Function Calling 和结构化输出
+
+## 局限性
+
+- 数学推理仍落后于部分专用模型 (如 DeepSeek-V3)
+- 闭源模型，无法本地部署
+- 存在幻觉问题，不适合高精度事实核查
+- 长文本生成质量有下降趋势
+
+## 使用建议
+
+1. **通用对话**: 日常聊天、问答、翻译等通用任务首选
+2. **多模态任务**: 图像分析、OCR、图文理解等
+3. **代码生成**: 大多数编程语言的代码生成与调试
+4. **不适合**: 高精度数学推理、需要开源部署的场景
+
+## API 使用示例
+
+```typescript
+import OpenAI from 'openai';
+
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+const response = await client.chat.completions.create({
+  model: "gpt-4o",
+  messages: [
+    { role: "system", content: "你是一个专业的编程助手" },
+    { role: "user", content: "帮我写一个快速排序算法" }
+  ],
+  temperature: 0.7,
+  max_tokens: 2048,
+});
+
+console.log(response.choices[0].message.content);
+```
+
+## 常见问题
+
+### Q: GPT-4o 和 GPT-4 Turbo 有什么区别？
+
+A: GPT-4o 速度更快（2x）、价格更低（50%折扣），且原生支持多模态。GPT-4 Turbo 仍然可用但在大多数场景下建议使用 GPT-4o。
+
+### Q: 如何获取 API Key？
+
+A: 访问 [OpenAI Platform](https://platform.openai.com/api-keys) 注册并创建 API Key。

@@ -1,0 +1,12 @@
+-- Optional production hardening notes
+-- ==================================
+-- This repository enforces tenant isolation at the application layer by default.
+-- For production deployments with a dedicated Postgres role strategy, add RLS
+-- policies that bind queries to a tenant context variable such as:
+--
+--   SELECT set_config('app.current_tenant_id', '<tenant-id>', true);
+--
+-- Then create policies referencing current_setting('app.current_tenant_id', true).
+--
+-- Prisma uses pooled connections, so transaction-scoped SET LOCAL or a dedicated
+-- request wrapper should be used when enabling RLS in production.

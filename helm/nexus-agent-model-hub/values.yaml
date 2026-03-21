@@ -1,0 +1,27 @@
+namespace: nexus-agent-model-hub
+
+frontend:
+  image: ghcr.io/example/nexus-agent-model-hub-frontend:latest
+  replicas: 2
+  servicePort: 3000
+
+backend:
+  image: ghcr.io/example/nexus-agent-model-hub-backend:latest
+  replicas: 2
+  servicePort: 4000
+
+config:
+  CORS_ORIGIN: https://nexus.example.com
+  NEXT_PUBLIC_API_URL: https://api.nexus.example.com/api/v1
+  NEXT_PUBLIC_DEFAULT_LOCALE: zh-CN
+
+secrets:
+  DATABASE_URL: postgresql://user:password@postgres:5432/nexus_agent_model_hub
+  REDIS_URL: redis://redis:6379
+  JWT_SECRET: replace-me
+  JWT_REFRESH_SECRET: replace-me-too
+
+ingress:
+  enabled: true
+  frontendHost: nexus.example.com
+  apiHost: api.nexus.example.com

@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-agent-model-hub-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: nexus-agent-model-hub-backend
+  template:
+    metadata:
+      labels:
+        app: nexus-agent-model-hub-backend
+    spec:
+      containers:
+        - name: backend
+          image: {{ .Values.backend.image }}
+          ports:
+            - containerPort: {{ .Values.backend.servicePort }}
+          envFrom:
+            - configMapRef:
+                name: nexus-agent-model-hub-config
+            - secretRef:
+                name: nexus-agent-model-hub-secrets
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus-agent-model-hub-backend
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: nexus-agent-model-hub-backend
+  ports:
+    - port: {{ .Values.backend.servicePort }}
+      targetPort: {{ .Values.backend.servicePort }}

@@ -1,0 +1,230 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ModelCard",
+  "description": "大语言模型卡片数据结构",
+  "type": "object",
+  "required": ["id", "name", "slug", "provider", "release_date", "model_family", "context_window", "modality", "capabilities", "pricing", "description", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "模型唯一标识符"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "模型显示名称"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL slug"
+    },
+    "provider": {
+      "$ref": "#/definitions/ProviderInfo"
+    },
+    "version": {
+      "type": "string",
+      "description": "模型版本号"
+    },
+    "release_date": {
+      "type": "string",
+      "format": "date",
+      "description": "发布日期 (ISO 8601)"
+    },
+    "model_family": {
+      "type": "string",
+      "description": "模型系列名称"
+    },
+    "context_window": {
+      "type": "object",
+      "required": ["max_tokens"],
+      "properties": {
+        "max_tokens": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "最大上下文 token 数"
+        },
+        "max_output_tokens": {
+          "type": "integer",
+          "description": "最大输出 token 数"
+        },
+        "training_cutoff": {
+          "type": "string",
+          "description": "训练数据截止日期"
+        }
+      }
+    },
+    "architecture": {
+      "enum": ["dense", "moe", "diffusion", "other"],
+      "description": "模型架构类型"
+    },
+    "modality": {
+      "type": "array",
+      "items": {
+        "enum": ["text", "image", "audio", "video", "code"]
+      },
+      "minItems": 1,
+      "description": "支持的输入输出模态"
+    },
+    "languages": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "支持的语言代码列表"
+    },
+    "capabilities": {
+      "$ref": "#/definitions/ModelCapabilityScore"
+    },
+    "benchmarks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/BenchmarkResult"
+      },
+      "description": "基准测试结果列表"
+    },
+    "pricing": {
+      "$ref": "#/definitions/ModelPricing"
+    },
+    "api_endpoints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ApiEndpoint"
+      }
+    },
+    "open_source": {
+      "type": "boolean",
+      "description": "是否开源"
+    },
+    "license": {
+      "type": "string",
+      "description": "开源许可证"
+    },
+    "huggingface_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "github_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "模型描述"
+    },
+    "strengths": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "核心优势列表"
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "已知局限列表"
+    },
+    "use_cases": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "推荐使用场景"
+    },
+    "leaderboard_scores": {
+      "type": "object",
+      "properties": {
+        "openrouter_score": { "type": "number" },
+        "arena_score": { "type": "number" },
+        "arena_rank": { "type": "integer" }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "标签列表"
+    },
+    "status": {
+      "enum": ["active", "deprecated", "preview"],
+      "description": "模型状态"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date",
+      "description": "最后更新日期"
+    },
+    "seo": {
+      "type": "object",
+      "required": ["meta_title", "meta_description"],
+      "properties": {
+        "meta_title": { "type": "string" },
+        "meta_description": { "type": "string" },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ProviderInfo": {
+      "type": "object",
+      "required": ["id", "name", "slug", "official_url", "api_key_url", "docs_url"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "logo_url": { "type": "string" },
+        "official_url": { "type": "string", "format": "uri" },
+        "api_key_url": { "type": "string", "format": "uri", "description": "获取 API Key 的页面 URL" },
+        "docs_url": { "type": "string", "format": "uri" },
+        "pricing_url": { "type": "string", "format": "uri" }
+      }
+    },
+    "ModelCapabilityScore": {
+      "type": "object",
+      "properties": {
+        "reasoning": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "coding": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "math": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "creative_writing": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "multilingual": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "instruction_following": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "vision": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "audio": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "tool_use": { "type": "integer", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "ModelPricing": {
+      "type": "object",
+      "required": ["currency", "input_per_1m_tokens", "output_per_1m_tokens"],
+      "properties": {
+        "currency": { "enum": ["USD"] },
+        "input_per_1m_tokens": { "type": "number", "minimum": 0 },
+        "output_per_1m_tokens": { "type": "number", "minimum": 0 },
+        "cached_input_per_1m_tokens": { "type": "number", "minimum": 0 },
+        "fine_tuning_per_1m_tokens": { "type": "number", "minimum": 0 }
+      }
+    },
+    "BenchmarkResult": {
+      "type": "object",
+      "required": ["name", "score", "unit"],
+      "properties": {
+        "name": { "type": "string" },
+        "score": { "type": "number" },
+        "unit": { "enum": ["percentage", "pass@1", "custom"] },
+        "source_url": { "type": "string", "format": "uri" },
+        "date_tested": { "type": "string", "format": "date" }
+      }
+    },
+    "ApiEndpoint": {
+      "type": "object",
+      "required": ["provider", "base_url", "docs_url"],
+      "properties": {
+        "provider": { "type": "string" },
+        "base_url": { "type": "string", "format": "uri" },
+        "docs_url": { "type": "string", "format": "uri" },
+        "supported_params": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

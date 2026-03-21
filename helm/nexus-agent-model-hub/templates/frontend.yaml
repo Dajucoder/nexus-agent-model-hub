@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nexus-agent-model-hub-frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app: nexus-agent-model-hub-frontend
+  template:
+    metadata:
+      labels:
+        app: nexus-agent-model-hub-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: {{ .Values.frontend.image }}
+          ports:
+            - containerPort: {{ .Values.frontend.servicePort }}
+          envFrom:
+            - configMapRef:
+                name: nexus-agent-model-hub-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nexus-agent-model-hub-frontend
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: nexus-agent-model-hub-frontend
+  ports:
+    - port: {{ .Values.frontend.servicePort }}
+      targetPort: {{ .Values.frontend.servicePort }}

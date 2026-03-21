@@ -1,0 +1,97 @@
+# Nexus Agent Model Hub 文档总览
+
+Nexus Agent Model Hub 是一套面向多租户登录、Agent 工具调用与大模型百科展示场景的源码开放参考仓库，提供双语界面、双语文档、Docker 部署资产、Kubernetes 草案、OpenAPI 草案与最小可运行示例。
+
+## 1. 项目目标与约束
+
+- 交付一个可直接 fork 的仓库骨架，而不是只给概念设计。
+- 在数据模型、API、审计日志三层落实租户隔离。
+- 支持多用户并发登录、刷新令牌、可选 TOTP 双因子。
+- 内置可扩展 Agent 工具调用能力，并允许插件式接入。
+- 把原有“大模型百科 / 排行榜 / 对话演示 / 设置页”融合进同一根目录项目。
+- 默认使用严格不可商用的源码开放许可，避免许可歧义。
+
+最低验收阈值：
+
+- 单节点开发部署下，认证类 CRUD API 的 P95 响应时间不高于 300ms
+- Agent 调度开销 P95 不高于 100ms，不含外部工具执行耗时
+- 通过既有 API 路径不得出现跨租户读写
+- 所有环境都具备结构化日志和健康检查
+- 常见笔记本在 5 分钟内可通过 Docker Compose 拉起最小环境
+
+## 2. 方案 A 决策映射
+
+见 [SCHEME_A_DECISIONS.md](./SCHEME_A_DECISIONS.md)。
+
+## 3. 架构说明
+
+见 [ARCHITECTURE.md](./ARCHITECTURE.md)。
+
+## 仓库结构
+
+见 [REPOSITORY_MAP.md](./REPOSITORY_MAP.md)。
+
+## 4. 部署说明
+
+见 [DEPLOYMENT.md](./DEPLOYMENT.md)。
+
+## 5. 运维说明
+
+见 [OPERATIONS.md](./OPERATIONS.md)。
+
+## 6. API
+
+- OpenAPI 草案：[`../api/openapi.yaml`](../api/openapi.yaml)
+- 认证：注册、登录、刷新、登出、当前用户
+- 租户：当前租户、审计日志
+- Agent：工具列表、执行、运行历史
+
+## 7. 数据库与迁移
+
+- 生产主库：PostgreSQL 16
+- ORM：Prisma
+- 迁移模式：`packages/backend/prisma/migrations` 下的版本化 SQL
+- 示例种子：`packages/backend/prisma/seed.ts`
+- 备份建议：小规模租户至少 6 小时一次逻辑备份，生产环境建议启用 WAL 或托管 PITR
+
+## 8. 测试与质量
+
+- 单元测试：权限、令牌、Agent 注册表
+- 集成测试：认证、租户隔离、Agent 执行
+- 端到端路径：注册或登录、查看租户、调用 Agent
+- CI 门禁：类型检查、构建、测试
+
+## 9. 国际化
+
+- 前端文本位于 `packages/frontend/messages`
+- 后端错误码与翻译键分离
+- 文档以 `docs/en` 与 `docs/zh` 并行维护
+
+## 10. 许可证与合规
+
+在部署、复用、再分发前请先阅读 [LICENSE_GUIDE.md](./LICENSE_GUIDE.md)。
+
+关键说明：
+
+- 默认许可证是 **PolyForm Noncommercial 1.0.0**
+- 这不是 OSI 定义的开源许可证，而是“源码可见 + 不可商用”许可
+- 商业 SaaS、付费托管、商业内部使用、嵌入商业产品等场景，需要另行获取商业授权
+
+最后一条是基于官方 “noncommercial” 边界给出的操作性解释，不构成法律意见。
+
+## 11. 开发者与贡献者指南
+
+见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
+
+## 12. 社区与仓库治理文件
+
+- 根目录贡献入口：[`../../CONTRIBUTING.md`](../../CONTRIBUTING.md)
+- 行为准则：[`../../CODE_OF_CONDUCT.md`](../../CODE_OF_CONDUCT.md)
+- 安全策略：[`../../SECURITY.md`](../../SECURITY.md)
+- 变更记录：[`../../CHANGELOG.md`](../../CHANGELOG.md)
+- 商业授权说明：[`../../COMMERCIAL_LICENSE.md`](../../COMMERCIAL_LICENSE.md)
+
+## 13. 已融合的模型百科资料
+
+- 模型百科总体方案：[`./MODEL_HUB_MASTER_PLAN.md`](./MODEL_HUB_MASTER_PLAN.md)
+- 页面规格：[`./MODEL_HUB_PAGE_SPEC.md`](./MODEL_HUB_PAGE_SPEC.md)

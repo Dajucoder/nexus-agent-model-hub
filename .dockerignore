@@ -1,0 +1,9 @@
+node_modules
+packages/*/node_modules
+packages/frontend/.next
+packages/backend/dist
+.git
+.DS_Store
+coverage
+*.log
+.env

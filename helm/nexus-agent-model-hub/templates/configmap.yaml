@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nexus-agent-model-hub-config
+  namespace: {{ .Values.namespace }}
+data:
+  APP_PORT: "4000"
+  CORS_ORIGIN: {{ .Values.config.CORS_ORIGIN | quote }}
+  NEXT_PUBLIC_API_URL: {{ .Values.config.NEXT_PUBLIC_API_URL | quote }}
+  NEXT_PUBLIC_DEFAULT_LOCALE: {{ .Values.config.NEXT_PUBLIC_DEFAULT_LOCALE | quote }}
