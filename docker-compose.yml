@@ -35,6 +35,9 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.backend
+      args:
+        NPM_REGISTRY: https://mirrors.tuna.tsinghua.edu.cn/npm/
+        DEBIAN_MIRROR: http://mirrors.tuna.tsinghua.edu.cn
     restart: unless-stopped
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD:-nexus_secret}@postgres:5432/${POSTGRES_DB:-nexus_agent_model_hub}
@@ -51,6 +54,8 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile.frontend
+      args:
+        NPM_REGISTRY: https://mirrors.tuna.tsinghua.edu.cn/npm/
     restart: unless-stopped
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:${APP_PORT:-4000}/api/v1
