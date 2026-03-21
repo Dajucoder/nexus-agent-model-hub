@@ -1,0 +1,28 @@
+changelog:
+  categories:
+    - title: Platform
+      labels:
+        - platform
+        - auth
+        - tenancy
+    - title: Agent Runtime
+      labels:
+        - agent
+        - plugin
+    - title: Frontend
+      labels:
+        - frontend
+        - ui
+    - title: Infrastructure
+      labels:
+        - infra
+        - docker
+        - kubernetes
+        - ci
+    - title: Documentation
+      labels:
+        - docs
+    - title: Maintenance
+      labels:
+        - chore
+        - dependencies

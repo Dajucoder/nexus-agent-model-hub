@@ -8,6 +8,7 @@
 ├── docs/
 │   ├── api/openapi.yaml            # OpenAPI draft
 │   ├── en/                         # English docs
+│   ├── releases/                   # Release notes and release drafts
 │   └── zh/                         # Chinese docs
 ├── helm/nexus-agent-model-hub/     # Helm chart draft
 ├── k8s/                            # Kubernetes manifests

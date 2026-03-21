@@ -1,5 +1,10 @@
 # Nexus Agent Model Hub
 
+[![CI](https://img.shields.io/github/actions/workflow/status/Dajucoder/nexus-agent-model-hub/ci.yml?branch=main&label=CI)](https://github.com/Dajucoder/nexus-agent-model-hub/actions/workflows/ci.yml)
+[![License](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-orange)](./LICENSE)
+[![Docs](https://img.shields.io/badge/docs-en%20%7C%20zh-blue)](./docs/en/README.md)
+[![Node](https://img.shields.io/badge/node-20%2B-43853d)](https://nodejs.org/)
+
 Source-available multi-tenant authentication, Agent tool-calling, model encyclopedia, leaderboard, and chat demo platform with bilingual UI and docs.
 
 **English** | [中文](./docs/zh/README.md)
@@ -95,6 +100,7 @@ Default seeded account:
 - [Operations guide](./docs/en/OPERATIONS.md)
 - [Contribution guide](./docs/en/CONTRIBUTING.md)
 - [License guide](./docs/en/LICENSE_GUIDE.md)
+- [Release notes](./docs/releases/v0.1.0.md)
 - [Examples](./examples/README.md)
 - [Model hub plan (ZH)](./docs/zh/MODEL_HUB_MASTER_PLAN.md)
 - [Model hub page spec (ZH)](./docs/zh/MODEL_HUB_PAGE_SPEC.md)

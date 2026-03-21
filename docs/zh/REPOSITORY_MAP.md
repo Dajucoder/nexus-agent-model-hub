@@ -8,6 +8,7 @@
 ├── docs/
 │   ├── api/openapi.yaml            # OpenAPI 草案
 │   ├── en/                         # 英文文档
+│   ├── releases/                   # 版本说明与发布草案
 │   └── zh/                         # 中文文档
 ├── helm/nexus-agent-model-hub/     # Helm 草案
 ├── k8s/                            # Kubernetes 清单
