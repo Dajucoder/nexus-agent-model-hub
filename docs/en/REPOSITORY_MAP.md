@@ -7,6 +7,7 @@
 ├── docker/                         # Backend and frontend Dockerfiles
 ├── docs/
 │   ├── api/openapi.yaml            # OpenAPI draft
+│   ├── assets/                     # README diagrams and preview images
 │   ├── en/                         # English docs
 │   ├── releases/                   # Release notes and release drafts
 │   └── zh/                         # Chinese docs

@@ -7,6 +7,7 @@
 ├── docker/                         # 前后端 Dockerfile
 ├── docs/
 │   ├── api/openapi.yaml            # OpenAPI 草案
+│   ├── assets/                     # README 架构图与预览图
 │   ├── en/                         # 英文文档
 │   ├── releases/                   # 版本说明与发布草案
 │   └── zh/                         # 中文文档

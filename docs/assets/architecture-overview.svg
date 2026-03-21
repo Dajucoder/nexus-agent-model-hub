@@ -1,0 +1,58 @@
+<svg width="1200" height="720" viewBox="0 0 1200 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="720" rx="32" fill="#F4F0E8"/>
+  <rect x="28" y="28" width="1144" height="664" rx="24" fill="#FFFDF8" stroke="#D8CFBE" stroke-width="2"/>
+  <text x="60" y="88" fill="#1D2A22" font-family="Verdana, Arial, sans-serif" font-size="34" font-weight="700">Nexus Agent Model Hub Architecture</text>
+  <text x="60" y="122" fill="#5F6C63" font-family="Verdana, Arial, sans-serif" font-size="18">Multi-tenant auth, Agent runtime, model hub UI, and deployment-ready infrastructure</text>
+
+  <rect x="64" y="170" width="230" height="124" rx="22" fill="#E8F3EC" stroke="#86A98E" stroke-width="2"/>
+  <text x="92" y="214" fill="#1C3025" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700">Browsers / Clients</text>
+  <text x="92" y="246" fill="#385443" font-family="Verdana, Arial, sans-serif" font-size="17">Web users</text>
+  <text x="92" y="272" fill="#385443" font-family="Verdana, Arial, sans-serif" font-size="17">Tenant admins</text>
+
+  <rect x="350" y="150" width="330" height="172" rx="24" fill="#FFF1D8" stroke="#D3A95F" stroke-width="2"/>
+  <text x="382" y="196" fill="#4B3413" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700">Next.js Frontend</text>
+  <text x="382" y="232" fill="#6A4A1E" font-family="Verdana, Arial, sans-serif" font-size="18">App Router UI</text>
+  <text x="382" y="258" fill="#6A4A1E" font-family="Verdana, Arial, sans-serif" font-size="18">Bilingual content</text>
+  <text x="382" y="284" fill="#6A4A1E" font-family="Verdana, Arial, sans-serif" font-size="18">Model hub / leaderboard / chat / settings</text>
+
+  <rect x="350" y="380" width="330" height="214" rx="24" fill="#E4EFFB" stroke="#7A9FD4" stroke-width="2"/>
+  <text x="382" y="426" fill="#20344F" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700">Express API Backend</text>
+  <text x="382" y="462" fill="#38506D" font-family="Verdana, Arial, sans-serif" font-size="18">JWT + refresh tokens</text>
+  <text x="382" y="488" fill="#38506D" font-family="Verdana, Arial, sans-serif" font-size="18">Tenant-scoped RBAC</text>
+  <text x="382" y="514" fill="#38506D" font-family="Verdana, Arial, sans-serif" font-size="18">Audit logs + rate limiting</text>
+  <text x="382" y="540" fill="#38506D" font-family="Verdana, Arial, sans-serif" font-size="18">OpenAPI-friendly routes</text>
+
+  <rect x="744" y="124" width="394" height="156" rx="24" fill="#FCE7E6" stroke="#C98883" stroke-width="2"/>
+  <text x="776" y="168" fill="#572624" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700">Agent Runtime</text>
+  <text x="776" y="204" fill="#754240" font-family="Verdana, Arial, sans-serif" font-size="18">Built-in tools: echo / calculator / http / file</text>
+  <text x="776" y="230" fill="#754240" font-family="Verdana, Arial, sans-serif" font-size="18">Plugin loader with external extension paths</text>
+  <text x="776" y="256" fill="#754240" font-family="Verdana, Arial, sans-serif" font-size="18">Auditable, tenant-aware execution boundary</text>
+
+  <rect x="744" y="320" width="186" height="130" rx="22" fill="#EEF4D9" stroke="#A1B16B" stroke-width="2"/>
+  <text x="774" y="364" fill="#39451A" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700">PostgreSQL</text>
+  <text x="774" y="396" fill="#54612F" font-family="Verdana, Arial, sans-serif" font-size="17">Users / tenants</text>
+  <text x="774" y="422" fill="#54612F" font-family="Verdana, Arial, sans-serif" font-size="17">Tokens / audit / runs</text>
+
+  <rect x="952" y="320" width="186" height="130" rx="22" fill="#F2E8F8" stroke="#AA87C2" stroke-width="2"/>
+  <text x="1002" y="364" fill="#4A2E5F" font-family="Verdana, Arial, sans-serif" font-size="24" font-weight="700">Redis</text>
+  <text x="984" y="396" fill="#66447D" font-family="Verdana, Arial, sans-serif" font-size="17">Caching / queuing</text>
+  <text x="984" y="422" fill="#66447D" font-family="Verdana, Arial, sans-serif" font-size="17">Burst protection</text>
+
+  <rect x="744" y="488" width="394" height="106" rx="24" fill="#EAF3F1" stroke="#7EA7A1" stroke-width="2"/>
+  <text x="776" y="532" fill="#1F4540" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700">Operations Layer</text>
+  <text x="776" y="566" fill="#365A55" font-family="Verdana, Arial, sans-serif" font-size="18">Docker Compose, Kubernetes, Helm, CI, structured logging, metrics, release flow</text>
+
+  <path d="M294 232H336" stroke="#5E6A63" stroke-width="4" stroke-linecap="round"/>
+  <path d="M680 232H720" stroke="#5E6A63" stroke-width="4" stroke-linecap="round"/>
+  <path d="M515 322V362" stroke="#5E6A63" stroke-width="4" stroke-linecap="round"/>
+  <path d="M680 476H724" stroke="#5E6A63" stroke-width="4" stroke-linecap="round"/>
+  <path d="M836 450V478" stroke="#5E6A63" stroke-width="4" stroke-linecap="round"/>
+  <path d="M1046 450V478" stroke="#5E6A63" stroke-width="4" stroke-linecap="round"/>
+
+  <circle cx="336" cy="232" r="6" fill="#5E6A63"/>
+  <circle cx="720" cy="232" r="6" fill="#5E6A63"/>
+  <circle cx="515" cy="362" r="6" fill="#5E6A63"/>
+  <circle cx="724" cy="476" r="6" fill="#5E6A63"/>
+  <circle cx="836" cy="478" r="6" fill="#5E6A63"/>
+  <circle cx="1046" cy="478" r="6" fill="#5E6A63"/>
+</svg>

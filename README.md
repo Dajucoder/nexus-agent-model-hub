@@ -7,7 +7,30 @@
 
 Source-available multi-tenant authentication, Agent tool-calling, model encyclopedia, leaderboard, and chat demo platform with bilingual UI and docs.
 
+Multi-tenant auth + Agent runtime + model hub in one root-level monorepo.
+多租户认证、Agent 工具调用与模型展示平台的一体化根目录仓库。
+
 **English** | [中文](./docs/zh/README.md)
+
+## About
+
+Nexus Agent Model Hub is a source-available starter for teams that want strict tenant isolation, a reusable login system, built-in Agent tool execution, bilingual documentation, and deployment-ready infrastructure in one repository.
+
+Nexus Agent Model Hub 适合希望同时获得严格租户隔离、可复用登录系统、内置 Agent 工具调用、双语文档以及可部署基础设施的团队与开发者。
+
+## Quick Preview
+
+Representative UI preview for the public repository landing page.
+仓库首页用的界面预览示意图。
+
+![Quick preview of login, dashboard, model hub, and chat demo](./docs/assets/quick-preview.svg)
+
+## Architecture Overview
+
+High-level platform layout covering frontend, backend, Agent runtime, storage, and operations.
+覆盖前端、后端、Agent 运行时、数据存储与运维层的高层架构示意图。
+
+![Architecture overview for frontend, backend, agent runtime, storage, and operations](./docs/assets/architecture-overview.svg)
 
 ## License Notice
 
