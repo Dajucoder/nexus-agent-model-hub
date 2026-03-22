@@ -41,7 +41,7 @@
 ## Data Isolation Strategy
 
 - Primary guard: tenant-aware filters in every ORM query path.
-- Secondary guard: PostgreSQL RLS policies described in SQL migration notes and operations docs.
+- Secondary guard: optional PostgreSQL RLS policies are documented in `packages/backend/prisma/init.sql` for hardened production deployments.
 - Tertiary guard: audit records for authentication events, user administration, and Agent execution.
 
 ## Error Handling And Rollback
@@ -63,3 +63,4 @@
 - Keep tenant-aware filters in service logic even if RLS is enabled, so isolation remains defense in depth.
 - Add new API versions side by side instead of breaking `/api/v1`.
 - Track technical debt in ADRs or issue labels such as `security`, `scalability`, and `migration`.
+- The frontend docs center depends on repository Markdown being present at runtime, so deployment artifacts must preserve `docs/` and selected root Markdown files.

@@ -45,3 +45,10 @@
 - New user-visible strings must be added to both `messages/en.json` and `messages/zh.json`.
 - Plugin code should live outside the core runtime where possible and be loaded via `AGENT_PLUGIN_PATHS`.
 - License wording in docs must remain consistent with `LICENSE` and `NOTICE`.
+
+## Build And Delivery Notes
+
+- `docker/Dockerfile.backend` builds the backend in multiple stages, generates Prisma client code, and runs `prisma migrate deploy` plus seed on container startup.
+- `docker/Dockerfile.frontend` builds a standalone Next.js runtime and copies `docs/` plus selected root Markdown files so `/docs` works after deployment.
+- `.github/workflows/ci.yml` currently validates the repository with `npm install`, `npm run db:generate`, `npm run typecheck`, `npm run build`, and `npm run test`.
+- `docker-compose.yml` is the minimum local stack and now includes health checks for PostgreSQL, Redis, backend, and frontend.

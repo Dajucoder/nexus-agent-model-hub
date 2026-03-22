@@ -35,4 +35,6 @@ COPY --from=builder /app/COMMERCIAL_LICENSE.md ./COMMERCIAL_LICENSE.md
 COPY --from=builder /app/LICENSE ./LICENSE
 COPY --from=builder /app/NOTICE ./NOTICE
 EXPOSE 3000
+
+# The standalone frontend runtime also serves the in-app docs center.
 CMD ["node", "packages/frontend/server.js"]

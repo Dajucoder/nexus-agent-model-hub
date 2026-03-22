@@ -1,28 +1,36 @@
 # Code of Conduct
 
-## Our Commitment
+## 我们的承诺
 
-We want Nexus Agent Model Hub to be a respectful, technically serious, and welcoming collaboration space for maintainers, contributors, users, and reviewers.
+我们希望 Nexus Agent Model Hub 成为一个尊重他人、技术讨论严肃、欢迎协作的项目空间，适用于维护者、贡献者、使用者、评审者以及文档编写者。
 
-## Expected Behavior
+## 我们鼓励的行为
 
-- Be respectful and specific.
-- Assume good intent, but prioritize correctness and safety.
-- Give actionable technical feedback.
-- Keep discussions focused on the work.
-- Respect licensing, security, and privacy boundaries.
+- 尊重他人，表达具体，围绕事实沟通
+- 默认善意，但在技术正确性、安全性和合规性上保持严格标准
+- 提供可执行、可复现、可落地的技术反馈
+- 尽量让讨论聚焦在问题本身、代码本身和改进方案本身
+- 尊重许可证、安全边界、隐私边界以及多租户隔离要求
 
-## Unacceptable Behavior
+## 不可接受的行为
 
-- Harassment, threats, or intimidation
-- Discriminatory language or personal attacks
-- Sharing secrets, credentials, or private user data
-- Encouraging misuse that would break tenant isolation or violate the license
+- 骚扰、威胁、恐吓或持续性的敌意表达
+- 歧视性语言、人身攻击、羞辱式评论
+- 公开分享密钥、凭证、私有用户数据或其他敏感信息
+- 鼓励破坏租户隔离、绕过鉴权、规避许可证限制或滥用系统能力
+- 明知会造成安全、隐私或合规风险，仍继续推动危险操作
 
-## Enforcement
+## 处理方式
 
-Maintainers may remove comments, close issues, reject contributions, or ban repeat offenders from project spaces.
+维护者可以根据情况采取以下措施：
 
-## Reporting
+- 删除不当评论或讨论内容
+- 关闭 issue、discussion 或 pull request
+- 拒绝存在明显行为问题的贡献
+- 对重复违规者限制或移出项目协作空间
 
-For conduct concerns, use the private security/contact path documented in [SECURITY.md](./SECURITY.md).
+## 报告渠道
+
+如有行为规范相关问题，请通过 [SECURITY.md](./SECURITY.md) 中记录的私密联系路径与维护者沟通。
+
+如果问题同时涉及安全、隐私或租户数据暴露，应优先按安全问题处理。

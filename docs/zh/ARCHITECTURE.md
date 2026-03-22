@@ -41,7 +41,7 @@
 ## 多租户隔离
 
 - 第一层：ORM 查询必须显式携带 `tenantId` 条件。
-- 第二层：生产建议开启 PostgreSQL RLS。
+- 第二层：如需更强隔离，可按 `packages/backend/prisma/init.sql` 中的说明在生产环境补充 PostgreSQL RLS。
 - 第三层：认证事件、用户管理、Agent 调用全量记录审计日志。
 
 ## 错误处理与回滚
@@ -63,3 +63,4 @@
 - 即使生产启用了 RLS，业务层也继续保留显式 `tenantId` 过滤，形成纵深防御。
 - API 演进优先并行增加新版本，而不是直接破坏 `/api/v1`。
 - 技术债建议通过 ADR 或 `security`、`scalability`、`migration` 等 issue 标签持续管理。
+- 前端文档中心依赖运行时仍能读取仓库 Markdown，因此部署产物需要保留 `docs/` 与部分根目录说明文件。

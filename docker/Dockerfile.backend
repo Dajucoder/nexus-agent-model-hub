@@ -46,4 +46,6 @@ COPY --from=builder /app/packages/backend/package.json ./packages/backend/packag
 COPY --from=builder /app/package-lock.json ./package-lock.json
 COPY --from=builder /app/package.json ./package.json
 EXPOSE 4000
+
+# Startup applies production migrations, seeds baseline data, then launches the backend.
 CMD ["sh", "-c", "cd /app/packages/backend && npx prisma migrate deploy && npx prisma db seed && node dist/src/index.js"]

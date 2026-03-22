@@ -2,14 +2,14 @@
 
 ## 1. Deployment Matrix
 
-| Scenario | Recommended approach | Best for | Notes |
-| --- | --- | --- | --- |
-| Local development | Docker Compose | All developers | Fastest way to boot frontend, backend, PostgreSQL, and Redis |
-| Local source debugging | Node.js + PostgreSQL + Redis | Engineers debugging code | Best for breakpoints and split frontend/backend workflows |
-| Single-host trial deployment | systemd + Caddy/Nginx | Linux test servers | Close to production with low complexity |
-| Small self-hosted production | Docker Compose + reverse proxy | Small teams | Easy to back up and migrate |
-| Clustered deployment | Kubernetes / Helm | Platform teams | Good for shared operations and scaling |
-| Cloud-managed deployment | ECS/EKS, Cloud Run/GKE, AKS/Container Apps | Enterprise teams | Pairs well with managed Postgres and Redis |
+| Scenario                     | Recommended approach                       | Best for                 | Notes                                                        |
+| ---------------------------- | ------------------------------------------ | ------------------------ | ------------------------------------------------------------ |
+| Local development            | Docker Compose                             | All developers           | Fastest way to boot frontend, backend, PostgreSQL, and Redis |
+| Local source debugging       | Node.js + PostgreSQL + Redis               | Engineers debugging code | Best for breakpoints and split frontend/backend workflows    |
+| Single-host trial deployment | systemd + Caddy/Nginx                      | Linux test servers       | Close to production with low complexity                      |
+| Small self-hosted production | Docker Compose + reverse proxy             | Small teams              | Easy to back up and migrate                                  |
+| Clustered deployment         | Kubernetes / Helm                          | Platform teams           | Good for shared operations and scaling                       |
+| Cloud-managed deployment     | ECS/EKS, Cloud Run/GKE, AKS/Container Apps | Enterprise teams         | Pairs well with managed Postgres and Redis                   |
 
 ## 2. Fastest Start: Docker Compose
 
@@ -33,6 +33,7 @@ Notes:
 - `docker-compose.yml` now passes the important runtime variables into the backend and frontend containers, so `.env` overrides actually reach the running services.
 - Replace `JWT_SECRET` and `JWT_REFRESH_SECRET` before any real deployment.
 - `CORS_ORIGIN` supports comma-separated origins for preview or split-domain setups.
+- The Compose stack now includes service health checks and waits for dependencies before starting the API and frontend.
 
 ## 3. Important Environment Variables
 
@@ -46,6 +47,8 @@ Notes:
 - `AGENT_TIMEOUT_MS`: per-run Agent timeout.
 - `AGENT_CONCURRENCY_LIMIT`: Agent concurrency cap.
 - `AGENT_HTTP_ALLOWED_HOSTS`: outbound allowlist for the built-in HTTP Agent tool.
+
+Recommended local values are already documented in `.env.example`, including a Compose-friendly PostgreSQL URL, readable development logging, and localhost defaults for browser access.
 
 ## 4. Local Source Mode
 
@@ -68,6 +71,13 @@ npm install
 npm run db:generate
 npm run db:migrate
 npm run db:seed
+```
+
+Validation after initialization:
+
+```bash
+npm run typecheck
+npm run test
 ```
 
 ### 4.3 Start services separately
@@ -285,6 +295,14 @@ Check:
 2. Make sure the selected model and the configured provider match.
 3. Inspect server logs for upstream auth or model-name errors.
 
+### `docker compose up --build` starts but the UI is still unavailable
+
+Check:
+
+1. `docker compose ps` shows `frontend` and `backend` as healthy.
+2. Port `3000` or `4000` is not already in use on the host.
+3. The backend health endpoint responds from the host: `curl http://localhost:4000/api/v1/health`.
+
 ## 13. Production Hardening
 
 - Use managed Postgres and Redis
@@ -293,3 +311,9 @@ Check:
 - Put the API behind TLS and a WAF
 - Use HTTP-only secure cookies or a BFF pattern for browser sessions
 - Treat `/settings` as a developer convenience, not a production secrets backend
+
+## 14. Build Asset Notes
+
+- `docker/Dockerfile.backend` is a multi-stage build that generates Prisma client code at build time and runs migrations plus seed on container startup.
+- `docker/Dockerfile.frontend` packages a standalone Next.js runtime and copies `docs/` with selected root Markdown so the built-in docs center remains available after deployment.
+- `.dockerignore` excludes local dependencies, build artifacts, logs, and env files from the Docker build context.

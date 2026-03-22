@@ -1,17 +1,17 @@
 # Commercial Licensing Notice
 
-This repository is distributed under **PolyForm Noncommercial 1.0.0** by default.
+本仓库默认采用 **PolyForm Noncommercial 1.0.0** 发布。
 
-That default license does not grant general commercial rights.
+这意味着默认许可证并不会自动授予一般商业使用权。
 
-Examples that usually require a separate commercial agreement:
+通常需要单独商业授权的场景包括：
 
-- Running Nexus Agent Model Hub as a paid hosted service
-- Embedding it into a paid SaaS or commercial on-prem product
-- Operating it inside a for-profit business workflow for commercial advantage
-- Providing paid managed hosting or integration services built around this codebase
+- 将 Nexus Agent Model Hub 作为付费托管服务对外提供
+- 将其嵌入付费 SaaS、商业软件或商业化本地部署产品中
+- 在营利性组织的商业工作流中使用，并由此直接获取商业利益
+- 围绕该代码库提供收费的托管、集成、实施或运维服务
 
-This file is an operational notice for repository users. See:
+这个文件是面向仓库使用者的操作性提示，不构成法律意见。请结合以下文件一起阅读：
 
 - [LICENSE](./LICENSE)
 - [NOTICE](./NOTICE)

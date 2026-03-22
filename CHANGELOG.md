@@ -1,6 +1,19 @@
 # Changelog
 
-All notable changes to this repository should be recorded in this file.
+This file records notable repository-level changes.
+
+Recommended entry style:
+
+- group changes by release
+- prefer user-visible or operator-visible outcomes
+- mention docs, deployment, and license changes when they affect how the repo is used
+
+## Unreleased
+
+- Improved root and `docs/` documentation to better match the current repository structure, local workflow, deployment path, and operational behavior.
+- Expanded Chinese-first root documentation including `README.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, and `COMMERCIAL_LICENSE.md`.
+- Added clearer contribution guidance, repository-map delivery notes, and more realistic configuration and validation instructions.
+- Improved local developer configuration with better documented `.env.example`, richer root npm scripts, and healthier Docker Compose defaults.
 
 ## 0.1.0 - 2026-03-21
 

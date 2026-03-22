@@ -45,3 +45,10 @@
 - 新增用户可见文案时必须同时补齐 `messages/en.json` 与 `messages/zh.json`。
 - 新插件尽量放在核心运行时之外，并通过 `AGENT_PLUGIN_PATHS` 动态加载。
 - 文档中的许可证说明必须与 `LICENSE`、`NOTICE` 保持一致。
+
+## 构建与交付说明
+
+- `docker/Dockerfile.backend` 使用多阶段构建，构建阶段生成 Prisma Client，并在容器启动时执行 `prisma migrate deploy` 和 seed。
+- `docker/Dockerfile.frontend` 构建 Next.js standalone 运行时，并把 `docs/` 与部分根目录 Markdown 一并带入镜像，保证 `/docs` 页面在部署后可用。
+- `.github/workflows/ci.yml` 当前实际执行 `npm install`、`npm run db:generate`、`npm run typecheck`、`npm run build`、`npm run test`。
+- `docker-compose.yml` 是最小本地运行栈，目前已经包含 PostgreSQL、Redis、backend、frontend 的健康检查。

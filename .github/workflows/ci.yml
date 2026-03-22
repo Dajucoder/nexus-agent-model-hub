@@ -5,17 +5,35 @@ on:
     branches: ["main"]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
+    name: Validate workspace
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
-      - run: npm install
-      - run: npm run db:generate
-      - run: npm run typecheck
-      - run: npm run build
-      - run: npm run test
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Generate Prisma client
+        run: npm run db:generate
+
+      - name: Typecheck workspaces
+        run: npm run typecheck
+
+      - name: Build workspaces
+        run: npm run build
+
+      - name: Run tests
+        run: npm run test

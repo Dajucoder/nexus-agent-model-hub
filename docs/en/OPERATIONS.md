@@ -115,6 +115,12 @@ Suggested scaling order:
 5. validate `/docs`, `/settings`, `/chat`, and `/dashboard`
 6. then promote to production
 
+Recommended pre-release spot checks:
+
+- sign in with the seeded bootstrap account or a staging tenant owner
+- verify a dashboard API call such as `/api/v1/tenants/current`
+- confirm one Agent call succeeds and one expected validation failure returns a stable error shape
+
 ## 9. Recommended Alerts
 
 - health endpoint failures
@@ -148,3 +154,9 @@ Suggested scaling order:
 1. check `/api/v1/platform/summary`
 2. check `NEXT_PUBLIC_API_URL`
 3. check CORS and reverse-proxy forwarding headers
+
+### Docker services are running but marked unhealthy
+
+1. check `docker compose logs backend`
+2. check `docker compose logs frontend`
+3. confirm the health endpoints respond locally on ports `4000` and `3000`

@@ -7,7 +7,9 @@ npm run db:generate
 
 echo "Bootstrap complete."
 echo "Next:"
-echo "1. Start PostgreSQL and Redis"
+echo "1. Start PostgreSQL and Redis with: docker compose up -d postgres redis"
 echo "2. Run npm run db:migrate"
 echo "3. Run npm run db:seed"
-echo "4. Run npm run dev:backend and npm run dev:frontend"
+echo "4. Start the backend with: npm run dev:backend"
+echo "5. Start the frontend with: npm run dev:frontend"
+echo "6. Validate the stack with: ./scripts/check.sh"

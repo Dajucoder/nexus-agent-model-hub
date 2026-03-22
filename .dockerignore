@@ -3,7 +3,11 @@ packages/*/node_modules
 packages/frontend/.next
 packages/backend/dist
 .git
+.github
 .DS_Store
 coverage
 *.log
 .env
+.env.*
+*.tsbuildinfo
+packages/frontend/.data

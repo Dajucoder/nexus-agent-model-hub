@@ -115,6 +115,12 @@
 5. 验证 `/docs`、`/settings`、`/chat`、`/dashboard`
 6. 再发布到生产
 
+建议补充的发布前抽样检查：
+
+- 使用预置初始账号或预发租户管理员账号登录一次
+- 验证一个控制台接口，例如 `/api/v1/tenants/current`
+- 验证一次 Agent 正常调用，以及一次预期的校验失败是否仍返回稳定错误结构
+
 ## 9. 建议告警
 
 - 健康检查连续失败
@@ -148,3 +154,9 @@
 1. 检查 `/api/v1/platform/summary`
 2. 检查 `NEXT_PUBLIC_API_URL`
 3. 检查 CORS 配置与反向代理转发头
+
+### Docker 服务虽然启动了，但一直是 unhealthy
+
+1. 检查 `docker compose logs backend`
+2. 检查 `docker compose logs frontend`
+3. 确认宿主机本地 `4000` 和 `3000` 端口上的健康检查已可访问

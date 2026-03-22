@@ -55,7 +55,7 @@ This repository follows the spirit of the provided Scheme A baseline and documen
 
 Key choices:
 
-- Database: PostgreSQL for production, SQLite only as a local developer fallback option
+- Database: PostgreSQL in local, CI, and production paths documented in this repository
 - Authentication: full user auth flow with JWT and refresh tokens, plus an Auth.js v5 integration path documented for Next.js clients
 - Agent transport: SSE-friendly API contract, first release includes basic built-in tools
 - Deployment: Docker self-hosted is the default deliverable, Vercel-style frontend hosting remains optional
@@ -78,6 +78,19 @@ See [REPOSITORY_MAP.md](./REPOSITORY_MAP.md).
 ```bash
 # Optional: copy for custom secrets or port overrides
 cp .env.example .env
+docker compose up -d postgres redis
+npm install
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+npm run dev:backend
+npm run dev:frontend
+```
+
+Fastest all-in-one alternative:
+
+```bash
+cp .env.example .env
 docker compose up --build
 ```
 
@@ -88,6 +101,13 @@ Then open:
 - Platform summary endpoint: `http://localhost:4000/api/v1/platform/summary`
 - OpenAPI draft: [`../api/openapi.yaml`](../api/openapi.yaml)
 - Community files: [CONTRIBUTING](../../CONTRIBUTING.md), [CODE_OF_CONDUCT](../../CODE_OF_CONDUCT.md), [SECURITY](../../SECURITY.md), [CHANGELOG](../../CHANGELOG.md)
+
+Useful validation commands:
+
+- `npm run typecheck`
+- `npm run test`
+- `npm run build`
+- `./scripts/check.sh`
 
 Default bootstrap account:
 
@@ -113,6 +133,15 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md).
 - `NEXT_PUBLIC_API_URL` should point to the public backend base path, for example `https://api.example.com/api/v1`.
 - The browser client currently uses a local-storage bootstrap session for convenience; production browser flows should switch to HTTP-only cookies or a BFF.
 - The `/settings` page now persists local development provider configuration to disk, but it should still be replaced by managed secret storage in production.
+
+## 8.1 Environment Snapshot
+
+- Service identity: `APP_NAME`, `APP_VERSION`, `APP_PORT`, `FRONTEND_PORT`
+- Data services: `DATABASE_URL`, `REDIS_URL`
+- Auth: `JWT_SECRET`, `JWT_REFRESH_SECRET`, `JWT_EXPIRES_IN`, `JWT_REFRESH_EXPIRES_IN`
+- Browser/API wiring: `CORS_ORIGIN`, `NEXT_PUBLIC_API_URL`, `FRONTEND_URL`
+- Agent execution controls: `AGENT_TIMEOUT_MS`, `AGENT_MAX_RETRIES`, `AGENT_CONCURRENCY_LIMIT`, `AGENT_HTTP_ALLOWED_HOSTS`
+- Developer defaults: `LOG_LEVEL=info`, `LOG_FORMAT=pretty`, `NEXT_PUBLIC_DEFAULT_LOCALE=zh-CN`
 
 ## 9. Operations
 
@@ -140,12 +169,14 @@ See [OPERATIONS.md](./OPERATIONS.md).
 - Integration tests: auth routes, tenant isolation, Agent invocation
 - E2E path: register or sign in, inspect tenant, invoke Agent
 - CI gates: typecheck, build, tests
+- Frontend automated tests are not wired yet; current frontend `test` is a placeholder and should be treated as a documentation reminder, not full coverage.
 
 ## 13. Localization
 
 - UI strings live in `packages/frontend/messages`
 - API error translation keys live in backend locale dictionaries
 - Docs are maintained as parallel `docs/en` and `docs/zh` trees
+- When changing visible product copy or docs, update both language tracks in the same change.
 
 ## 14. License And Compliance
 

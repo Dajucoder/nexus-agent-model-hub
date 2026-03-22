@@ -13,10 +13,16 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-nexus} -d ${POSTGRES_DB:-nexus_agent_model_hub}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-nexus} -d ${POSTGRES_DB:-nexus_agent_model_hub}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 10
+    networks:
+      - nexus
 
   redis:
     image: redis:7-alpine
@@ -30,6 +36,8 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+    networks:
+      - nexus
 
   backend:
     build:
@@ -61,11 +69,24 @@ services:
       AGENT_HTTP_ALLOWED_HOSTS: ${AGENT_HTTP_ALLOWED_HOSTS:-api.github.com,httpbin.org}
     ports:
       - "${APP_PORT:-4000}:4000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:4000/api/v1/health').then((res) => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
+    networks:
+      - nexus
 
   frontend:
     build:
@@ -81,8 +102,26 @@ services:
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:3000').then((res) => process.exit(res.ok ? 0 : 1)).catch(() => process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks:
+      - nexus
 
 volumes:
   postgres-data:
   redis-data:
+
+networks:
+  nexus:
+    driver: bridge

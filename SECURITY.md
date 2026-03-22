@@ -1,30 +1,48 @@
 # Security Policy
 
-## Supported Scope
+## 安全范围
 
-Security reports are especially valuable for:
+本仓库特别重视以下类型的安全问题：
 
-- Authentication and session handling
-- Tenant isolation failures
-- Authorization bypasses
-- Agent execution sandbox escapes
-- Secret leakage
-- Audit log tampering
+- 认证与会话处理缺陷
+- 租户隔离失效或跨租户数据访问
+- 权限绕过或 RBAC 失效
+- Agent 执行边界逃逸
+- 密钥、令牌、凭证或敏感配置泄露
+- 审计日志被篡改、绕过或伪造
 
-## Reporting A Vulnerability
+如果问题会导致跨租户数据暴露，请直接按最高严重级别处理。
 
-Do not open a public issue for a suspected security problem.
+## 如何报告漏洞
 
-Instead:
+请不要为疑似安全问题创建公开 issue。
 
-1. Prepare a minimal reproduction.
-2. Include affected version, impact, and suggested mitigation if known.
-3. Send the report through the private maintainer channel for this repository.
+推荐按下面方式提供报告：
 
-If no dedicated channel has been set up yet, repository owners should add one before public launch.
+1. 准备最小复现步骤，尽量说明前置条件。
+2. 标明受影响版本、影响范围、利用条件和潜在后果。
+3. 如果你已经有临时缓解建议，也请一并提供。
+4. 通过仓库维护者提供的私密安全通道提交。
 
-## Disclosure Expectations
+如果仓库尚未设置专门的私密通道，仓库所有者应在公开发布前补充该通道。
 
-- We prefer coordinated disclosure.
-- Please avoid publishing proof-of-concept exploit details before maintainers have had a reasonable chance to respond.
-- Multi-tenant data exposure should be treated as critical severity.
+## 报告内容建议
+
+为了让问题更快被验证，建议在报告中包含：
+
+- 复现命令、请求样例或截图
+- 受影响接口、页面或模块路径
+- 是否需要特定租户、角色、环境变量或部署方式才能触发
+- 你观察到的实际结果与预期安全边界之间的差异
+
+## 披露原则
+
+- 我们倾向于采用协调披露方式。
+- 在维护者有合理时间完成确认和修复前，请不要公开披露 PoC 或可直接利用的细节。
+- 如果问题影响多租户数据边界、认证链路或密钥安全，应优先私下沟通并尽量减少公开扩散。
+
+## 修复期望
+
+- 安全修复不应削弱现有租户隔离、审计能力或日志脱敏策略。
+- 修复完成后，应补充或更新相关测试、文档和运维说明。
+- 若问题影响部署或配置方式，应同步更新 `.env.example`、`README.md` 以及相关 `docs/` 文档。

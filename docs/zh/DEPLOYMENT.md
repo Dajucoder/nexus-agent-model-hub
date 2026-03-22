@@ -2,14 +2,14 @@
 
 ## 1. 部署方式总览
 
-| 场景 | 推荐方式 | 适用对象 | 说明 |
-| --- | --- | --- | --- |
-| 本地开发联调 | Docker Compose | 所有开发者 | 最快启动前后端、PostgreSQL、Redis |
-| 本地源码运行 | Node.js + PostgreSQL + Redis | 需要调试源码的开发者 | 适合断点调试和前后端分开运行 |
-| 单机试运行 | systemd + Caddy/Nginx | Linux 测试机 | 接近生产，但复杂度低 |
-| 单机长期运行 | Docker Compose + 反向代理 | 小团队、自托管 | 易备份、易迁移 |
-| 多机或集群 | Kubernetes / Helm | 平台团队 | 适合统一运维与弹性扩缩容 |
-| 云托管 | ECS/EKS、Cloud Run/GKE、AKS/Container Apps | 企业环境 | 与云数据库、托管 Redis 组合更稳妥 |
+| 场景         | 推荐方式                                   | 适用对象             | 说明                              |
+| ------------ | ------------------------------------------ | -------------------- | --------------------------------- |
+| 本地开发联调 | Docker Compose                             | 所有开发者           | 最快启动前后端、PostgreSQL、Redis |
+| 本地源码运行 | Node.js + PostgreSQL + Redis               | 需要调试源码的开发者 | 适合断点调试和前后端分开运行      |
+| 单机试运行   | systemd + Caddy/Nginx                      | Linux 测试机         | 接近生产，但复杂度低              |
+| 单机长期运行 | Docker Compose + 反向代理                  | 小团队、自托管       | 易备份、易迁移                    |
+| 多机或集群   | Kubernetes / Helm                          | 平台团队             | 适合统一运维与弹性扩缩容          |
+| 云托管       | ECS/EKS、Cloud Run/GKE、AKS/Container Apps | 企业环境             | 与云数据库、托管 Redis 组合更稳妥 |
 
 ## 2. 最快启动方式：Docker Compose
 
@@ -34,6 +34,7 @@ docker compose up --build
 - 现在 `docker-compose.yml` 已经把核心环境变量完整传入前后端容器，`.env` 中修改的 JWT、CORS、Agent 配置会真正生效。
 - 首次启动前请优先替换 `JWT_SECRET` 与 `JWT_REFRESH_SECRET`。
 - 如需跨域预览，可把 `CORS_ORIGIN` 写成逗号分隔多个来源。
+- 当前 Compose 栈已经包含健康检查，并会在依赖服务就绪后再启动后端与前端。
 
 ## 3. 关键环境变量
 
@@ -47,6 +48,8 @@ docker compose up --build
 - `AGENT_TIMEOUT_MS`：单次 Agent 执行超时时间。
 - `AGENT_CONCURRENCY_LIMIT`：Agent 并发限制。
 - `AGENT_HTTP_ALLOWED_HOSTS`：内置 HTTP Agent 可访问的主机白名单。
+
+`.env.example` 已提供一套可直接用于本地和 Docker Compose 的默认值，包括本地 PostgreSQL 连接串、便于排查的开发日志格式，以及浏览器联调所需的 localhost 地址。
 
 ## 4. 本地源码运行
 
@@ -69,6 +72,13 @@ npm install
 npm run db:generate
 npm run db:migrate
 npm run db:seed
+```
+
+初始化后建议先做一次基础校验：
+
+```bash
+npm run typecheck
+npm run test
 ```
 
 ### 4.3 分别启动前后端
@@ -286,6 +296,14 @@ server {
 2. 确认你选择的模型和配置的供应商一致。
 3. 检查服务端日志，看是否是上游鉴权或模型名错误。
 
+### `docker compose up --build` 已经启动，但页面还是打不开
+
+排查：
+
+1. 先执行 `docker compose ps`，确认 `frontend` 和 `backend` 都是 healthy。
+2. 检查宿主机上的 `3000` 和 `4000` 端口是否被其他服务占用。
+3. 在宿主机执行 `curl http://localhost:4000/api/v1/health`，确认后端本身已经可访问。
+
 ## 13. 生产强化建议
 
 - 数据库与 Redis 优先使用托管服务
@@ -294,3 +312,9 @@ server {
 - API 放在 TLS 与 WAF 后面
 - 浏览器正式版建议切换为 HttpOnly Cookie 或 BFF 模式，而不是直接在前端保存访问令牌
 - `/settings` 页不应作为生产密钥保存机制
+
+## 14. 构建资产说明
+
+- `docker/Dockerfile.backend` 采用多阶段构建，在镜像构建阶段生成 Prisma Client，并在容器启动时执行迁移和 seed。
+- `docker/Dockerfile.frontend` 会打包 Next.js standalone 运行时，同时把 `docs/` 与部分根目录 Markdown 带入镜像，保证内置文档中心在部署后仍可使用。
+- `.dockerignore` 会排除本地依赖、构建产物、日志与环境文件，避免把无关内容带入 Docker 构建上下文。
