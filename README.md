@@ -154,16 +154,19 @@ docker compose up --build
 
 - `CORS_ORIGIN` 支持逗号分隔多个来源，适合前后端分域、预发环境和多入口预览。
 - `NEXT_PUBLIC_API_URL` 应指向外部可访问的后端 API 根地址，例如 `https://api.example.com/api/v1`。
-- 当前浏览器端为了本地联调效率，仍使用 local storage 保存引导式会话；生产浏览器部署建议切换为 HttpOnly Cookie 或 BFF。
-- `/settings` 页面会把本地开发用的供应商配置持久化到文件，但它不能替代生产环境的密钥管理系统。
+- 当前浏览器端默认通过 Next.js BFF + HttpOnly Cookie 维持后端会话，本地存储仅保留租户与语言等非敏感界面状态。
+- `/settings` 页面会在服务端持久化供应商配置，并优先使用 `PROVIDER_CONFIG_SECRET` 对 API Key 做加密存储；它仍不能替代生产环境的密钥管理系统。
+- 供应商 Base URL 现在只接受与官方接入点一致的主机和路径，避免把聊天代理指向任意上游地址。
 
 ## 配置快照
 
 - 后端标识：`APP_NAME`、`APP_VERSION`、`APP_PORT`
 - 数据服务：`DATABASE_URL`、`REDIS_URL`
 - 鉴权：`JWT_SECRET`、`JWT_REFRESH_SECRET`、`JWT_EXPIRES_IN`、`JWT_REFRESH_EXPIRES_IN`
+- 密钥托管：`PROVIDER_CONFIG_SECRET`
 - 浏览器/API 连接：`CORS_ORIGIN`、`NEXT_PUBLIC_API_URL`、`FRONTEND_URL`
 - Agent 控制：`AGENT_TIMEOUT_MS`、`AGENT_MAX_RETRIES`、`AGENT_CONCURRENCY_LIMIT`、`AGENT_HTTP_ALLOWED_HOSTS`
+- 限流：`RATE_LIMIT_WINDOW_MS`、`RATE_LIMIT_MAX`、`AUTH_RATE_LIMIT_MAX`、`AGENT_RATE_LIMIT_WINDOW_MS`、`AGENT_RATE_LIMIT_MAX`
 - 开发默认值：`LOG_LEVEL=info`、`LOG_FORMAT=pretty`
 
 ## 文档导航

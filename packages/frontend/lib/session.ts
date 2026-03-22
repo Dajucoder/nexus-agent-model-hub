@@ -1,8 +1,6 @@
 export interface SessionState {
-  accessToken: string;
-  refreshToken: string;
   tenantSlug: string;
-  locale: 'zh-CN' | 'en-US';
+  locale: "zh-CN" | "en-US";
   user: {
     id: string;
     email: string;
@@ -11,10 +9,10 @@ export interface SessionState {
   };
 }
 
-const key = 'nexus-agent-model-hub-session';
+const key = "nexus-agent-model-hub-session";
 
 export function loadSession(): SessionState | null {
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
   const raw = window.localStorage.getItem(key);
   if (!raw) return null;
   try {

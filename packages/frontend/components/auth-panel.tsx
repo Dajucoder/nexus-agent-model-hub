@@ -3,7 +3,6 @@
 import { startTransition, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getDictionary, type Locale } from "../lib/dictionary";
-import { request } from "../lib/api";
 import { loadSession, saveSession } from "../lib/session";
 import { LanguageSwitcher } from "./language-switcher";
 
@@ -39,7 +38,8 @@ export function AuthPanel(props: { standalone?: boolean } = {}) {
     setBusy(true);
     setStatus("");
     try {
-      const path = mode === "register" ? "/auth/register" : "/auth/login";
+      const path =
+        mode === "register" ? "/api/auth/register" : "/api/auth/login";
       const payload =
         mode === "register"
           ? {
@@ -56,17 +56,28 @@ export function AuthPanel(props: { standalone?: boolean } = {}) {
               password: form.password,
             };
 
-      const response = await request(
-        path,
-        { method: "POST", body: JSON.stringify(payload) },
-        locale,
-      );
+      const response = await fetch(path, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "accept-language": locale,
+        },
+        body: JSON.stringify(payload),
+      });
+      const result = (await response.json().catch(() => null)) as {
+        error?: string;
+        message?: string;
+        user?: { id: string; email: string; displayName: string; role: string };
+      } | null;
+
+      if (!response.ok || !result?.user) {
+        throw new Error(result?.message ?? result?.error ?? "Request failed");
+      }
+
       saveSession({
-        accessToken: response.tokens.accessToken,
-        refreshToken: response.tokens.refreshToken,
         tenantSlug: form.tenantSlug,
         locale,
-        user: response.user,
+        user: result.user,
       });
       startTransition(() => router.push("/dashboard"));
     } catch (error) {
@@ -262,9 +273,10 @@ export function AuthPanel(props: { standalone?: boolean } = {}) {
               </article>
               <article className="insight-card">
                 <span>环境提示</span>
-                <strong>适合本地联调</strong>
+                <strong>浏览器令牌已收口到 Cookie</strong>
                 <p>
-                  当前浏览器端会保存引导式会话，生产环境建议改为更安全的服务端会话策略。
+                  当前浏览器端不会再把后端令牌写入本地存储，而是由服务端通过
+                  HttpOnly Cookie 维持会话。
                 </p>
               </article>
               <article className="insight-card">

@@ -14,7 +14,7 @@
     "lint": "tsc --noEmit",
     "pretypecheck": "node ./scripts/prepare-typecheck.mjs",
     "typecheck": "tsc --noEmit",
-    "test": "node -e \"console.log('frontend tests are documented in docs and can be added with Playwright later')\""
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "^14.2.5",
@@ -23,9 +23,12 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.0.1",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "typescript": "^5.5.4"
+    "jsdom": "^25.0.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.3"
   }
 }

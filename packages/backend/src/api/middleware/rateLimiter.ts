@@ -1,22 +1,23 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit from "express-rate-limit";
+import { config } from "../../config";
 
 export const rateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 200,
+  windowMs: config.rateLimitWindowMs,
+  max: config.rateLimitMax,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
 export const authRateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
+  windowMs: config.rateLimitWindowMs,
+  max: config.authRateLimitMax,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
 export const agentRateLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 30,
+  windowMs: config.agentRateLimitWindowMs,
+  max: config.agentRateLimitMax,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });

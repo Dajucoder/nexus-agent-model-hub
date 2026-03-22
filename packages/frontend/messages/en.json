@@ -17,7 +17,7 @@
   "password": "Password",
   "locale": "Language",
   "status": "Status",
-  "sessionReady": "The browser client currently keeps session state in local storage for fast setup and local operation. Production browser deployments should still move to HTTP-only cookies or a BFF.",
+  "sessionReady": "The browser client now uses HTTP-only cookies for backend tokens, while local storage keeps only lightweight UI session metadata such as tenant and locale.",
   "apiResult": "API result",
   "agentInput": "Agent input JSON",
   "callAgent": "Call Agent",

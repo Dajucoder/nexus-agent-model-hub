@@ -17,7 +17,7 @@
   "password": "密码",
   "locale": "语言",
   "status": "状态",
-  "sessionReady": "当前浏览器端默认使用本地存储维持会话，适合快速部署与本地联调；若进入正式生产浏览器场景，建议切换到 HttpOnly Cookie 或 BFF 模式。",
+  "sessionReady": "当前浏览器端已经把后端令牌切换为 HttpOnly Cookie，本地存储只保留租户与语言等轻量会话信息。",
   "apiResult": "接口返回",
   "agentInput": "Agent 输入 JSON",
   "callAgent": "调用 Agent",
