@@ -115,8 +115,8 @@ export function AuthPanel() {
         </div>
       </div>
 
-      <button className="btn" disabled={busy} onClick={submit} type="button">
-        {busy ? `${dict.status}...` : mode === 'login' ? dict.login : dict.register}
+      <button className="btn" disabled={busy} onClick={submit} type="button" style={{ minHeight: '48px' }}>
+        {busy ? <div className="spinner"></div> : mode === 'login' ? dict.login : dict.register}
       </button>
 
       <div className="fine">{dict.sessionReady}</div>

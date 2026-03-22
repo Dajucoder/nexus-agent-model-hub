@@ -11,7 +11,7 @@ export default function HomePage() {
       <div className="hero">
         <section className="panel stack">
           <div className="eyebrow">Root-integrated · Docker-ready · bilingual docs</div>
-          <h1>Nexus Agent Model Hub</h1>
+          <h1 className="text-gradient">Nexus Agent Model Hub</h1>
           <p>
             A merged root-level project that combines multi-tenant authentication, Agent tooling, model encyclopedia
             pages, leaderboards, provider settings, and a chat demo under one repository.
@@ -29,7 +29,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="panel grid">
+        <section className="grid">
           <div className="kpi">
             <div>Tenant-aware auth</div>
             <strong>JWT / refresh / TOTP</strong>
