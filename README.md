@@ -180,7 +180,8 @@ docker compose up --build
 - 运维手册：`docs/en/OPERATIONS.md`
 - 贡献指南：`docs/en/CONTRIBUTING.md`
 - 许可证指南：`docs/en/LICENSE_GUIDE.md`
-- 发布说明：`docs/releases/v0.1.0.md`
+- 发布说明：`docs/releases/v0.2.0.md`
+- 发布流程：`docs/zh/RELEASING.md`
 - 示例说明：`examples/README.md`
 - 模型站规划文档：`docs/zh/MODEL_HUB_MASTER_PLAN.md`
 - 页面规格文档：`docs/zh/MODEL_HUB_PAGE_SPEC.md`

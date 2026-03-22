@@ -32,7 +32,7 @@ export function DashboardControlPanel(props: {
         </div>
         <div className="status-item">
           <span>后端版本</span>
-          <strong>{props.overview.platform?.app.version ?? "0.1.0"}</strong>
+          <strong>{props.overview.platform?.app.version ?? "0.2.0"}</strong>
         </div>
       </div>
       <div className="toolbar">

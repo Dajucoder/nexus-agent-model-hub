@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const configSchema = z.object({
   appName: z.string().default("Nexus Agent Model Hub"),
-  appVersion: z.string().default("0.1.0"),
+  appVersion: z.string().default("0.2.0"),
   nodeEnv: z.enum(["development", "production", "test"]).default("development"),
   port: z.coerce.number().default(4000),
   databaseUrl: z

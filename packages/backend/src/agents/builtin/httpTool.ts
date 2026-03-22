@@ -41,7 +41,7 @@ export function createHttpToolAgent(allowedHosts: string[]): AgentDefinition {
         method,
         headers: {
           'content-type': 'application/json',
-          'user-agent': 'Nexus-Agent/0.1.0',
+          'user-agent': 'Nexus-Agent/0.2.0',
           ...((input.headers as Record<string, string> | undefined) ?? {})
         },
         body: input.body ? JSON.stringify(input.body) : undefined

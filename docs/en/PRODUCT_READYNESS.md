@@ -9,7 +9,8 @@ It already includes:
 - multi-tenant login and tenant isolation
 - model catalog, comparison, and leaderboard views
 - an in-app documentation center
-- persisted provider configuration
+- browser sessions managed through a BFF plus HTTP-only cookies
+- persisted provider configuration with server-side encryption support
 - a chat workspace
 - Docker, Kubernetes, and cloud deployment guidance
 
@@ -42,8 +43,8 @@ It already includes:
 
 These do not prevent the repository from being used as a product baseline, but they are the next steps if you want a more complete production finish:
 
-1. move browser sessions from local storage to HTTP-only cookies or a BFF
-2. move provider configuration from local file persistence to managed secrets
+1. extend the BFF and cookie-session pattern to more advanced browser integrations such as SSO and enterprise auth handoffs
+2. move provider secret storage from app-level encryption to a managed secret backend in production environments
 3. expand and live-validate the full upstream provider chat adapters
 4. add stronger org-management, audit filtering, user administration UI, and alerting
 5. add end-to-end automation coverage

@@ -144,16 +144,18 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 - `CORS_ORIGIN` accepts comma-separated origins, which helps with preview environments and split frontend/backend hosting.
 - `NEXT_PUBLIC_API_URL` should point to the public backend base path, for example `https://api.example.com/api/v1`.
-- The browser client currently uses a local-storage bootstrap session for convenience; production browser flows should switch to HTTP-only cookies or a BFF.
-- The `/settings` page now persists local development provider configuration to disk, but it should still be replaced by managed secret storage in production.
+- The browser client now uses a Next.js BFF layer with HTTP-only cookies for backend sessions; local storage only keeps lightweight UI metadata such as tenant and locale.
+- The `/settings` page persists provider configuration server-side and encrypts API keys at rest when `PROVIDER_CONFIG_SECRET` is configured; managed secret storage is still recommended for production.
 
 ## 8.1 Environment Snapshot
 
 - Service identity: `APP_NAME`, `APP_VERSION`, `APP_PORT`, `FRONTEND_PORT`
 - Data services: `DATABASE_URL`, `REDIS_URL`
 - Auth: `JWT_SECRET`, `JWT_REFRESH_SECRET`, `JWT_EXPIRES_IN`, `JWT_REFRESH_EXPIRES_IN`
+- Secret storage: `PROVIDER_CONFIG_SECRET`
 - Browser/API wiring: `CORS_ORIGIN`, `NEXT_PUBLIC_API_URL`, `FRONTEND_URL`
 - Agent execution controls: `AGENT_TIMEOUT_MS`, `AGENT_MAX_RETRIES`, `AGENT_CONCURRENCY_LIMIT`, `AGENT_HTTP_ALLOWED_HOSTS`
+- Rate limiting: `RATE_LIMIT_WINDOW_MS`, `RATE_LIMIT_MAX`, `AUTH_RATE_LIMIT_MAX`, `AGENT_RATE_LIMIT_WINDOW_MS`, `AGENT_RATE_LIMIT_MAX`
 - Developer defaults: `LOG_LEVEL=info`, `LOG_FORMAT=pretty`, `NEXT_PUBLIC_DEFAULT_LOCALE=zh-CN`
 
 ## 9. Operations
@@ -182,7 +184,7 @@ See [OPERATIONS.md](./OPERATIONS.md).
 - Integration tests: auth routes, tenant isolation, Agent invocation
 - E2E path: register or sign in, inspect tenant, invoke Agent
 - CI gates: typecheck, build, tests
-- Frontend automated tests are not wired yet; current frontend `test` is a placeholder and should be treated as a documentation reminder, not full coverage.
+- Frontend automated tests now include an initial Vitest suite for hooks and provider-settings flows; expand coverage as more interactive paths are added.
 
 ## 13. Localization
 
@@ -214,6 +216,8 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md).
 - Security policy: [`../../SECURITY.md`](../../SECURITY.md)
 - Changelog: [`../../CHANGELOG.md`](../../CHANGELOG.md)
 - Commercial licensing notice: [`../../COMMERCIAL_LICENSE.md`](../../COMMERCIAL_LICENSE.md)
+- Release workflow: [`./RELEASING.md`](./RELEASING.md)
+- Latest release notes: [`../releases/v0.2.0.md`](../releases/v0.2.0.md)
 
 ## 17. Merged Model Hub References
 

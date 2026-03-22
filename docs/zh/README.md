@@ -144,16 +144,18 @@ docker compose up --build
 
 - `CORS_ORIGIN` 支持逗号分隔多个来源，适合前后端分域、预发环境或多入口预览。
 - `NEXT_PUBLIC_API_URL` 应指向外部可访问的后端地址，例如 `https://api.example.com/api/v1`。
-- 当前前端为了便于快速部署，默认把浏览器会话放在本地存储；生产浏览器场景建议切换为 HttpOnly Cookie 或 BFF。
-- `/settings` 页面现在会把本地联调用的供应商配置持久化到文件，但正式环境仍应使用密钥管理服务。
+- 当前浏览器端已经通过 Next.js BFF + HttpOnly Cookie 维持后端会话，本地存储只保留租户、语言等轻量界面状态。
+- `/settings` 页面现在会在服务端持久化供应商配置，并在配置 `PROVIDER_CONFIG_SECRET` 后对 API Key 进行加密存储；正式环境仍建议接入专门的密钥管理服务。
 
 ## 8.1 环境变量概览
 
 - 服务标识：`APP_NAME`、`APP_VERSION`、`APP_PORT`、`FRONTEND_PORT`
 - 数据服务：`DATABASE_URL`、`REDIS_URL`
 - 鉴权：`JWT_SECRET`、`JWT_REFRESH_SECRET`、`JWT_EXPIRES_IN`、`JWT_REFRESH_EXPIRES_IN`
+- 密钥托管：`PROVIDER_CONFIG_SECRET`
 - 浏览器/API 连接：`CORS_ORIGIN`、`NEXT_PUBLIC_API_URL`、`FRONTEND_URL`
 - Agent 控制：`AGENT_TIMEOUT_MS`、`AGENT_MAX_RETRIES`、`AGENT_CONCURRENCY_LIMIT`、`AGENT_HTTP_ALLOWED_HOSTS`
+- 限流：`RATE_LIMIT_WINDOW_MS`、`RATE_LIMIT_MAX`、`AUTH_RATE_LIMIT_MAX`、`AGENT_RATE_LIMIT_WINDOW_MS`、`AGENT_RATE_LIMIT_MAX`
 - 开发默认值：`LOG_LEVEL=info`、`LOG_FORMAT=pretty`、`NEXT_PUBLIC_DEFAULT_LOCALE=zh-CN`
 
 ## 9. 运维说明
@@ -182,7 +184,7 @@ docker compose up --build
 - 集成测试：认证、租户隔离、Agent 执行
 - 端到端路径：注册或登录、查看租户、调用 Agent
 - CI 门禁：类型检查、构建、测试
-- 前端自动化测试尚未正式接入，当前 `test` 脚本只输出提示信息，不能等同于完整前端测试覆盖。
+- 前端自动化测试已接入首批 Vitest 用例，覆盖部分 hooks 与供应商设置流程；后续可继续补齐更多交互链路。
 
 ## 13. 国际化
 
@@ -214,6 +216,8 @@ docker compose up --build
 - 安全策略：[`../../SECURITY.md`](../../SECURITY.md)
 - 变更记录：[`../../CHANGELOG.md`](../../CHANGELOG.md)
 - 商业授权说明：[`../../COMMERCIAL_LICENSE.md`](../../COMMERCIAL_LICENSE.md)
+- 发布流程：[`./RELEASING.md`](./RELEASING.md)
+- 最新版本说明：[`../releases/v0.2.0.md`](../releases/v0.2.0.md)
 
 ## 17. 已融合的模型百科资料
 

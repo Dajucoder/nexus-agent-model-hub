@@ -109,6 +109,8 @@ Suggested scaling order:
 
 ## 8. Release Procedure
 
+For the full file-by-file release checklist, see [RELEASING.md](./RELEASING.md).
+
 1. run `npm run typecheck`
 2. run `npm run lint`
 3. run `npm run test`
@@ -120,6 +122,7 @@ Suggested scaling order:
 Recommended pre-release spot checks:
 
 - sign in with the seeded bootstrap account or a staging tenant owner
+- verify login survives a browser refresh and logout clears the cookie-backed session
 - verify a dashboard API call such as `/api/v1/tenants/current`
 - confirm one Agent call succeeds and one expected validation failure returns a stable error shape
 

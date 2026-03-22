@@ -10,13 +10,14 @@ Recommended entry style:
 
 ## Unreleased
 
+- No entries yet.
+
+## 0.2.0 - 2026-03-23
+
 - Improved root and `docs/` documentation to better match the current repository structure, local workflow, deployment path, and operational behavior.
 - Expanded Chinese-first root documentation including `README.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, and `COMMERCIAL_LICENSE.md`.
 - Added clearer contribution guidance, repository-map delivery notes, and more realistic configuration and validation instructions.
 - Improved local developer configuration with better documented `.env.example`, richer root npm scripts, and healthier Docker Compose defaults.
-
-## 0.2.0 - 2026-03-23
-
 - Hardened auth middleware: JWT verification now confirms the user exists and is active in the database before granting access.
 - Added HttpOnly cookie-based session management via a Next.js BFF layer; the frontend no longer stores backend tokens in localStorage.
 - Moved provider API key storage server-side with AES-256-GCM encryption via `PROVIDER_CONFIG_SECRET`.
@@ -30,6 +31,7 @@ Recommended entry style:
 - Updated `check.sh` to include the lint step alongside typecheck, test, and build.
 - Updated `docker-compose.yml` to pass new environment variables to containers.
 - Updated deployment and operations documentation in English and Chinese.
+- Added bilingual release workflow documentation and aligned package, Docker, Helm, and OpenAPI version metadata for the formal `v0.2.0` release.
 
 ## 0.1.0 - 2026-03-21
 
