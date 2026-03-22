@@ -1,40 +1,57 @@
-import Link from 'next/link';
-import path from 'node:path';
-import type { ReactNode } from 'react';
-import { getDocPageHref, getRawDocHref, normalizeRepoRelativePath } from '../lib/docs';
+import Link from "next/link";
+import path from "node:path";
+import type { ReactNode } from "react";
+import {
+  getDocPageHref,
+  getRawDocHref,
+  normalizeRepoRelativePath,
+} from "../lib/docs";
 
 function slugify(value: string) {
   return value
     .toLowerCase()
-    .replace(/[`*_]/g, '')
-    .replace(/[^a-z0-9\u4e00-\u9fff\s-]/g, '')
+    .replace(/[`*_]/g, "")
+    .replace(/[^a-z0-9\u4e00-\u9fff\s-]/g, "")
     .trim()
-    .replace(/\s+/g, '-');
+    .replace(/\s+/g, "-");
 }
 
 function resolveRelativeHref(currentPath: string, href: string) {
-  if (!href || href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('#')) {
+  if (
+    !href ||
+    href.startsWith("http://") ||
+    href.startsWith("https://") ||
+    href.startsWith("mailto:") ||
+    href.startsWith("#")
+  ) {
     return href;
   }
 
-  const [targetPath, hash = ''] = href.split('#');
+  const [targetPath, hash = ""] = href.split("#");
   const baseDir = path.posix.dirname(currentPath);
-  const resolved = normalizeRepoRelativePath(path.posix.join(baseDir, targetPath));
+  const resolved = normalizeRepoRelativePath(
+    path.posix.join(baseDir, targetPath),
+  );
   if (!resolved) {
     return href;
   }
 
-  const suffix = hash ? `#${hash}` : '';
-  if (resolved.endsWith('.md')) {
+  const suffix = hash ? `#${hash}` : "";
+  if (resolved.endsWith(".md")) {
     return `${getDocPageHref(resolved)}${suffix}`;
   }
 
   return `${getRawDocHref(resolved)}${suffix}`;
 }
 
-function renderInline(text: string, currentPath: string, keyPrefix: string): ReactNode[] {
+function renderInline(
+  text: string,
+  currentPath: string,
+  keyPrefix: string,
+): ReactNode[] {
   const tokens: ReactNode[] = [];
-  const pattern = /!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
+  const pattern =
+    /!\[([^\]]*)\]\(([^)]+)\)|\[([^\]]+)\]\(([^)]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|\*([^*]+)\*/g;
   let cursor = 0;
   let match: RegExpExecArray | null;
 
@@ -43,7 +60,16 @@ function renderInline(text: string, currentPath: string, keyPrefix: string): Rea
       tokens.push(text.slice(cursor, match.index));
     }
 
-    const [full, imageAlt, imageHref, linkText, linkHref, codeText, strongText, emText] = match;
+    const [
+      full,
+      imageAlt,
+      imageHref,
+      linkText,
+      linkHref,
+      codeText,
+      strongText,
+      emText,
+    ] = match;
     const key = `${keyPrefix}-${match.index}`;
 
     if (imageHref) {
@@ -53,21 +79,25 @@ function renderInline(text: string, currentPath: string, keyPrefix: string): Rea
           alt={imageAlt}
           className="doc-image"
           src={resolveRelativeHref(currentPath, imageHref)}
-        />
+        />,
       );
     } else if (linkHref) {
       const href = resolveRelativeHref(currentPath, linkHref);
-      if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:')) {
+      if (
+        href.startsWith("http://") ||
+        href.startsWith("https://") ||
+        href.startsWith("mailto:")
+      ) {
         tokens.push(
           <a key={key} href={href} target="_blank" rel="noreferrer">
             {linkText}
-          </a>
+          </a>,
         );
       } else {
         tokens.push(
           <Link key={key} href={href}>
             {linkText}
-          </Link>
+          </Link>,
         );
       }
     } else if (codeText) {
@@ -93,17 +123,20 @@ function renderInline(text: string, currentPath: string, keyPrefix: string): Rea
 function splitTableRow(row: string) {
   return row
     .trim()
-    .replace(/^\|/, '')
-    .replace(/\|$/, '')
-    .split('|')
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
     .map((cell) => cell.trim());
 }
 
-export function MarkdownRenderer(props: { content: string; currentPath: string }) {
-  const lines = props.content.replace(/\r\n/g, '\n').split('\n');
+export function MarkdownRenderer(props: {
+  content: string;
+  currentPath: string;
+}) {
+  const lines = props.content.replace(/\r\n/g, "\n").split("\n");
   const blocks: ReactNode[] = [];
 
-  for (let index = 0; index < lines.length;) {
+  for (let index = 0; index < lines.length; ) {
     const line = lines[index];
 
     if (!line.trim()) {
@@ -116,15 +149,17 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
       const language = codeMatch[1].trim();
       const content: string[] = [];
       index += 1;
-      while (index < lines.length && !lines[index].startsWith('```')) {
+      while (index < lines.length && !lines[index].startsWith("```")) {
         content.push(lines[index]);
         index += 1;
       }
       index += 1;
       blocks.push(
         <pre key={`code-${blocks.length}`} className="doc-code">
-          <code data-language={language || undefined}>{content.join('\n')}</code>
-        </pre>
+          <code data-language={language || undefined}>
+            {content.join("\n")}
+          </code>
+        </pre>,
       );
       continue;
     }
@@ -134,29 +169,61 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
       const level = headingMatch[1].length;
       const text = headingMatch[2].trim();
       const id = slugify(text);
-      const children = renderInline(text, props.currentPath, `heading-${blocks.length}`);
+      const children = renderInline(
+        text,
+        props.currentPath,
+        `heading-${blocks.length}`,
+      );
       if (level === 1) {
-        blocks.push(<h1 key={id} id={id}>{children}</h1>);
+        blocks.push(
+          <h1 key={id} id={id}>
+            {children}
+          </h1>,
+        );
       } else if (level === 2) {
-        blocks.push(<h2 key={id} id={id}>{children}</h2>);
+        blocks.push(
+          <h2 key={id} id={id}>
+            {children}
+          </h2>,
+        );
       } else if (level === 3) {
-        blocks.push(<h3 key={id} id={id}>{children}</h3>);
+        blocks.push(
+          <h3 key={id} id={id}>
+            {children}
+          </h3>,
+        );
       } else if (level === 4) {
-        blocks.push(<h4 key={id} id={id}>{children}</h4>);
+        blocks.push(
+          <h4 key={id} id={id}>
+            {children}
+          </h4>,
+        );
       } else if (level === 5) {
-        blocks.push(<h5 key={id} id={id}>{children}</h5>);
+        blocks.push(
+          <h5 key={id} id={id}>
+            {children}
+          </h5>,
+        );
       } else {
-        blocks.push(<h6 key={id} id={id}>{children}</h6>);
+        blocks.push(
+          <h6 key={id} id={id}>
+            {children}
+          </h6>,
+        );
       }
       index += 1;
       continue;
     }
 
-    if (line.startsWith('|') && index + 1 < lines.length && /^\|?[\s:-|]+\|?\s*$/.test(lines[index + 1])) {
+    if (
+      line.startsWith("|") &&
+      index + 1 < lines.length &&
+      /^\|?[\s:-|]+\|?\s*$/.test(lines[index + 1])
+    ) {
       const header = splitTableRow(line);
       const rows: string[][] = [];
       index += 2;
-      while (index < lines.length && lines[index].startsWith('|')) {
+      while (index < lines.length && lines[index].startsWith("|")) {
         rows.push(splitTableRow(lines[index]));
         index += 1;
       }
@@ -167,7 +234,13 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
             <thead>
               <tr>
                 {header.map((cell, cellIndex) => (
-                  <th key={`th-${cellIndex}`}>{renderInline(cell, props.currentPath, `th-${blocks.length}-${cellIndex}`)}</th>
+                  <th key={`th-${cellIndex}`}>
+                    {renderInline(
+                      cell,
+                      props.currentPath,
+                      `th-${blocks.length}-${cellIndex}`,
+                    )}
+                  </th>
                 ))}
               </tr>
             </thead>
@@ -176,14 +249,18 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
                 <tr key={`tr-${rowIndex}`}>
                   {row.map((cell, cellIndex) => (
                     <td key={`td-${rowIndex}-${cellIndex}`}>
-                      {renderInline(cell, props.currentPath, `td-${blocks.length}-${rowIndex}-${cellIndex}`)}
+                      {renderInline(
+                        cell,
+                        props.currentPath,
+                        `td-${blocks.length}-${rowIndex}-${cellIndex}`,
+                      )}
                     </td>
                   ))}
                 </tr>
               ))}
             </tbody>
           </table>
-        </div>
+        </div>,
       );
       continue;
     }
@@ -191,15 +268,21 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
     if (/^[-*]\s+/.test(line)) {
       const items: string[] = [];
       while (index < lines.length && /^[-*]\s+/.test(lines[index])) {
-        items.push(lines[index].replace(/^[-*]\s+/, ''));
+        items.push(lines[index].replace(/^[-*]\s+/, ""));
         index += 1;
       }
       blocks.push(
         <ul key={`ul-${blocks.length}`}>
           {items.map((item, itemIndex) => (
-            <li key={`li-${itemIndex}`}>{renderInline(item, props.currentPath, `ul-${blocks.length}-${itemIndex}`)}</li>
+            <li key={`li-${itemIndex}`}>
+              {renderInline(
+                item,
+                props.currentPath,
+                `ul-${blocks.length}-${itemIndex}`,
+              )}
+            </li>
           ))}
-        </ul>
+        </ul>,
       );
       continue;
     }
@@ -207,31 +290,43 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
     if (/^\d+\.\s+/.test(line)) {
       const items: string[] = [];
       while (index < lines.length && /^\d+\.\s+/.test(lines[index])) {
-        items.push(lines[index].replace(/^\d+\.\s+/, ''));
+        items.push(lines[index].replace(/^\d+\.\s+/, ""));
         index += 1;
       }
       blocks.push(
         <ol key={`ol-${blocks.length}`}>
           {items.map((item, itemIndex) => (
-            <li key={`li-${itemIndex}`}>{renderInline(item, props.currentPath, `ol-${blocks.length}-${itemIndex}`)}</li>
+            <li key={`li-${itemIndex}`}>
+              {renderInline(
+                item,
+                props.currentPath,
+                `ol-${blocks.length}-${itemIndex}`,
+              )}
+            </li>
           ))}
-        </ol>
+        </ol>,
       );
       continue;
     }
 
-    if (line.startsWith('>')) {
+    if (line.startsWith(">")) {
       const quote: string[] = [];
-      while (index < lines.length && lines[index].startsWith('>')) {
-        quote.push(lines[index].replace(/^>\s?/, ''));
+      while (index < lines.length && lines[index].startsWith(">")) {
+        quote.push(lines[index].replace(/^>\s?/, ""));
         index += 1;
       }
       blocks.push(
         <blockquote key={`quote-${blocks.length}`}>
           {quote.map((item, itemIndex) => (
-            <p key={`qp-${itemIndex}`}>{renderInline(item, props.currentPath, `quote-${blocks.length}-${itemIndex}`)}</p>
+            <p key={`qp-${itemIndex}`}>
+              {renderInline(
+                item,
+                props.currentPath,
+                `quote-${blocks.length}-${itemIndex}`,
+              )}
+            </p>
           ))}
-        </blockquote>
+        </blockquote>,
       );
       continue;
     }
@@ -244,18 +339,35 @@ export function MarkdownRenderer(props: { content: string; currentPath: string }
       !/^```/.test(lines[index]) &&
       !/^[-*]\s+/.test(lines[index]) &&
       !/^\d+\.\s+/.test(lines[index]) &&
-      !lines[index].startsWith('>') &&
-      !(lines[index].startsWith('|') && index + 1 < lines.length && /^\|?[\s:-|]+\|?\s*$/.test(lines[index + 1]))
+      !lines[index].startsWith(">") &&
+      !(
+        lines[index].startsWith("|") &&
+        index + 1 < lines.length &&
+        /^\|?[\s:-|]+\|?\s*$/.test(lines[index + 1])
+      )
     ) {
       paragraph.push(lines[index].trim());
       index += 1;
     }
     blocks.push(
       <p key={`p-${blocks.length}`}>
-        {renderInline(paragraph.join(' '), props.currentPath, `p-${blocks.length}`)}
-      </p>
+        {renderInline(
+          paragraph.join(" "),
+          props.currentPath,
+          `p-${blocks.length}`,
+        )}
+      </p>,
     );
   }
 
   return <div className="doc-prose">{blocks}</div>;
+}
+
+export function MarkdownArticle(props: { content: string }) {
+  return (
+    <MarkdownRenderer
+      content={props.content}
+      currentPath="content/models/_inline.mdx"
+    />
+  );
 }

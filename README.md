@@ -120,6 +120,11 @@ docker compose up --build
 - `npm run test`
 - `npm run build`
 - `./scripts/check.sh`
+- `npm run leaderboard:refresh --workspace=packages/frontend`
+
+模型内容说明：
+
+- 如果 `content/models/*.mdx` 中存在与模型 slug 对应的内容文件，前端模型详情页会自动把这部分内容作为知识卡片展示出来。
 
 常用快捷脚本：
 

@@ -1,40 +1,69 @@
-import Link from 'next/link';
-import { AuthPanel } from '../components/auth-panel';
-import { ModelCatalogCard } from '../components/model-catalog-card';
-import { modelCatalog } from '../lib/model-data';
+import Link from "next/link";
+import { AuthPanel } from "../components/auth-panel";
+import { ModelCatalogCard } from "../components/model-catalog-card";
+import { getCatalogHighlights, modelCatalog } from "../lib/model-data";
+import {
+  getLeaderboardBundle,
+  getLeaderboardMetadata,
+} from "../lib/leaderboard-data";
 
-export default function HomePage() {
-  const featuredModels = ['gpt-4o', 'claude-sonnet-4-20250514', 'gemini-2.5-pro']
+export default async function HomePage() {
+  const featuredModels = [
+    "gpt-4o",
+    "claude-sonnet-4-20250514",
+    "gemini-2.5-pro",
+  ]
     .map((id) => modelCatalog.find((model) => model.id === id))
     .filter((model): model is (typeof modelCatalog)[number] => Boolean(model));
-  const providerCount = new Set(modelCatalog.map((model) => model.provider.id)).size;
-  const maxContextWindow = Math.max(...modelCatalog.map((model) => model.contextWindow));
+  const providerCount = new Set(modelCatalog.map((model) => model.provider.id))
+    .size;
+  const maxContextWindow = Math.max(
+    ...modelCatalog.map((model) => model.contextWindow),
+  );
+  const bundle = await getLeaderboardBundle();
+  const leaderboardMeta = getLeaderboardMetadata(bundle);
+  const combinedLeader = bundle.feeds.combined.entries[0];
+  const { cheapestModel, bestReasoningModel } = getCatalogHighlights();
 
   const modules = [
     {
-      title: '认证与租户体系',
-      copy: '把注册、登录、JWT、refresh token 和多租户隔离放在统一入口，作为产品级访问与权限基础层。',
-      items: ['初始管理员可直接引导入场', '面向真实 API 的租户隔离', '中英文界面可切换'],
-      href: '/login'
+      title: "认证与租户体系",
+      copy: "把注册、登录、JWT、refresh token 和多租户隔离放在统一入口，作为产品级访问与权限基础层。",
+      items: [
+        "初始管理员可直接引导入场",
+        "面向真实 API 的租户隔离",
+        "中英文界面可切换",
+      ],
+      href: "/login",
     },
     {
-      title: '模型资料与对比',
-      copy: '模型卡片、能力评分、价格、上下文和适用场景集中整理，适合做内部选型入口。',
-      items: ['模型详情页静态生成', '2 到 4 个模型并排对比', '适合继续接入更多供应商'],
-      href: '/models'
+      title: "模型资料与对比",
+      copy: "模型卡片、能力评分、价格、上下文和适用场景集中整理，适合做内部选型入口。",
+      items: [
+        "模型详情页静态生成",
+        "2 到 4 个模型并排对比",
+        "适合继续接入更多供应商",
+      ],
+      href: "/models",
     },
     {
-      title: '排行榜与会话工作区',
-      copy: '把榜单浏览和模型会话并入同一套界面，让“看数据”和“用模型”形成闭环。',
-      items: ['Arena / OpenRouter / Combined', '会话页支持真实供应商配置', '后续可继续补齐组织级运营能力'],
-      href: '/leaderboard'
-    }
+      title: "排行榜与会话工作区",
+      copy: "把榜单浏览和模型会话并入同一套界面，让“看数据”和“用模型”形成闭环。",
+      items: [
+        "Arena / OpenRouter / Combined",
+        "会话页支持真实供应商配置",
+        "后续可继续补齐组织级运营能力",
+      ],
+      href: "/leaderboard",
+    },
   ];
 
   return (
     <main className="shell home-shell">
       <section className="home-hero">
         <section className="panel stack hero-copy">
+          <div className="hero-orbit hero-orbit-a" />
+          <div className="hero-orbit hero-orbit-b" />
           <div className="eyebrow">Agent Platform · Model Hub · Docs</div>
           <h1 className="hero-title">
             <span className="text-gradient">从仓库入口开始</span>
@@ -43,7 +72,8 @@ export default function HomePage() {
           </h1>
           <p>
             这个仓库已经具备认证、模型资料、排行榜、设置、聊天和部署文档等能力。首页现在直接承担产品入口、
-            运维入口和 onboarding 入口三种角色，让团队第一次打开项目时就知道怎么启动、怎么配置、怎么继续扩展。
+            运维入口和 onboarding
+            入口三种角色，让团队第一次打开项目时就知道怎么启动、怎么配置、怎么继续扩展。
           </p>
           <div className="pill-row">
             <Link className="btn" href="/login">
@@ -70,12 +100,30 @@ export default function HomePage() {
             </div>
             <div className="kpi">
               <div>上下文上限</div>
-              <strong>{Intl.NumberFormat('en-US').format(maxContextWindow)}</strong>
+              <strong>
+                {Intl.NumberFormat("en-US").format(maxContextWindow)}
+              </strong>
             </div>
             <div className="kpi">
               <div>部署形态</div>
               <strong>Docker / K8s / Helm</strong>
             </div>
+            <div className="kpi">
+              <div>榜单覆盖</div>
+              <strong>{leaderboardMeta.totalEntries} 条快照记录</strong>
+            </div>
+            <div className="kpi">
+              <div>当前综合榜首</div>
+              <strong>
+                {combinedLeader?.modelName ?? "Combined Snapshot"}
+              </strong>
+            </div>
+          </div>
+          <div className="hero-marquee" aria-hidden="true">
+            <span>Auto leaderboard synthesis</span>
+            <span>Provider-aware model catalog</span>
+            <span>Deployable docs center</span>
+            <span>Tenant-ready product shell</span>
           </div>
         </section>
 
@@ -122,7 +170,71 @@ export default function HomePage() {
               </Link>
             </div>
           </section>
+
+          <section className="panel stack status-panel">
+            <div>
+              <div className="eyebrow">Auto Signals</div>
+              <h2 className="section-title">首页直接给出选择信号</h2>
+            </div>
+            <div className="status-list">
+              <div className="status-item">
+                <span>综合榜首</span>
+                <strong>{combinedLeader?.modelName ?? "等待数据"}</strong>
+              </div>
+              <div className="status-item">
+                <span>最低成本</span>
+                <strong>{cheapestModel?.name ?? "等待数据"}</strong>
+              </div>
+              <div className="status-item">
+                <span>推理最强</span>
+                <strong>{bestReasoningModel?.name ?? "等待数据"}</strong>
+              </div>
+              <div className="status-item">
+                <span>榜单供应商覆盖</span>
+                <strong>{leaderboardMeta.providerCount} 类来源</strong>
+              </div>
+            </div>
+          </section>
         </div>
+      </section>
+
+      <section className="signal-band">
+        <article className="panel spotlight-card">
+          <span className="eyebrow">Combined Leader</span>
+          <h2 className="section-title">
+            {combinedLeader?.modelName ?? "等待榜单数据"}
+          </h2>
+          <p>
+            当前综合榜首会优先使用自动抓取 +
+            快照回退的融合数据，并与本地模型目录联动，自动显示可比价格、上下文和能力画像。
+          </p>
+          <div className="pill-row">
+            <Link className="btn" href="/leaderboard">
+              查看当前榜单
+            </Link>
+            <Link
+              className="ghost"
+              href={`/models/${combinedLeader?.modelSlug ?? "gpt-4o"}`}
+            >
+              打开模型详情
+            </Link>
+          </div>
+        </article>
+        <article className="panel spotlight-card alt">
+          <span className="eyebrow">Selection Flow</span>
+          <h2 className="section-title">先看信号，再做选型</h2>
+          <p>
+            首页负责给出当前最值得看的模型、最低成本代表与推理最强候选，用户随后进入模型库和对比页完成最终判断。
+          </p>
+          <div className="pill-row">
+            <Link className="ghost" href="/models">
+              浏览模型库
+            </Link>
+            <Link className="ghost" href="/compare">
+              直接模型对比
+            </Link>
+          </div>
+        </article>
       </section>
 
       <section className="stack">
@@ -130,7 +242,9 @@ export default function HomePage() {
           <div className="stack">
             <div className="eyebrow">Core Modules</div>
             <h2 className="section-title">现在的前端应该强调的三件事</h2>
-            <p className="muted-copy">不是把所有功能平铺出来，而是让用户能快速建立“先看什么、再做什么”的路径感。</p>
+            <p className="muted-copy">
+              不是把所有功能平铺出来，而是让用户能快速建立“先看什么、再做什么”的路径感。
+            </p>
           </div>
         </div>
         <div className="feature-grid">
@@ -190,7 +304,8 @@ export default function HomePage() {
           </ul>
           <div className="command-box mono">docker compose up --build</div>
           <p className="muted-copy">
-            现在首页不仅是视觉入口，也承担 onboarding 角色，第一次打开项目就知道“怎么启动、怎么验收、怎么继续看文档”。
+            现在首页不仅是视觉入口，也承担 onboarding
+            角色，第一次打开项目就知道“怎么启动、怎么验收、怎么继续看文档”。
           </p>
         </div>
 

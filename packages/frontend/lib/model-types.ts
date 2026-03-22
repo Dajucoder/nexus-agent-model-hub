@@ -5,7 +5,7 @@ export interface ProviderInfo {
   apiKeyUrl: string;
   officialUrl: string;
   defaultBaseUrl?: string;
-  chatApiStyle?: 'openai-compatible' | 'anthropic' | 'google' | 'none';
+  chatApiStyle?: "openai-compatible" | "anthropic" | "google" | "none";
 }
 
 export interface ModelCapabilityScore {
@@ -34,7 +34,7 @@ export interface ModelCard {
   version: string;
   releaseDate: string;
   family: string;
-  architecture: 'dense' | 'moe' | 'other';
+  architecture: "dense" | "moe" | "other";
   contextWindow: number;
   maxOutputTokens: number;
   modalities: string[];
@@ -59,19 +59,27 @@ export interface LeaderboardEntry {
   modelId: string;
   modelSlug: string;
   modelName: string;
+  providerId: string;
   provider: string;
   score: number;
-  source: 'arena' | 'openrouter' | 'combined';
+  source: "arena" | "openrouter" | "combined";
   category: string;
+  contextWindow: number;
+  inputPrice: number;
+  outputPrice: number;
+  openSource: boolean;
+  reasoningScore: number;
+  codingScore: number;
+  multimodalScore: number;
   updatedAt: string;
 }
 
-export type LeaderboardFeedId = 'arena' | 'openrouter' | 'combined';
+export type LeaderboardFeedId = "arena" | "openrouter" | "combined";
 
 export interface LeaderboardFeed {
   id: LeaderboardFeedId;
   title: string;
-  mode: 'snapshot' | 'live';
+  mode: "snapshot" | "live";
   capturedAt: string;
   importedAt: string;
   coverage: number;

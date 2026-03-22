@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
 
 :root {
   --bg: #f6f3ee;
@@ -41,19 +41,27 @@ html {
 body {
   min-height: 100vh;
   color: var(--text);
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   font-size: 15px;
   line-height: 1.6;
   background:
-    radial-gradient(circle at top left, rgba(17, 24, 39, 0.05), transparent 20%),
-    radial-gradient(circle at 85% 12%, rgba(217, 210, 196, 0.42), transparent 24%),
+    radial-gradient(
+      circle at top left,
+      rgba(17, 24, 39, 0.05),
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 85% 12%,
+      rgba(217, 210, 196, 0.42),
+      transparent 24%
+    ),
     linear-gradient(180deg, #fbfaf7 0%, #f6f3ee 55%, #efeae0 100%);
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
 }
 
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -73,7 +81,11 @@ body::before {
 a {
   color: inherit;
   text-decoration: none;
-  transition: color var(--transition), border-color var(--transition), background var(--transition), transform var(--transition);
+  transition:
+    color var(--transition),
+    border-color var(--transition),
+    background var(--transition),
+    transform var(--transition);
 }
 
 button,
@@ -137,19 +149,27 @@ main {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.82)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.86),
+      rgba(255, 255, 255, 0.82)
+    ),
     var(--surface);
   box-shadow: var(--shadow-md);
   backdrop-filter: blur(10px);
 }
 
 .panel::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.72), transparent 36%);
+  background: linear-gradient(
+    140deg,
+    rgba(255, 255, 255, 0.72),
+    transparent 36%
+  );
   opacity: 0.9;
 }
 
@@ -176,7 +196,7 @@ main {
 }
 
 .brand-link {
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.03em;
@@ -193,7 +213,7 @@ main {
 }
 
 .brand-mark::before {
-  content: '';
+  content: "";
   width: 12px;
   height: 12px;
   border-radius: 50%;
@@ -257,7 +277,7 @@ h4,
 h5,
 h6 {
   color: var(--text);
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   letter-spacing: -0.04em;
   line-height: 1.05;
 }
@@ -298,14 +318,14 @@ h6 {
 }
 
 .brand {
-  font-family: 'Manrope', sans-serif;
+  font-family: "Manrope", sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   letter-spacing: -0.04em;
 }
 
 .mono {
-  font-family: 'SFMono-Regular', 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: "SFMono-Regular", "JetBrains Mono", "Fira Code", monospace;
 }
 
 .btn,
@@ -320,7 +340,11 @@ h6 {
   border: 1px solid transparent;
   font-size: 0.9rem;
   font-weight: 700;
-  transition: transform var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition);
+  transition:
+    transform var(--transition),
+    background var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .btn {
@@ -423,6 +447,7 @@ h6 {
 
 .hero-copy {
   padding: 28px;
+  isolation: isolate;
 }
 
 .hero-copy p {
@@ -432,6 +457,58 @@ h6 {
 
 .hero-copy .pill-row {
   margin-top: 10px;
+}
+
+.hero-orbit {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(2px);
+  opacity: 0.45;
+  z-index: 0;
+}
+
+.hero-orbit-a {
+  top: -40px;
+  right: -30px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(
+    circle,
+    rgba(187, 151, 92, 0.28),
+    rgba(187, 151, 92, 0)
+  );
+}
+
+.hero-orbit-b {
+  left: 16px;
+  bottom: -50px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(
+    circle,
+    rgba(17, 24, 39, 0.1),
+    rgba(17, 24, 39, 0)
+  );
+}
+
+.hero-marquee {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hero-marquee span {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.74);
+  color: var(--text-soft);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
 .hero-side {
@@ -505,6 +582,46 @@ h6 {
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 22px;
   align-items: start;
+}
+
+.signal-band,
+.catalog-spotlight-grid {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.spotlight-card {
+  min-height: 240px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(187, 151, 92, 0.16),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(255, 255, 255, 0.88)
+    );
+}
+
+.spotlight-card.alt {
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(17, 24, 39, 0.12),
+      transparent 32%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(255, 255, 255, 0.88)
+    );
+}
+
+.spotlight-card.compact {
+  min-height: 180px;
 }
 
 .page-hero {
@@ -649,7 +766,10 @@ h6 {
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.92);
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
 }
 
 .field textarea,
@@ -691,7 +811,11 @@ h6 {
   padding: 22px;
   min-height: 100%;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.92)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.92)
+    ),
     rgba(255, 255, 255, 0.92);
 }
 
@@ -701,6 +825,58 @@ h6 {
 
 .card-top {
   gap: 14px;
+}
+
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.metric-strip div,
+.insight-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 92px;
+  padding: 14px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: var(--radius-md);
+  background: rgba(17, 24, 39, 0.03);
+}
+
+.metric-strip span,
+.insight-card span {
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metric-strip strong,
+.insight-card strong {
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.insight-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.insight-card p {
+  color: var(--text-soft);
+  font-size: 0.88rem;
+}
+
+.compact-cards {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.compact-model-card {
+  min-height: 100%;
 }
 
 .meta-row {
@@ -746,6 +922,23 @@ h6 {
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
+}
+
+.leaderboard-banner {
+  padding: 18px 20px;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: var(--radius-md);
+  background: linear-gradient(
+    135deg,
+    rgba(17, 24, 39, 0.03),
+    rgba(187, 151, 92, 0.08)
+  );
+}
+
+.accent-pill {
+  background: rgba(187, 151, 92, 0.16);
+  border-color: rgba(187, 151, 92, 0.28);
+  color: #73592a;
 }
 
 .table tbody tr:hover td {
@@ -885,7 +1078,7 @@ h6 {
   padding: 0.15em 0.45em;
   border-radius: 10px;
   background: rgba(17, 24, 39, 0.05);
-  font-family: 'SFMono-Regular', 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: "SFMono-Regular", "JetBrains Mono", "Fira Code", monospace;
   font-size: 0.92em;
 }
 
@@ -946,6 +1139,8 @@ h6 {
 @media (max-width: 1100px) {
   .home-hero,
   .home-bottom-grid,
+  .signal-band,
+  .catalog-spotlight-grid,
   .docs-layout,
   .chat-layout {
     grid-template-columns: 1fr;
@@ -973,7 +1168,9 @@ h6 {
   }
 
   .grid,
-  .hero-kpi-grid {
+  .hero-kpi-grid,
+  .metric-strip,
+  .hero-marquee {
     grid-template-columns: 1fr;
   }
 

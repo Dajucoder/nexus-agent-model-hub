@@ -1,0 +1,47 @@
+{
+  "updatedAt": "2026-03-23T16:00:00.000Z",
+  "feeds": {
+    "arena": {
+      "id": "arena",
+      "title": "Arena Snapshot",
+      "mode": "snapshot",
+      "capturedAt": "2026-03-20T00:00:00.000Z",
+      "importedAt": "2026-03-23T16:00:00.000Z",
+      "methodology": "Versioned repository snapshot for deterministic UI delivery. When remote crawling is unavailable, this file remains the trusted fallback.",
+      "note": "当前默认使用仓库内榜单快照，适合静态部署、构建期产物和远程抓取失败时的兜底展示。",
+      "entries": [
+        { "modelId": "claude-sonnet-4-20250514", "score": 1406, "category": "overall" },
+        { "modelId": "gpt-4.1", "score": 1396, "category": "overall" },
+        { "modelId": "deepseek-reasoner", "score": 1384, "category": "reasoning" },
+        { "modelId": "gpt-4o", "score": 1378, "category": "multimodal" },
+        { "modelId": "gemini-2.5-pro", "score": 1372, "category": "multimodal" },
+        { "modelId": "claude-3-5-sonnet-20241022", "score": 1362, "category": "overall" },
+        { "modelId": "deepseek-chat", "score": 1354, "category": "open-source" },
+        { "modelId": "o4-mini", "score": 1349, "category": "reasoning" },
+        { "modelId": "gemini-2.5-flash", "score": 1342, "category": "speed" },
+        { "modelId": "mistral-large-latest", "score": 1331, "category": "enterprise" }
+      ]
+    },
+    "openrouter": {
+      "id": "openrouter",
+      "title": "OpenRouter Snapshot",
+      "mode": "snapshot",
+      "capturedAt": "2026-03-23T00:00:00.000Z",
+      "importedAt": "2026-03-23T16:00:00.000Z",
+      "methodology": "Curated OpenRouter-style popularity snapshot that can be replaced by live fetch results when remote ranking pages are reachable.",
+      "note": "优先尝试远程抓取 OpenRouter 榜单；若抓取受限，则自动回退到仓库内快照，保证线上页面始终可用。",
+      "entries": [
+        { "modelId": "gpt-4.1", "score": 95.4, "category": "overall" },
+        { "modelId": "claude-sonnet-4-20250514", "score": 94.7, "category": "overall" },
+        { "modelId": "deepseek-reasoner", "score": 93.9, "category": "reasoning" },
+        { "modelId": "deepseek-chat", "score": 92.6, "category": "open-source" },
+        { "modelId": "gpt-4o", "score": 92.1, "category": "multimodal" },
+        { "modelId": "claude-3-5-sonnet-20241022", "score": 91.8, "category": "overall" },
+        { "modelId": "gemini-2.5-pro", "score": 90.9, "category": "multimodal" },
+        { "modelId": "mistral-large-latest", "score": 88.3, "category": "enterprise" },
+        { "modelId": "gemini-2.5-flash", "score": 87.6, "category": "speed" },
+        { "modelId": "gpt-4.1-mini", "score": 86.8, "category": "efficient" }
+      ]
+    }
+  }
+}

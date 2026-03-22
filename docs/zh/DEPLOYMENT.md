@@ -51,6 +51,12 @@ docker compose up --build
 
 `.env.example` 已提供一套可直接用于本地和 Docker Compose 的默认值，包括本地 PostgreSQL 连接串、便于排查的开发日志格式，以及浏览器联调所需的 localhost 地址。
 
+排行榜说明：
+
+- `/api/leaderboard` 现在会优先尝试抓取 OpenRouter 公共榜单页面；若抓取被拦截、网络异常或页面结构变化，会自动回退到 `packages/frontend/.data/leaderboard-snapshots.json`。
+- 如需手动刷新仓库内快照，可执行 `npm run leaderboard:refresh --workspace=packages/frontend`。
+- 即使手动刷新时解析不到足够数据，脚本也会保留现有快照，不会把线上榜单直接弄坏。
+
 ## 4. 本地源码运行
 
 适合希望调试代码、单独起前端或后端的开发者。

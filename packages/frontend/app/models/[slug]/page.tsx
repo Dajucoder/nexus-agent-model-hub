@@ -1,17 +1,51 @@
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { getModelBySlug, modelCatalog } from '../../../lib/model-data';
-import { capabilityLabels, formatNumber, formatPrice, scoreColor } from '../../../lib/model-utils';
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { MarkdownArticle } from "../../../components/markdown-renderer";
+import { getModelArticle } from "../../../lib/model-content";
+import { getModelBySlug, modelCatalog } from "../../../lib/model-data";
+import {
+  capabilityLabels,
+  formatNumber,
+  formatPrice,
+  scoreColor,
+} from "../../../lib/model-utils";
 
 export function generateStaticParams() {
   return modelCatalog.map((model) => ({ slug: model.slug }));
 }
 
-export default function ModelDetailPage({ params }: { params: { slug: string } }) {
+export default async function ModelDetailPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const model = getModelBySlug(params.slug);
   if (!model) {
     notFound();
   }
+
+  const article = await getModelArticle(params.slug);
+
+  const relatedModels = modelCatalog
+    .filter((candidate) => candidate.id !== model.id)
+    .sort((left, right) => {
+      const sameProviderDelta =
+        Number(right.provider.id === model.provider.id) -
+        Number(left.provider.id === model.provider.id);
+      if (sameProviderDelta !== 0) {
+        return sameProviderDelta;
+      }
+
+      const sameFamilyDelta =
+        Number(right.family === model.family) -
+        Number(left.family === model.family);
+      if (sameFamilyDelta !== 0) {
+        return sameFamilyDelta;
+      }
+
+      return right.capabilities.reasoning - left.capabilities.reasoning;
+    })
+    .slice(0, 3);
 
   return (
     <main className="shell stack">
@@ -23,7 +57,12 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
           <Link className="ghost" href={`/compare?pick=${model.slug}`}>
             加入对比
           </Link>
-          <a className="ghost" href={model.provider.docsUrl} target="_blank" rel="noreferrer">
+          <a
+            className="ghost"
+            href={model.provider.docsUrl}
+            target="_blank"
+            rel="noreferrer"
+          >
             官方文档
           </a>
         </div>
@@ -34,9 +73,18 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
               {model.provider.name} · {model.family} · {model.version}
             </div>
           </div>
-          <span className="pill">{model.openSource ? model.license ?? 'Open Source' : 'Commercial'}</span>
+          <span className="pill">
+            {model.openSource ? (model.license ?? "Open Source") : "Commercial"}
+          </span>
         </div>
         <p>{model.description}</p>
+        <div className="pill-row">
+          {model.tags.map((tag) => (
+            <span key={tag} className="pill">
+              {tag}
+            </span>
+          ))}
+        </div>
         <div className="grid">
           <div className="kpi">
             <div>上下文</div>
@@ -58,6 +106,14 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
             <div>发布时间</div>
             <strong>{model.releaseDate}</strong>
           </div>
+          <div className="kpi">
+            <div>推理评分</div>
+            <strong>{model.capabilities.reasoning}</strong>
+          </div>
+          <div className="kpi">
+            <div>代码评分</div>
+            <strong>{model.capabilities.coding}</strong>
+          </div>
         </div>
       </section>
 
@@ -68,7 +124,10 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
             <div key={key} className="score-row">
               <span>{capabilityLabels[key]}</span>
               <div className="score-track">
-                <div className={`score-bar ${scoreColor(value)}`} style={{ width: `${value}%` }} />
+                <div
+                  className={`score-bar ${scoreColor(value)}`}
+                  style={{ width: `${value}%` }}
+                />
               </div>
               <strong>{value}</strong>
             </div>
@@ -121,6 +180,90 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
             </div>
           ))}
         </article>
+      </section>
+
+      {article ? (
+        <section className="panel stack">
+          <div className="topbar">
+            <div>
+              <div className="eyebrow">Knowledge Card</div>
+              <h2 className="section-title">内容文档与模型数据联动</h2>
+            </div>
+            <div className="pill-row">
+              {Array.isArray(article.frontmatter.tags)
+                ? article.frontmatter.tags.slice(0, 3).map((tag) => (
+                    <span key={tag} className="pill">
+                      {tag}
+                    </span>
+                  ))
+                : null}
+            </div>
+          </div>
+          <div className="insight-grid">
+            <article className="insight-card">
+              <span>文档状态</span>
+              <strong>{String(article.frontmatter.status ?? "active")}</strong>
+              <p>{String(article.frontmatter.meta_title ?? model.name)}</p>
+            </article>
+            <article className="insight-card">
+              <span>文档路径</span>
+              <strong>{article.relativePath}</strong>
+              <p>模型详情页现在会在存在 MDX 内容时自动展示仓库内的内容卡片。</p>
+            </article>
+            <article className="insight-card">
+              <span>使用方式</span>
+              <strong>数据 + 内容双来源</strong>
+              <p>
+                结构化指标来自 `model-data.ts`，长文说明来自
+                `content/models/*.mdx`。
+              </p>
+            </article>
+          </div>
+          <MarkdownArticle content={article.body} />
+        </section>
+      ) : null}
+
+      <section className="panel stack">
+        <div className="topbar">
+          <div>
+            <div className="eyebrow">Related Picks</div>
+            <h2 className="section-title">继续查看的相近模型</h2>
+          </div>
+          <Link
+            className="ghost"
+            href={`/compare?pick=${[model.slug, ...relatedModels.map((item) => item.slug)].join(",")}`}
+          >
+            一键加入对比
+          </Link>
+        </div>
+        <div className="cards compact-cards">
+          {relatedModels.map((item) => (
+            <article key={item.id} className="panel stack compact-model-card">
+              <div>
+                <h3 className="card-title">{item.name}</h3>
+                <div className="fine">
+                  {item.provider.name} · {item.family}
+                </div>
+              </div>
+              <p className="fine">{item.description}</p>
+              <div className="pill-row">
+                <span className="pill">推理 {item.capabilities.reasoning}</span>
+                <span className="pill">代码 {item.capabilities.coding}</span>
+              </div>
+              <div className="toolbar">
+                <Link className="ghost" href={`/models/${item.slug}`}>
+                  查看详情
+                </Link>
+                <Link
+                  className="ghost"
+                  href={`/compare?pick=${model.slug},${item.slug}`}
+                >
+                  与当前模型对比
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
     </main>
   );

@@ -1,6 +1,9 @@
-import { NextResponse } from 'next/server';
-import { getLeaderboardBundle } from '../../../lib/leaderboard-data';
+import { NextResponse } from "next/server";
+import { getLeaderboardBundle } from "../../../lib/leaderboard-data";
+
+export const revalidate = 3600;
 
 export async function GET() {
-  return NextResponse.json(getLeaderboardBundle());
+  const bundle = await getLeaderboardBundle();
+  return NextResponse.json(bundle);
 }

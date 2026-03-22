@@ -108,6 +108,11 @@ Useful validation commands:
 - `npm run test`
 - `npm run build`
 - `./scripts/check.sh`
+- `npm run leaderboard:refresh --workspace=packages/frontend`
+
+Model content note:
+
+- `content/models/*.mdx` can now enrich model detail pages automatically when a matching slug exists.
 
 Default bootstrap account:
 

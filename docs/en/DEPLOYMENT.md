@@ -50,6 +50,12 @@ Notes:
 
 Recommended local values are already documented in `.env.example`, including a Compose-friendly PostgreSQL URL, readable development logging, and localhost defaults for browser access.
 
+Leaderboard note:
+
+- `/api/leaderboard` now prefers a remote OpenRouter page fetch and automatically falls back to `packages/frontend/.data/leaderboard-snapshots.json` when crawling is blocked or parsing fails.
+- You can refresh the repository snapshot manually with `npm run leaderboard:refresh --workspace=packages/frontend`.
+- Even when manual refresh cannot parse enough rows, the command keeps the existing snapshot instead of breaking the deployed UI.
+
 ## 4. Local Source Mode
 
 Use this when you want to debug the code directly.
