@@ -11,7 +11,7 @@
 ## 文字版体系结构图
 
 1. `Next.js 前端`
-   负责双语界面、登录与仪表盘交互，通过 HTTPS 调用 API。
+   负责双语界面、登录与仪表盘交互，通过 BFF 认证层使用 HttpOnly Cookie 管理会话，通过 HTTPS 调用 API。
 2. `Express API`
    提供认证、租户、用户、Agent 路由，执行 RBAC 和租户级过滤。
 3. `PostgreSQL`

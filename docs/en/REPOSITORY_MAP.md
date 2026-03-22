@@ -19,14 +19,25 @@
 │   │   ├── src/agents/             # Built-in tools and plugin loader
 │   │   ├── src/api/                # Routes and middleware
 │   │   ├── src/auth/               # JWT helpers
-│   │   ├── src/lib/                # i18n, permissions, semaphore
+│   │   ├── src/lib/                # i18n, permissions, semaphore, duration parsing
 │   │   ├── src/db/                 # Prisma client
 │   │   └── tests/                  # Unit tests
 │   └── frontend/
 │       ├── app/                    # Next.js App Router pages
+│       │   └── api/
+│       │       ├── auth/           # BFF auth routes (login, register, logout via HttpOnly cookies)
+│       │       ├── backend/        # Backend API proxy route
+│       │       ├── chat/           # Chat API route
+│       │       └── settings/       # Provider settings API route
 │       ├── components/             # Platform and model hub UI
-│       ├── lib/                    # API, session, and model catalog helpers
-│       └── messages/               # zh/en dictionaries
+│       ├── lib/
+│       │   ├── hooks/              # Custom React hooks (chat, dashboard, provider settings)
+│       │   ├── server/             # Server-side helpers (auth-session, provider-security)
+│       │   └── ...                 # API, session, and model catalog helpers
+│       ├── messages/               # zh/en dictionaries
+│       ├── tests/                  # Frontend Vitest tests
+│       ├── vitest.config.ts        # Frontend test configuration
+│       └── vitest.setup.ts         # Frontend test setup
 ├── .env.example                    # Environment template
 ├── LICENSE                         # PolyForm Noncommercial 1.0.0 text
 ├── NOTICE                          # Required notice line

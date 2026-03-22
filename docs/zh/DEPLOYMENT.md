@@ -48,6 +48,10 @@ docker compose up --build
 - `AGENT_TIMEOUT_MS`：单次 Agent 执行超时时间。
 - `AGENT_CONCURRENCY_LIMIT`：Agent 并发限制。
 - `AGENT_HTTP_ALLOWED_HOSTS`：内置 HTTP Agent 可访问的主机白名单。
+- `PROVIDER_CONFIG_SECRET`：服务端供应商 API Key 存储加密密钥（AES-256-GCM），生产环境必须配置，开发环境不配置则不加密。
+- `RATE_LIMIT_WINDOW_MS` / `RATE_LIMIT_MAX`：通用 API 限流窗口与最大请求数。
+- `AUTH_RATE_LIMIT_MAX`：每个限流窗口内登录/注册的最大次数。
+- `AGENT_RATE_LIMIT_WINDOW_MS` / `AGENT_RATE_LIMIT_MAX`：Agent 执行的限流窗口与最大调用数。
 
 `.env.example` 已提供一套可直接用于本地和 Docker Compose 的默认值，包括本地 PostgreSQL 连接串、便于排查的开发日志格式，以及浏览器联调所需的 localhost 地址。
 
@@ -274,7 +278,7 @@ server {
 
 - 前端自带 `/docs` 页面，可直接读取仓库内 `docs/` 与根目录核心 Markdown。
 - 如果你把前端单独部署到 Vercel 或其他平台，要确保部署产物里包含文档目录。
-- 目前 `/settings` 页面已支持本地文件持久化，但它依旧只适合开发和联调，不应替代正式密钥托管。
+- 目前 `/settings` 页面已支持服务端持久化供应商配置，配置了 `PROVIDER_CONFIG_SECRET` 后 API Key 会加密存储，Base URL 会校验是否指向官方接入点。但它依旧只适合开发和联调，不应替代正式密钥托管。
 
 ## 12. 常见问题
 
@@ -316,7 +320,7 @@ server {
 - 密钥交给 Secret Manager 或 Vault
 - 开启镜像签名与 SBOM
 - API 放在 TLS 与 WAF 后面
-- 浏览器正式版建议切换为 HttpOnly Cookie 或 BFF 模式，而不是直接在前端保存访问令牌
+- 浏览器正式版建议切换为 HttpOnly Cookie 或 BFF 模式，而不是直接在前端保存访问令牌（已通过 Next.js BFF 认证路由实现）
 - `/settings` 页不应作为生产密钥保存机制
 
 ## 14. 构建资产说明

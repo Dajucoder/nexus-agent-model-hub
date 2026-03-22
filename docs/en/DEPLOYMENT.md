@@ -47,6 +47,10 @@ Notes:
 - `AGENT_TIMEOUT_MS`: per-run Agent timeout.
 - `AGENT_CONCURRENCY_LIMIT`: Agent concurrency cap.
 - `AGENT_HTTP_ALLOWED_HOSTS`: outbound allowlist for the built-in HTTP Agent tool.
+- `PROVIDER_CONFIG_SECRET`: encryption key for server-side provider API key storage (AES-256-GCM). Required in production; omitting it in development disables encryption.
+- `RATE_LIMIT_WINDOW_MS` / `RATE_LIMIT_MAX`: general API rate limiting window and max requests.
+- `AUTH_RATE_LIMIT_MAX`: max login/registration attempts per rate window.
+- `AGENT_RATE_LIMIT_WINDOW_MS` / `AGENT_RATE_LIMIT_MAX`: per-window Agent execution rate cap.
 
 Recommended local values are already documented in `.env.example`, including a Compose-friendly PostgreSQL URL, readable development logging, and localhost defaults for browser access.
 
@@ -273,7 +277,7 @@ Recommended baseline:
 
 - The frontend ships with `/docs`, which reads the repository Markdown directly.
 - If you deploy the frontend separately, make sure the `docs/` directory is included in the runtime artifact.
-- The `/settings` page now persists local provider configuration for development, but it is still not a production-grade secret backend.
+- The `/settings` page persists provider configuration server-side; API keys are encrypted at rest when `PROVIDER_CONFIG_SECRET` is configured, and base URLs are validated against known provider endpoints. It is still not a production-grade secret backend.
 
 ## 12. Troubleshooting
 
@@ -315,7 +319,7 @@ Check:
 - Move secrets to a secret manager
 - Enable image signing and SBOM generation
 - Put the API behind TLS and a WAF
-- Use HTTP-only secure cookies or a BFF pattern for browser sessions
+- Use HTTP-only secure cookies or a BFF pattern for browser sessions (now implemented via the Next.js BFF auth routes)
 - Treat `/settings` as a developer convenience, not a production secrets backend
 
 ## 14. Build Asset Notes

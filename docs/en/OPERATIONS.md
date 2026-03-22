@@ -61,6 +61,7 @@ Establish a rotation schedule for:
 
 - `JWT_SECRET`
 - `JWT_REFRESH_SECRET`
+- `PROVIDER_CONFIG_SECRET`
 - database credentials
 - Redis credentials
 - third-party model provider API keys
@@ -109,11 +110,12 @@ Suggested scaling order:
 ## 8. Release Procedure
 
 1. run `npm run typecheck`
-2. run `npm run test`
-3. run `npm run build`
-4. validate `/api/v1/health` and `/api/v1/platform/summary`
-5. validate `/docs`, `/settings`, `/chat`, and `/dashboard`
-6. then promote to production
+2. run `npm run lint`
+3. run `npm run test`
+4. run `npm run build`
+5. validate `/api/v1/health` and `/api/v1/platform/summary`
+6. validate `/docs`, `/settings`, `/chat`, and `/dashboard`
+7. then promote to production
 
 Recommended pre-release spot checks:
 

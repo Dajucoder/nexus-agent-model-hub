@@ -61,6 +61,7 @@
 
 - `JWT_SECRET`
 - `JWT_REFRESH_SECRET`
+- `PROVIDER_CONFIG_SECRET`
 - 数据库密码
 - Redis 密码
 - 第三方模型供应商 API Key
@@ -109,11 +110,12 @@
 ## 8. 发布流程建议
 
 1. 在预发环境运行 `npm run typecheck`
-2. 运行 `npm run test`
-3. 运行 `npm run build`
-4. 验证 `/api/v1/health` 与 `/api/v1/platform/summary`
-5. 验证 `/docs`、`/settings`、`/chat`、`/dashboard`
-6. 再发布到生产
+2. 运行 `npm run lint`
+3. 运行 `npm run test`
+4. 运行 `npm run build`
+5. 验证 `/api/v1/health` 与 `/api/v1/platform/summary`
+6. 验证 `/docs`、`/settings`、`/chat`、`/dashboard`
+7. 再发布到生产
 
 建议补充的发布前抽样检查：
 

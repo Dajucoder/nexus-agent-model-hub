@@ -20,6 +20,7 @@ secrets:
   REDIS_URL: redis://redis:6379
   JWT_SECRET: replace-me
   JWT_REFRESH_SECRET: replace-me-too
+  PROVIDER_CONFIG_SECRET: replace-me-provider
 
 ingress:
   enabled: true

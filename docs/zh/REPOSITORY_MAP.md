@@ -19,14 +19,25 @@
 │   │   ├── src/agents/             # 内置工具与插件加载器
 │   │   ├── src/api/                # 路由与中间件
 │   │   ├── src/auth/               # JWT 工具
-│   │   ├── src/lib/                # i18n、权限、并发控制
+│   │   ├── src/lib/                # i18n、权限、并发控制、时间解析
 │   │   ├── src/db/                 # Prisma 客户端
 │   │   └── tests/                  # 单元测试
 │   └── frontend/
 │       ├── app/                    # Next.js App Router 页面
+│       │   └── api/
+│       │       ├── auth/           # BFF 认证路由（通过 HttpOnly Cookie 实现登录、注册、登出）
+│       │       ├── backend/        # 后端 API 代理路由
+│       │       ├── chat/           # 聊天 API 路由
+│       │       └── settings/       # 供应商配置 API 路由
 │       ├── components/             # 平台与模型百科界面
-│       ├── lib/                    # API、会话与模型目录工具
-│       └── messages/               # 中英文词典
+│       ├── lib/
+│       │   ├── hooks/              # 自定义 React Hooks（聊天、仪表盘、供应商配置）
+│       │   ├── server/             # 服务端工具（auth-session、provider-security）
+│       │   └── ...                 # API、会话与模型目录工具
+│       ├── messages/               # 中英文词典
+│       ├── tests/                  # 前端 Vitest 测试
+│       ├── vitest.config.ts        # 前端测试配置
+│       └── vitest.setup.ts         # 前端测试初始化
 ├── .env.example                    # 环境变量模板
 ├── LICENSE                         # PolyForm Noncommercial 1.0.0 文本
 ├── NOTICE                          # Required Notice
