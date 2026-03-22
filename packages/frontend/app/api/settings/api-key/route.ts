@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
+import {
+  deleteProviderConfig,
+  listProviderConfigs,
+  saveProviderConfig
+} from '../../../../lib/server/provider-config-store';
 
 const schema = z.object({
   provider: z.string().min(1),
@@ -7,11 +12,10 @@ const schema = z.object({
   baseUrl: z.string().min(1)
 });
 
-const store = new Map<string, { provider: string; maskedKey: string; baseUrl: string; updatedAt: string }>();
-
 export async function GET() {
+  const configs = await listProviderConfigs();
   return NextResponse.json({
-    configs: [...store.values()]
+    configs: configs.map(({ apiKey: _apiKey, ...config }) => config)
   });
 }
 
@@ -22,12 +26,25 @@ export async function POST(request: NextRequest) {
   }
 
   const { provider, apiKey, baseUrl } = parsed.data;
-  store.set(provider, {
-    provider,
-    maskedKey: apiKey.length > 8 ? `${apiKey.slice(0, 4)}...${apiKey.slice(-4)}` : '****',
-    baseUrl,
-    updatedAt: new Date().toISOString()
-  });
+  const saved = await saveProviderConfig({ provider, apiKey, baseUrl });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({
+    ok: true,
+    config: {
+      provider: saved.provider,
+      maskedKey: saved.maskedKey,
+      baseUrl: saved.baseUrl,
+      updatedAt: saved.updatedAt
+    }
+  });
+}
+
+export async function DELETE(request: NextRequest) {
+  const provider = request.nextUrl.searchParams.get('provider');
+  if (!provider) {
+    return NextResponse.json({ error: 'provider is required' }, { status: 400 });
+  }
+
+  const deleted = await deleteProviderConfig(provider);
+  return NextResponse.json({ ok: deleted });
 }

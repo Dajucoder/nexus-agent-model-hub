@@ -1,33 +1,59 @@
-import type { LeaderboardEntry, ModelCard, ProviderInfo } from './model-types';
+import type { ModelCard, ProviderInfo } from './model-types';
 
-const providers: Record<string, ProviderInfo> = {
+export const providerDirectory: Record<string, ProviderInfo> = {
   openai: {
     id: 'openai',
     name: 'OpenAI',
     docsUrl: 'https://platform.openai.com/docs',
     apiKeyUrl: 'https://platform.openai.com/api-keys',
-    officialUrl: 'https://openai.com'
+    officialUrl: 'https://openai.com',
+    defaultBaseUrl: 'https://api.openai.com/v1',
+    chatApiStyle: 'openai-compatible'
   },
   anthropic: {
     id: 'anthropic',
     name: 'Anthropic',
     docsUrl: 'https://docs.anthropic.com',
     apiKeyUrl: 'https://console.anthropic.com/settings/keys',
-    officialUrl: 'https://www.anthropic.com'
+    officialUrl: 'https://www.anthropic.com',
+    defaultBaseUrl: 'https://api.anthropic.com/v1',
+    chatApiStyle: 'anthropic'
   },
   google: {
     id: 'google',
     name: 'Google',
     docsUrl: 'https://ai.google.dev/docs',
     apiKeyUrl: 'https://aistudio.google.com/app/apikey',
-    officialUrl: 'https://ai.google.dev'
+    officialUrl: 'https://ai.google.dev',
+    defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta',
+    chatApiStyle: 'google'
   },
   deepseek: {
     id: 'deepseek',
     name: 'DeepSeek',
     docsUrl: 'https://platform.deepseek.com/docs',
     apiKeyUrl: 'https://platform.deepseek.com/api_keys',
-    officialUrl: 'https://www.deepseek.com'
+    officialUrl: 'https://www.deepseek.com',
+    defaultBaseUrl: 'https://api.deepseek.com/v1',
+    chatApiStyle: 'openai-compatible'
+  },
+  mistral: {
+    id: 'mistral',
+    name: 'Mistral',
+    docsUrl: 'https://docs.mistral.ai',
+    apiKeyUrl: 'https://console.mistral.ai/api-keys',
+    officialUrl: 'https://mistral.ai',
+    defaultBaseUrl: 'https://api.mistral.ai/v1',
+    chatApiStyle: 'openai-compatible'
+  },
+  openrouter: {
+    id: 'openrouter',
+    name: 'OpenRouter',
+    docsUrl: 'https://openrouter.ai/docs',
+    apiKeyUrl: 'https://openrouter.ai/keys',
+    officialUrl: 'https://openrouter.ai',
+    defaultBaseUrl: 'https://openrouter.ai/api/v1',
+    chatApiStyle: 'openai-compatible'
   }
 };
 
@@ -36,7 +62,7 @@ export const modelCatalog: ModelCard[] = [
     id: 'gpt-4o',
     name: 'GPT-4o',
     slug: 'gpt-4o',
-    provider: providers.openai,
+    provider: providerDirectory.openai,
     version: '2024-08-06',
     releaseDate: '2024-05-13',
     family: 'GPT-4',
@@ -67,16 +93,161 @@ export const modelCatalog: ModelCard[] = [
     strengths: ['多模态能力强', '延迟较低', '指令遵循稳定', '工具调用成熟'],
     limitations: ['闭源', '高复杂推理不一定最强', '商业成本相对较高'],
     useCases: ['通用聊天', '代码生成', '图像理解', '文档分析'],
-    tags: ['multimodal', 'general-purpose', 'tool-use'],
-    arenaScore: 1320,
-    arenaRank: 1,
-    openRouterScore: 92.5
+    tags: ['multimodal', 'general-purpose', 'tool-use']
   },
   {
-    id: 'claude-3-5-sonnet',
+    id: 'gpt-4.1',
+    name: 'GPT-4.1',
+    slug: 'gpt-4-1',
+    provider: providerDirectory.openai,
+    version: '2025-04',
+    releaseDate: '2025-04-14',
+    family: 'GPT-4.1',
+    architecture: 'dense',
+    contextWindow: 1048576,
+    maxOutputTokens: 32768,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es', 'pt'],
+    pricing: { inputPer1M: 2, outputPer1M: 8 },
+    capabilities: {
+      reasoning: 94,
+      coding: 96,
+      math: 88,
+      creativeWriting: 87,
+      multilingual: 91,
+      instructionFollowing: 95,
+      vision: 92,
+      audio: 0,
+      toolUse: 94
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 90.2, unit: '%' },
+      { name: 'HumanEval', score: 94.1, unit: 'pass@1' },
+      { name: 'GPQA', score: 61.4, unit: '%' }
+    ],
+    openSource: false,
+    description: '面向高质量代码、复杂工作流和长上下文任务的 OpenAI 主力模型。',
+    strengths: ['代码能力突出', '长上下文处理稳', '指令遵循强', '工具调用成熟'],
+    limitations: ['闭源', '价格高于轻量模型', '不主打音频交互'],
+    useCases: ['代码助手', '企业问答', '长文档分析', '复杂代理流程'],
+    tags: ['coding', 'long-context', 'tool-use']
+  },
+  {
+    id: 'gpt-4.1-mini',
+    name: 'GPT-4.1 mini',
+    slug: 'gpt-4-1-mini',
+    provider: providerDirectory.openai,
+    version: '2025-04',
+    releaseDate: '2025-04-14',
+    family: 'GPT-4.1',
+    architecture: 'dense',
+    contextWindow: 1048576,
+    maxOutputTokens: 32768,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es', 'pt'],
+    pricing: { inputPer1M: 0.4, outputPer1M: 1.6 },
+    capabilities: {
+      reasoning: 87,
+      coding: 90,
+      math: 80,
+      creativeWriting: 82,
+      multilingual: 88,
+      instructionFollowing: 90,
+      vision: 86,
+      audio: 0,
+      toolUse: 89
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 85.8, unit: '%' },
+      { name: 'HumanEval', score: 88.4, unit: 'pass@1' },
+      { name: 'GPQA', score: 53.1, unit: '%' }
+    ],
+    openSource: false,
+    description: '适合成本敏感型生产流量的轻量版 OpenAI 通用模型。',
+    strengths: ['性价比高', '代码与文档任务均衡', '长上下文可用', '吞吐友好'],
+    limitations: ['极限推理不及旗舰模型', '复杂多轮细节略弱'],
+    useCases: ['客服自动化', '知识库检索增强', '批量处理', '中轻度代码生成'],
+    tags: ['efficient', 'coding', 'long-context']
+  },
+  {
+    id: 'o4-mini',
+    name: 'o4-mini',
+    slug: 'o4-mini',
+    provider: providerDirectory.openai,
+    version: '2025-04',
+    releaseDate: '2025-04-16',
+    family: 'o-series',
+    architecture: 'dense',
+    contextWindow: 200000,
+    maxOutputTokens: 100000,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es'],
+    pricing: { inputPer1M: 1.1, outputPer1M: 4.4 },
+    capabilities: {
+      reasoning: 96,
+      coding: 91,
+      math: 94,
+      creativeWriting: 78,
+      multilingual: 85,
+      instructionFollowing: 90,
+      vision: 85,
+      audio: 0,
+      toolUse: 90
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 89.1, unit: '%' },
+      { name: 'HumanEval', score: 91.5, unit: 'pass@1' },
+      { name: 'MATH', score: 92.8, unit: '%' }
+    ],
+    openSource: false,
+    description: '偏推理取向的轻量模型，适合需要较强数学与规划能力的工作流。',
+    strengths: ['推理密度高', '数学与规划强', '成本低于重型推理模型'],
+    limitations: ['创作风格感一般', '长文档写作不如旗舰通用模型'],
+    useCases: ['推理代理', '数学求解', '任务规划', '结构化分析'],
+    tags: ['reasoning', 'math', 'planning']
+  },
+  {
+    id: 'claude-sonnet-4-20250514',
+    name: 'Claude Sonnet 4',
+    slug: 'claude-sonnet-4',
+    provider: providerDirectory.anthropic,
+    version: '20250514',
+    releaseDate: '2025-05-14',
+    family: 'Claude 4',
+    architecture: 'dense',
+    contextWindow: 200000,
+    maxOutputTokens: 32000,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es'],
+    pricing: { inputPer1M: 1.5, outputPer1M: 7.5 },
+    capabilities: {
+      reasoning: 97,
+      coding: 95,
+      math: 87,
+      creativeWriting: 95,
+      multilingual: 87,
+      instructionFollowing: 97,
+      vision: 90,
+      audio: 0,
+      toolUse: 95
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 90.4, unit: '%' },
+      { name: 'HumanEval', score: 94.6, unit: 'pass@1' },
+      { name: 'GPQA', score: 63.8, unit: '%' }
+    ],
+    openSource: false,
+    description: 'Anthropic 当前偏旗舰的通用工作模型，兼顾高质量推理、编程与写作。',
+    strengths: ['长文档稳定', '写作质量高', '代码能力强', '复杂任务规划优秀'],
+    limitations: ['不支持音频', '输出成本高于轻量模型'],
+    useCases: ['高质量写作', '复杂知识工作', '代码审查', '企业分析'],
+    tags: ['reasoning', 'writing', 'coding']
+  },
+  {
+    id: 'claude-3-5-sonnet-20241022',
     name: 'Claude 3.5 Sonnet',
     slug: 'claude-3-5-sonnet',
-    provider: providers.anthropic,
+    provider: providerDirectory.anthropic,
     version: '20241022',
     releaseDate: '2024-06-20',
     family: 'Claude 3.5',
@@ -107,16 +278,124 @@ export const modelCatalog: ModelCard[] = [
     strengths: ['推理稳定', '代码能力强', '长上下文表现好', '写作质量高'],
     limitations: ['不支持音频', '闭源', '输出成本较高'],
     useCases: ['复杂分析', '代码开发', '长文档处理', '高质量写作'],
-    tags: ['reasoning', 'coding', 'long-context'],
-    arenaScore: 1286,
-    arenaRank: 2,
-    openRouterScore: 93.8
+    tags: ['reasoning', 'coding', 'long-context']
   },
   {
-    id: 'gemini-2-0-flash',
+    id: 'claude-3-5-haiku-20241022',
+    name: 'Claude 3.5 Haiku',
+    slug: 'claude-3-5-haiku',
+    provider: providerDirectory.anthropic,
+    version: '20241022',
+    releaseDate: '2024-10-22',
+    family: 'Claude 3.5',
+    architecture: 'dense',
+    contextWindow: 200000,
+    maxOutputTokens: 8192,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es'],
+    pricing: { inputPer1M: 0.4, outputPer1M: 2 },
+    capabilities: {
+      reasoning: 84,
+      coding: 86,
+      math: 78,
+      creativeWriting: 82,
+      multilingual: 82,
+      instructionFollowing: 89,
+      vision: 82,
+      audio: 0,
+      toolUse: 86
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 81.7, unit: '%' },
+      { name: 'HumanEval', score: 84.6, unit: 'pass@1' },
+      { name: 'GPQA', score: 47.3, unit: '%' }
+    ],
+    openSource: false,
+    description: '更轻量的 Claude 生产模型，适合追求响应速度和成本控制的业务场景。',
+    strengths: ['速度快', '成本可控', '文本与视觉任务均衡'],
+    limitations: ['复杂推理弱于 Sonnet', '超长复杂输出稳定性较一般'],
+    useCases: ['工单分流', '轻量助理', '摘要改写', '中小型知识问答'],
+    tags: ['efficient', 'multimodal', 'support']
+  },
+  {
+    id: 'gemini-2.5-pro',
+    name: 'Gemini 2.5 Pro',
+    slug: 'gemini-2-5-pro',
+    provider: providerDirectory.google,
+    version: '2.5',
+    releaseDate: '2025-04-04',
+    family: 'Gemini',
+    architecture: 'moe',
+    contextWindow: 1048576,
+    maxOutputTokens: 65536,
+    modalities: ['text', 'image', 'audio', 'video', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es', 'pt'],
+    pricing: { inputPer1M: 1.25, outputPer1M: 10 },
+    capabilities: {
+      reasoning: 95,
+      coding: 92,
+      math: 89,
+      creativeWriting: 84,
+      multilingual: 93,
+      instructionFollowing: 92,
+      vision: 94,
+      audio: 92,
+      toolUse: 89
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 89.5, unit: '%' },
+      { name: 'HumanEval', score: 90.8, unit: 'pass@1' },
+      { name: 'MATH', score: 84.2, unit: '%' }
+    ],
+    openSource: false,
+    description: 'Google 偏高性能的多模态旗舰模型，适合复杂推理与超长上下文场景。',
+    strengths: ['上下文极长', '多模态覆盖广', '大任务拆解能力好'],
+    limitations: ['推理成本明显高于 Flash', '交互延迟通常高于轻量模型'],
+    useCases: ['长视频理解', '海量文档分析', '复杂代理链路', '企业级知识处理'],
+    tags: ['long-context', 'multimodal', 'reasoning']
+  },
+  {
+    id: 'gemini-2.5-flash',
+    name: 'Gemini 2.5 Flash',
+    slug: 'gemini-2-5-flash',
+    provider: providerDirectory.google,
+    version: '2.5',
+    releaseDate: '2025-04-17',
+    family: 'Gemini',
+    architecture: 'moe',
+    contextWindow: 1048576,
+    maxOutputTokens: 65536,
+    modalities: ['text', 'image', 'audio', 'video', 'code'],
+    languages: ['en', 'zh', 'ja', 'ko', 'fr', 'de', 'es', 'pt'],
+    pricing: { inputPer1M: 0.3, outputPer1M: 2.5 },
+    capabilities: {
+      reasoning: 89,
+      coding: 87,
+      math: 82,
+      creativeWriting: 81,
+      multilingual: 91,
+      instructionFollowing: 88,
+      vision: 92,
+      audio: 90,
+      toolUse: 85
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 86.7, unit: '%' },
+      { name: 'HumanEval', score: 85.1, unit: 'pass@1' },
+      { name: 'MATH', score: 77.5, unit: '%' }
+    ],
+    openSource: false,
+    description: '适合高吞吐与成本敏感场景的 Gemini 生产模型，兼顾速度和多模态能力。',
+    strengths: ['速度快', '上下文长', '价格低于 Pro', '多模态覆盖全面'],
+    limitations: ['复杂推理弱于 Pro', '精细生成质量依任务波动'],
+    useCases: ['批处理问答', '多媒体检索增强', '客服自动化', '长文档总结'],
+    tags: ['efficient', 'long-context', 'multimodal']
+  },
+  {
+    id: 'gemini-2.0-flash',
     name: 'Gemini 2.0 Flash',
     slug: 'gemini-2-0-flash',
-    provider: providers.google,
+    provider: providerDirectory.google,
     version: '2.0',
     releaseDate: '2025-02-05',
     family: 'Gemini',
@@ -146,16 +425,13 @@ export const modelCatalog: ModelCard[] = [
     strengths: ['超长上下文', '多模态全面', '价格低', '速度快'],
     limitations: ['深度推理不如更重型模型', '输出精细度因任务而异'],
     useCases: ['超长文档处理', '多媒体理解', '成本敏感场景'],
-    tags: ['long-context', 'multimodal', 'cost-effective'],
-    arenaScore: 1271,
-    arenaRank: 4,
-    openRouterScore: 85.2
+    tags: ['long-context', 'multimodal', 'cost-effective']
   },
   {
-    id: 'deepseek-v3',
+    id: 'deepseek-chat',
     name: 'DeepSeek-V3',
     slug: 'deepseek-v3',
-    provider: providers.deepseek,
+    provider: providerDirectory.deepseek,
     version: '3',
     releaseDate: '2024-12-26',
     family: 'DeepSeek',
@@ -187,50 +463,130 @@ export const modelCatalog: ModelCard[] = [
     strengths: ['开源', '数学推理强', '代码能力强', '价格低'],
     limitations: ['多模态不足', '多语言覆盖有限'],
     useCases: ['开源部署', '数学研究', '代码生成', '成本优化'],
-    tags: ['open-source', 'math', 'coding', 'moe'],
-    arenaScore: 1315,
-    arenaRank: 3,
-    openRouterScore: 90.5
+    tags: ['open-source', 'math', 'coding', 'moe']
+  },
+  {
+    id: 'deepseek-reasoner',
+    name: 'DeepSeek-R1',
+    slug: 'deepseek-r1',
+    provider: providerDirectory.deepseek,
+    version: '1',
+    releaseDate: '2025-01-20',
+    family: 'DeepSeek Reasoning',
+    architecture: 'moe',
+    contextWindow: 128000,
+    maxOutputTokens: 8192,
+    modalities: ['text', 'code'],
+    languages: ['en', 'zh'],
+    pricing: { inputPer1M: 0.55, outputPer1M: 2.2 },
+    capabilities: {
+      reasoning: 97,
+      coding: 90,
+      math: 96,
+      creativeWriting: 72,
+      multilingual: 70,
+      instructionFollowing: 86,
+      vision: 0,
+      audio: 0,
+      toolUse: 80
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 89.6, unit: '%' },
+      { name: 'HumanEval', score: 86.1, unit: 'pass@1' },
+      { name: 'MATH', score: 94.8, unit: '%' }
+    ],
+    openSource: true,
+    description: '偏重推理链与数学能力的 DeepSeek 模型，适合复杂分析与分步求解任务。',
+    strengths: ['数学能力非常强', '推理链清晰', '性价比较高'],
+    limitations: ['多模态能力缺失', '写作与风格化输出一般'],
+    useCases: ['复杂推理', '数学分析', '研究辅助', '结构化决策'],
+    tags: ['reasoning', 'math', 'open-source']
+  },
+  {
+    id: 'mistral-large-latest',
+    name: 'Mistral Large',
+    slug: 'mistral-large',
+    provider: providerDirectory.mistral,
+    version: 'latest',
+    releaseDate: '2025-12-01',
+    family: 'Mistral Large',
+    architecture: 'dense',
+    contextWindow: 128000,
+    maxOutputTokens: 32768,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'fr', 'de', 'es', 'it', 'zh'],
+    pricing: { inputPer1M: 2, outputPer1M: 6 },
+    capabilities: {
+      reasoning: 90,
+      coding: 91,
+      math: 81,
+      creativeWriting: 84,
+      multilingual: 88,
+      instructionFollowing: 90,
+      vision: 84,
+      audio: 0,
+      toolUse: 88
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 86.9, unit: '%' },
+      { name: 'HumanEval', score: 89.4, unit: 'pass@1' },
+      { name: 'GPQA', score: 54.8, unit: '%' }
+    ],
+    openSource: false,
+    description: 'Mistral 的高性能通用模型，适合欧洲语言场景、代码任务与企业工作流。',
+    strengths: ['多语言表现好', '代码质量稳定', 'OpenAI 兼容接入方便'],
+    limitations: ['上下文不及 1M 级模型', '音频能力缺失'],
+    useCases: ['多语言协作', '企业助手', '代码补全', '文档分析'],
+    tags: ['multilingual', 'coding', 'enterprise']
+  },
+  {
+    id: 'mistral-small-latest',
+    name: 'Mistral Small',
+    slug: 'mistral-small',
+    provider: providerDirectory.mistral,
+    version: 'latest',
+    releaseDate: '2025-06-01',
+    family: 'Mistral Small',
+    architecture: 'dense',
+    contextWindow: 128000,
+    maxOutputTokens: 32768,
+    modalities: ['text', 'image', 'code'],
+    languages: ['en', 'fr', 'de', 'es', 'it'],
+    pricing: { inputPer1M: 0.2, outputPer1M: 0.6 },
+    capabilities: {
+      reasoning: 81,
+      coding: 84,
+      math: 76,
+      creativeWriting: 79,
+      multilingual: 84,
+      instructionFollowing: 85,
+      vision: 78,
+      audio: 0,
+      toolUse: 82
+    },
+    benchmarks: [
+      { name: 'MMLU', score: 79.8, unit: '%' },
+      { name: 'HumanEval', score: 82.5, unit: 'pass@1' },
+      { name: 'GPQA', score: 43.1, unit: '%' }
+    ],
+    openSource: false,
+    description: '适合中等复杂度生产任务的 Mistral 轻量模型，强调成本与部署灵活性。',
+    strengths: ['成本低', 'OpenAI 兼容好', '响应较快'],
+    limitations: ['顶级推理较弱', '极长复杂任务稳定性一般'],
+    useCases: ['批处理生成', '客服辅助', '中小型工作流', '轻量代码生成'],
+    tags: ['efficient', 'enterprise', 'openai-compatible']
   }
 ];
 
-export const providerConfigs = [
-  {
-    id: 'openai',
-    name: 'OpenAI',
-    defaultBaseUrl: 'https://api.openai.com/v1',
-    docsUrl: providers.openai.docsUrl,
-    keyUrl: providers.openai.apiKeyUrl
-  },
-  {
-    id: 'anthropic',
-    name: 'Anthropic',
-    defaultBaseUrl: 'https://api.anthropic.com/v1',
-    docsUrl: providers.anthropic.docsUrl,
-    keyUrl: providers.anthropic.apiKeyUrl
-  },
-  {
-    id: 'google',
-    name: 'Google AI',
-    defaultBaseUrl: 'https://generativelanguage.googleapis.com/v1beta',
-    docsUrl: providers.google.docsUrl,
-    keyUrl: providers.google.apiKeyUrl
-  },
-  {
-    id: 'deepseek',
-    name: 'DeepSeek',
-    defaultBaseUrl: 'https://api.deepseek.com/v1',
-    docsUrl: providers.deepseek.docsUrl,
-    keyUrl: providers.deepseek.apiKeyUrl
-  },
-  {
-    id: 'openrouter',
-    name: 'OpenRouter',
-    defaultBaseUrl: 'https://openrouter.ai/api/v1',
-    docsUrl: 'https://openrouter.ai/docs',
-    keyUrl: 'https://openrouter.ai/keys'
-  }
-] as const;
+export const providerConfigs = Object.values(providerDirectory)
+  .filter((provider) => provider.defaultBaseUrl)
+  .map((provider) => ({
+    id: provider.id,
+    name: provider.name,
+    defaultBaseUrl: provider.defaultBaseUrl as string,
+    docsUrl: provider.docsUrl,
+    keyUrl: provider.apiKeyUrl
+  }));
 
 export function getModelBySlug(slug: string): ModelCard | undefined {
   return modelCatalog.find((model) => model.slug === slug);
@@ -243,62 +599,9 @@ export function searchModels(query: string, provider = 'all'): ModelCard[] {
     const queryMatch =
       normalized.length === 0 ||
       model.name.toLowerCase().includes(normalized) ||
+      model.family.toLowerCase().includes(normalized) ||
       model.description.toLowerCase().includes(normalized) ||
       model.tags.some((tag) => tag.toLowerCase().includes(normalized));
     return providerMatch && queryMatch;
   });
-}
-
-export function leaderboardData(): {
-  arena: LeaderboardEntry[];
-  openrouter: LeaderboardEntry[];
-  combined: LeaderboardEntry[];
-} {
-  const updatedAt = '2026-03-21';
-  const arena = modelCatalog
-    .filter((model) => model.arenaScore)
-    .sort((left, right) => (right.arenaScore ?? 0) - (left.arenaScore ?? 0))
-    .map((model, index) => ({
-      rank: index + 1,
-      modelId: model.id,
-      modelName: model.name,
-      provider: model.provider.id,
-      score: model.arenaScore ?? 0,
-      source: 'arena' as const,
-      category: 'overall',
-      updatedAt
-    }));
-
-  const openrouter = modelCatalog
-    .filter((model) => model.openRouterScore)
-    .sort((left, right) => (right.openRouterScore ?? 0) - (left.openRouterScore ?? 0))
-    .map((model, index) => ({
-      rank: index + 1,
-      modelId: model.id,
-      modelName: model.name,
-      provider: model.provider.id,
-      score: model.openRouterScore ?? 0,
-      source: 'openrouter' as const,
-      category: 'blended',
-      updatedAt
-    }));
-
-  const combined = modelCatalog
-    .map((model) => ({
-      ...model,
-      combinedScore: ((model.arenaScore ?? 0) / 20) + (model.openRouterScore ?? 0)
-    }))
-    .sort((left, right) => right.combinedScore - left.combinedScore)
-    .map((model, index) => ({
-      rank: index + 1,
-      modelId: model.id,
-      modelName: model.name,
-      provider: model.provider.id,
-      score: Number(model.combinedScore.toFixed(1)),
-      source: 'combined' as const,
-      category: 'weighted',
-      updatedAt
-    }));
-
-  return { arena, openrouter, combined };
 }

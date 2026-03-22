@@ -11,3 +11,4 @@ coverage
 packages/backend/generated
 packages/backend/prisma/dev.db
 packages/backend/prisma/dev.db-journal
+packages/frontend/.data

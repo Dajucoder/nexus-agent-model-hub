@@ -23,6 +23,9 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
           <Link className="ghost" href={`/compare?pick=${model.slug}`}>
             加入对比
           </Link>
+          <a className="ghost" href={model.provider.docsUrl} target="_blank" rel="noreferrer">
+            官方文档
+          </a>
         </div>
         <div className="topbar card-top">
           <div>
@@ -50,6 +53,10 @@ export default function ModelDetailPage({ params }: { params: { slug: string } }
           <div className="kpi">
             <div>输出价格</div>
             <strong>{formatPrice(model.pricing.outputPer1M)}</strong>
+          </div>
+          <div className="kpi">
+            <div>发布时间</div>
+            <strong>{model.releaseDate}</strong>
           </div>
         </div>
       </section>

@@ -16,10 +16,10 @@ export function AuthPanel() {
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
-    tenantSlug: 'demo',
-    tenantName: 'My Tenant',
-    displayName: 'Demo Owner',
-    email: 'owner@demo.local',
+    tenantSlug: 'primary',
+    tenantName: 'Primary Workspace',
+    displayName: 'Bootstrap Admin',
+    email: 'owner@primary.local',
     password: 'ChangeMe123!'
   });
 
@@ -122,7 +122,7 @@ export function AuthPanel() {
       <div className="fine">{dict.sessionReady}</div>
       <div className="fine">{dict.licenseWarning}</div>
       <div className="fine">
-        {dict.demoAccount}: `demo / owner@demo.local / ChangeMe123!`
+        {dict.bootstrapAccount}: `primary / owner@primary.local / ChangeMe123!`
       </div>
       {status ? <div className="fine danger">{status}</div> : null}
     </div>

@@ -26,6 +26,10 @@ export function ModelCatalogCard({ model }: { model: ModelCard }) {
         <span>{formatNumber(model.contextWindow)} tokens</span>
         <span>{formatPrice(model.pricing.inputPer1M)}/1M input</span>
       </div>
+      <div className="meta-row">
+        <span>{model.useCases.slice(0, 2).join(' / ')}</span>
+        <span>发布于 {model.releaseDate}</span>
+      </div>
       <div className="toolbar" style={{ marginTop: '16px' }}>
         <Link className="btn" href={`/models/${model.slug}`}>
           查看详情

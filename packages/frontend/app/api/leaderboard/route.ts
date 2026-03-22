@@ -1,10 +1,6 @@
 import { NextResponse } from 'next/server';
-import { leaderboardData } from '../../../lib/model-data';
+import { getLeaderboardBundle } from '../../../lib/leaderboard-data';
 
 export async function GET() {
-  const data = leaderboardData();
-  return NextResponse.json({
-    ...data,
-    updatedAt: new Date().toISOString()
-  });
+  return NextResponse.json(getLeaderboardBundle());
 }

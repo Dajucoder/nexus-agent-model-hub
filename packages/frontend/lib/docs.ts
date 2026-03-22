@@ -30,6 +30,7 @@ const allowedExtensions = new Set(['.md', '.json', '.yaml', '.yml', '.svg', '.tx
 
 export const localizedDocNames = [
   'README',
+  'PRODUCT_READYNESS',
   'ARCHITECTURE',
   'DEPLOYMENT',
   'OPERATIONS',
@@ -42,6 +43,7 @@ export const localizedDocNames = [
 const localizedLabels: Record<DocLocale, Record<(typeof localizedDocNames)[number], string>> = {
   en: {
     README: 'Overview',
+    PRODUCT_READYNESS: 'Product Readiness',
     ARCHITECTURE: 'Architecture',
     DEPLOYMENT: 'Deployment',
     OPERATIONS: 'Operations',
@@ -52,6 +54,7 @@ const localizedLabels: Record<DocLocale, Record<(typeof localizedDocNames)[numbe
   },
   zh: {
     README: '文档总览',
+    PRODUCT_READYNESS: '产品就绪度',
     ARCHITECTURE: '架构设计',
     DEPLOYMENT: '部署指南',
     OPERATIONS: '运维手册',

@@ -5,7 +5,7 @@
 [![Docs](https://img.shields.io/badge/docs-en%20%7C%20zh-blue)](./docs/en/README.md)
 [![Node](https://img.shields.io/badge/node-20%2B-43853d)](https://nodejs.org/)
 
-Source-available multi-tenant authentication, Agent tool-calling, model encyclopedia, leaderboard, and chat demo platform with bilingual UI and docs.
+Source-available multi-tenant workspace for authentication, Agent operations, model discovery, ranking, and documentation with bilingual UI and docs.
 
 Multi-tenant auth + Agent runtime + model hub in one root-level monorepo.
 多租户认证、Agent 工具调用与模型展示平台的一体化根目录仓库。
@@ -23,7 +23,7 @@ Nexus Agent Model Hub 适合希望同时获得严格租户隔离、可复用登�
 Representative UI preview for the public repository landing page.
 仓库首页用的界面预览示意图。
 
-![Quick preview of login, dashboard, model hub, and chat demo](./docs/assets/quick-preview.svg)
+![Quick preview of login, dashboard, model hub, and chat workspace](./docs/assets/quick-preview.svg)
 
 ## Architecture Overview
 
@@ -50,7 +50,7 @@ Official license source: https://polyformproject.org/licenses/noncommercial/1.0.
 - JWT access token plus refresh token authentication flow
 - Tenant-scoped RBAC and audit logs
 - Built-in Agent tool calling with plugin registration
-- Integrated model encyclopedia, comparison, leaderboard, provider settings, and chat demo pages
+- Integrated model encyclopedia, comparison, leaderboard, provider settings, and chat workspace pages
 - Chinese and English UI plus bilingual documentation
 - Docker Compose, Kubernetes, and Helm deployment assets
 - OpenAPI draft, Prisma schema, migrations, CI workflow, and contribution guide
@@ -98,28 +98,37 @@ Then open:
 - Web UI: `http://localhost:3000`
 - Documentation center: `http://localhost:3000/docs`
 - API health: `http://localhost:4000/api/v1/health`
+- Platform summary: `http://localhost:4000/api/v1/platform/summary`
 - OpenAPI draft: [`docs/api/openapi.yaml`](./docs/api/openapi.yaml)
 - Community files: [CONTRIBUTING](./CONTRIBUTING.md), [CODE_OF_CONDUCT](./CODE_OF_CONDUCT.md), [SECURITY](./SECURITY.md), [CHANGELOG](./CHANGELOG.md)
 
-Default seeded account:
+Default bootstrap account:
 
-- Tenant: `demo`
-- Email: `owner@demo.local`
+- Tenant: `primary`
+- Email: `owner@primary.local`
 - Password: `ChangeMe123!`
 
-## Minimum Demo Flow
+## Minimum Product Validation Flow
 
-1. Register a tenant owner or sign in with the seeded demo account.
+1. Register a tenant owner or sign in with the seeded bootstrap account.
 2. Open the dashboard and inspect current tenant data.
 3. Browse `/models`, `/leaderboard`, `/compare`, `/chat`, and `/settings`.
-4. Call the built-in `echo` or `calculator` Agent from the dashboard API demo.
+4. Call the built-in `echo` or `calculator` Agent from the dashboard operation console.
 5. Review audit logs and Agent run history.
+
+## Configuration Notes
+
+- `CORS_ORIGIN` now supports comma-separated origins, which is useful for preview environments and split frontend deployments.
+- `NEXT_PUBLIC_API_URL` should point to the public backend base path, for example `https://api.example.com/api/v1`.
+- The browser experience still uses a local-storage bootstrap session for convenience; production browser deployments should switch to HTTP-only cookies or a BFF.
+- The in-app provider settings page now persists local development configuration to disk, but it still does not replace a production secret manager.
 
 ## Documentation
 
 - In-app docs center: start the frontend and open `/docs` to browse the repository Markdown with bilingual navigation and full-page rendering
 - [English overview](./docs/en/README.md)
 - [Chinese overview](./docs/zh/README.md)
+- [Product readiness](./docs/en/PRODUCT_READYNESS.md)
 - [Architecture](./docs/en/ARCHITECTURE.md)
 - [Deployment guide](./docs/en/DEPLOYMENT.md)
 - [Operations guide](./docs/en/OPERATIONS.md)

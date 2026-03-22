@@ -4,6 +4,8 @@ export interface ProviderInfo {
   docsUrl: string;
   apiKeyUrl: string;
   officialUrl: string;
+  defaultBaseUrl?: string;
+  chatApiStyle?: 'openai-compatible' | 'anthropic' | 'google' | 'none';
 }
 
 export interface ModelCapabilityScore {
@@ -50,18 +52,35 @@ export interface ModelCard {
   limitations: string[];
   useCases: string[];
   tags: string[];
-  arenaScore?: number;
-  arenaRank?: number;
-  openRouterScore?: number;
 }
 
 export interface LeaderboardEntry {
   rank: number;
   modelId: string;
+  modelSlug: string;
   modelName: string;
   provider: string;
   score: number;
   source: 'arena' | 'openrouter' | 'combined';
   category: string;
   updatedAt: string;
+}
+
+export type LeaderboardFeedId = 'arena' | 'openrouter' | 'combined';
+
+export interface LeaderboardFeed {
+  id: LeaderboardFeedId;
+  title: string;
+  mode: 'snapshot' | 'live';
+  capturedAt: string;
+  importedAt: string;
+  coverage: number;
+  methodology: string;
+  note: string;
+  entries: LeaderboardEntry[];
+}
+
+export interface LeaderboardBundle {
+  updatedAt: string;
+  feeds: Record<LeaderboardFeedId, LeaderboardFeed>;
 }

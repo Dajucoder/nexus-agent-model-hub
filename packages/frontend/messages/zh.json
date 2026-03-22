@@ -1,6 +1,6 @@
 {
   "brand": "Nexus Agent Model Hub",
-  "tagline": "可直接运行的多租户认证与 Agent 工具平台",
+  "tagline": "面向实际部署的多租户模型与 Agent 工作平台",
   "heroTitle": "一套带严格租户边界的源码开放认证平台。",
   "heroBody": "这个起步仓库内置登录、刷新令牌会话、RBAC、审计日志、Agent 执行、Docker 资产与双语文档。",
   "cardUsers": "并发多用户",
@@ -17,7 +17,7 @@
   "password": "密码",
   "locale": "语言",
   "status": "状态",
-  "sessionReady": "当前示例 UI 为便于本地体验，将会话放在浏览器本地存储。正式环境建议改为 HttpOnly Cookie 或 BFF 模式。",
+  "sessionReady": "当前浏览器端默认使用本地存储维持会话，适合快速部署与本地联调；若进入正式生产浏览器场景，建议切换到 HttpOnly Cookie 或 BFF 模式。",
   "apiResult": "接口返回",
   "agentInput": "Agent 输入 JSON",
   "callAgent": "调用 Agent",
@@ -27,6 +27,6 @@
   "loadRuns": "读取运行记录",
   "quickStart": "快速开始",
   "licenseWarning": "默认许可证为 PolyForm Noncommercial 1.0.0。商业使用与商业托管服务需要单独授权。",
-  "demoAccount": "预置演示账号",
+  "bootstrapAccount": "初始管理员账号",
   "logout": "退出登录"
 }

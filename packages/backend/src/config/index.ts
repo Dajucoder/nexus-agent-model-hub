@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
 const configSchema = z.object({
+  appName: z.string().default('Nexus Agent Model Hub'),
+  appVersion: z.string().default('0.1.0'),
   nodeEnv: z.enum(['development', 'production', 'test']).default('development'),
   port: z.coerce.number().default(4000),
   databaseUrl: z.string().default('postgresql://nexus:nexus_secret@localhost:5432/nexus_agent_model_hub'),
@@ -21,6 +23,8 @@ const configSchema = z.object({
 });
 
 const parsed = configSchema.parse({
+  appName: process.env.APP_NAME,
+  appVersion: process.env.APP_VERSION,
   nodeEnv: process.env.NODE_ENV,
   port: process.env.APP_PORT,
   databaseUrl: process.env.DATABASE_URL,
@@ -42,6 +46,10 @@ const parsed = configSchema.parse({
 
 export const config = {
   ...parsed,
+  corsOriginList: parsed.corsOrigin
+    .split(',')
+    .map((entry) => entry.trim())
+    .filter(Boolean),
   agentPluginPathList: parsed.agentPluginPaths
     .split(',')
     .map((entry) => entry.trim())

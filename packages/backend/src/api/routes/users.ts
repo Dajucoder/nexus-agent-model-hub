@@ -52,7 +52,7 @@ usersRouter.post('/', requireUserAuth, requirePermission('users:write'), async (
   });
 
   if (existing) {
-    throw new AppError(409, 'USER_EXISTS', 'User already exists in this tenant');
+    throw new AppError(409, 'USER_EXISTS', t(req, 'user.exists'));
   }
 
   const user = await prisma.user.create({
@@ -120,13 +120,17 @@ usersRouter.patch('/:id', requireUserAuth, async (req, res) => {
   if (input.role && !isSelf) data.role = input.role;
 
   if (input.newPassword) {
-    if (!input.currentPassword) {
+    if (isSelf && !input.currentPassword) {
       throw new AppError(400, 'CURRENT_PASSWORD_REQUIRED', t(req, 'auth.currentPasswordRequired'));
     }
-    const valid = await bcrypt.compare(input.currentPassword, existing.passwordHash);
-    if (!valid) {
-      throw new AppError(401, 'INVALID_PASSWORD', t(req, 'auth.invalidPassword'));
+
+    if (isSelf) {
+      const valid = await bcrypt.compare(input.currentPassword!, existing.passwordHash);
+      if (!valid) {
+        throw new AppError(401, 'INVALID_PASSWORD', t(req, 'auth.invalidPassword'));
+      }
     }
+
     data.passwordHash = await bcrypt.hash(input.newPassword, config.bcryptRounds);
   }
 
@@ -143,12 +147,25 @@ usersRouter.patch('/:id', requireUserAuth, async (req, res) => {
     }
   });
 
+  await prisma.auditLog.create({
+    data: {
+      tenantId: req.principal!.tenantId,
+      userId: req.principal!.userId,
+      action: isSelf ? 'user.profile.updated' : 'user.updated',
+      resource: user.id,
+      details: {
+        updatedFields: Object.keys(data),
+        passwordReset: Boolean(input.newPassword)
+      }
+    }
+  });
+
   res.json({ user });
 });
 
 usersRouter.delete('/:id', requireUserAuth, requirePermission('users:deactivate'), async (req, res) => {
   if (req.params.id === req.principal!.userId) {
-    throw new AppError(400, 'CANNOT_DEACTIVATE_SELF', 'Cannot deactivate yourself');
+    throw new AppError(400, 'CANNOT_DEACTIVATE_SELF', t(req, 'user.cannotDeactivateSelf'));
   }
 
   const existing = await prisma.user.findFirst({

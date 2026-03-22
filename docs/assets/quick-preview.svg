@@ -2,7 +2,7 @@
   <rect width="1200" height="760" rx="32" fill="#F7F2EA"/>
   <rect x="26" y="26" width="1148" height="708" rx="24" fill="#FFFCF7" stroke="#D9D0C0" stroke-width="2"/>
   <text x="60" y="86" fill="#1F2923" font-family="Verdana, Arial, sans-serif" font-size="34" font-weight="700">Quick Product Preview</text>
-  <text x="60" y="120" fill="#667066" font-family="Verdana, Arial, sans-serif" font-size="18">Representative screens for GitHub preview: login, dashboard, model hub, and chat demo</text>
+  <text x="60" y="120" fill="#667066" font-family="Verdana, Arial, sans-serif" font-size="18">Representative screens for GitHub preview: login, dashboard, model hub, and chat workspace</text>
 
   <rect x="60" y="156" width="500" height="240" rx="26" fill="#FDECD5" stroke="#D8A96B" stroke-width="2"/>
   <rect x="84" y="180" width="452" height="34" rx="12" fill="#FFF8EC"/>
@@ -58,7 +58,7 @@
   <circle cx="684" cy="483" r="6" fill="#E5947A"/>
   <circle cx="704" cy="483" r="6" fill="#E4BC62"/>
   <circle cx="724" cy="483" r="6" fill="#7FB38C"/>
-  <text x="664" y="536" fill="#4B2F5F" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700">Chat Demo & Provider Settings</text>
+  <text x="664" y="536" fill="#4B2F5F" font-family="Verdana, Arial, sans-serif" font-size="28" font-weight="700">Chat Workspace & Provider Settings</text>
   <rect x="664" y="568" width="136" height="20" rx="10" fill="#E2CFEC"/>
   <rect x="664" y="600" width="236" height="20" rx="10" fill="#EBDDF3"/>
   <rect x="664" y="632" width="180" height="20" rx="10" fill="#E2CFEC"/>

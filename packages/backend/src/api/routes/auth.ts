@@ -168,7 +168,7 @@ authRouter.post('/login', authRateLimiter, async (req, res) => {
 
   if (user.totpEnabled) {
     if (!input.otpCode || !user.totpSecret) {
-      throw new AppError(401, 'OTP_REQUIRED', 'One-time code required');
+      throw new AppError(401, 'OTP_REQUIRED', t(req, 'auth.otpRequired'));
     }
 
     const verified = speakeasy.totp.verify({
@@ -179,7 +179,7 @@ authRouter.post('/login', authRateLimiter, async (req, res) => {
     });
 
     if (!verified) {
-      throw new AppError(401, 'OTP_INVALID', 'One-time code is invalid');
+      throw new AppError(401, 'OTP_INVALID', t(req, 'auth.otpInvalid'));
     }
   }
 
@@ -301,7 +301,7 @@ authRouter.post('/2fa/verify', requireUserAuth, async (req, res) => {
   const input = z.object({ token: z.string().length(6) }).parse(req.body);
   const user = await prisma.user.findUnique({ where: { id: principal.userId } });
   if (!user?.totpSecret) {
-    throw new AppError(400, 'OTP_NOT_SETUP', 'TOTP has not been configured');
+    throw new AppError(400, 'OTP_NOT_SETUP', t(req, 'auth.otpNotSetup'));
   }
 
   const ok = speakeasy.totp.verify({
@@ -311,7 +311,7 @@ authRouter.post('/2fa/verify', requireUserAuth, async (req, res) => {
     window: 1
   });
   if (!ok) {
-    throw new AppError(400, 'OTP_INVALID', 'One-time code is invalid');
+    throw new AppError(400, 'OTP_INVALID', t(req, 'auth.otpInvalid'));
   }
 
   await prisma.user.update({

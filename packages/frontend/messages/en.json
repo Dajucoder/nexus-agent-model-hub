@@ -1,6 +1,6 @@
 {
   "brand": "Nexus Agent Model Hub",
-  "tagline": "Multi-tenant auth and Agent tools, ready to run",
+  "tagline": "A deployable multi-tenant workspace for models and Agent operations",
   "heroTitle": "A source-available auth platform with strict tenant boundaries.",
   "heroBody": "This starter ships with login, refresh-token sessions, RBAC, audit logs, Agent execution, Docker assets, and bilingual documentation.",
   "cardUsers": "Concurrent users",
@@ -17,7 +17,7 @@
   "password": "Password",
   "locale": "Language",
   "status": "Status",
-  "sessionReady": "Session stored in local browser storage for the demo UI. Production deployments should switch to HTTP-only cookies or a BFF.",
+  "sessionReady": "The browser client currently keeps session state in local storage for fast setup and local operation. Production browser deployments should still move to HTTP-only cookies or a BFF.",
   "apiResult": "API result",
   "agentInput": "Agent input JSON",
   "callAgent": "Call Agent",
@@ -27,6 +27,6 @@
   "loadRuns": "Load runs",
   "quickStart": "Quick start",
   "licenseWarning": "Default license is PolyForm Noncommercial 1.0.0. Commercial use and hosted commercial service require separate rights.",
-  "demoAccount": "Seeded demo account",
+  "bootstrapAccount": "Bootstrap admin account",
   "logout": "Logout"
 }

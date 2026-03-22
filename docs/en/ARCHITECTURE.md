@@ -11,7 +11,7 @@
 ## Text Architecture Diagram
 
 1. `Next.js frontend`
-   Renders bilingual login and dashboard views, stores session state for the demo client, and calls the API over HTTPS.
+   Renders bilingual login and dashboard views, stores bootstrap browser session state for local rollout, and calls the API over HTTPS.
 2. `Express API`
    Handles auth, tenant, user, and Agent routes. Enforces RBAC and tenant-aware query filters.
 3. `PostgreSQL`

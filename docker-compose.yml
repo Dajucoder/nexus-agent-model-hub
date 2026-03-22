@@ -40,8 +40,25 @@ services:
         DEBIAN_MIRROR: http://mirrors.tuna.tsinghua.edu.cn
     restart: unless-stopped
     environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      APP_NAME: ${APP_NAME:-Nexus Agent Model Hub}
+      APP_VERSION: ${APP_VERSION:-0.1.0}
+      APP_PORT: 4000
       DATABASE_URL: postgresql://${POSTGRES_USER:-nexus}:${POSTGRES_PASSWORD:-nexus_secret}@postgres:5432/${POSTGRES_DB:-nexus_agent_model_hub}
       REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-change-me-to-a-random-string-at-least-64-characters-long-1234567890}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change-me-to-another-random-string-at-least-64-characters-long}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-15m}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      BCRYPT_ROUNDS: ${BCRYPT_ROUNDS:-12}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      LOG_FORMAT: ${LOG_FORMAT:-pretty}
+      AGENT_TIMEOUT_MS: ${AGENT_TIMEOUT_MS:-30000}
+      AGENT_MAX_RETRIES: ${AGENT_MAX_RETRIES:-2}
+      AGENT_CONCURRENCY_LIMIT: ${AGENT_CONCURRENCY_LIMIT:-8}
+      AGENT_PLUGIN_PATHS: ${AGENT_PLUGIN_PATHS:-}
+      AGENT_HTTP_ALLOWED_HOSTS: ${AGENT_HTTP_ALLOWED_HOSTS:-api.github.com,httpbin.org}
     ports:
       - "${APP_PORT:-4000}:4000"
     depends_on:
@@ -60,6 +77,7 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:${APP_PORT:-4000}/api/v1
       NEXT_PUBLIC_DEFAULT_LOCALE: ${NEXT_PUBLIC_DEFAULT_LOCALE:-zh-CN}
+      NEXT_PUBLIC_APP_NAME: ${NEXT_PUBLIC_APP_NAME:-Nexus Agent Model Hub}
     ports:
       - "${FRONTEND_PORT:-3000}:3000"
     depends_on:

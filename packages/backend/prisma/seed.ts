@@ -6,12 +6,12 @@ const prisma = new PrismaClient();
 
 async function main() {
   const tenant = await prisma.tenant.upsert({
-    where: { slug: 'demo' },
+    where: { slug: 'primary' },
     update: {},
     create: {
-      name: 'Demo Tenant',
-      slug: 'demo',
-      description: 'Seeded tenant for local verification',
+      name: 'Primary Workspace',
+      slug: 'primary',
+      description: 'Bootstrap workspace for local validation and operator onboarding',
       plan: 'community'
     }
   });
@@ -39,15 +39,15 @@ async function main() {
     where: {
       tenant_email: {
         tenantId: tenant.id,
-        email: 'owner@demo.local'
+        email: 'owner@primary.local'
       }
     },
     update: {},
     create: {
       tenantId: tenant.id,
-      email: 'owner@demo.local',
+      email: 'owner@primary.local',
       passwordHash,
-      displayName: 'Demo Owner',
+      displayName: 'Bootstrap Admin',
       locale: 'zh-CN',
       role: UserRole.OWNER,
       isEmailVerified: true
@@ -58,22 +58,22 @@ async function main() {
     where: {
       tenant_email: {
         tenantId: tenant.id,
-        email: 'member@demo.local'
+        email: 'member@primary.local'
       }
     },
     update: {},
     create: {
       tenantId: tenant.id,
-      email: 'member@demo.local',
+      email: 'member@primary.local',
       passwordHash,
-      displayName: 'Demo Member',
+      displayName: 'Workspace Member',
       locale: 'en-US',
       role: UserRole.MEMBER,
       isEmailVerified: true
     }
   });
 
-  const rawApiKey = 'nxa_demo_local_only_key';
+  const rawApiKey = 'nxa_primary_local_only_key';
   const keyHash = crypto.createHash('sha256').update(rawApiKey).digest('hex');
 
   await prisma.apiKey.upsert({
@@ -81,7 +81,7 @@ async function main() {
     update: {},
     create: {
       tenantId: tenant.id,
-      name: 'Demo API Key',
+      name: 'Bootstrap API Key',
       keyHash,
       keyPrefix: rawApiKey.slice(0, 8),
       permissions: ['agents:read', 'agents:call']

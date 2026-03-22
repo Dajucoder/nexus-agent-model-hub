@@ -1,6 +1,6 @@
 # Nexus Agent Model Hub Documentation
 
-Source-available multi-tenant authentication, Agent tool-calling, model encyclopedia, leaderboard, and chat demo platform with bilingual UI and docs.
+Source-available product baseline for multi-tenant authentication, Agent operations, model discovery, ranking, and a chat workspace with bilingual UI and docs.
 
 **English** | [中文](../zh/README.md)
 
@@ -12,7 +12,7 @@ Nexus Agent Model Hub is a source-available starter for teams that want strict t
 
 Representative UI preview for the public repository landing page.
 
-![Quick preview of login, dashboard, model hub, and chat demo](../assets/quick-preview.svg)
+![Quick preview of login, dashboard, model hub, and chat workspace](../assets/quick-preview.svg)
 
 ## Architecture Overview
 
@@ -26,7 +26,7 @@ High-level platform layout covering frontend, backend, Agent runtime, storage, a
 - Enforce tenant-aware access boundaries at the data model, API, and audit layers.
 - Support concurrent multi-user login, refresh-token sessions, and optional TOTP.
 - Expose an Agent execution capability that can be extended without modifying the core runtime.
-- Merge the original model encyclopedia, comparison, leaderboard, settings, and chat demo into the same root project.
+- Merge the original model encyclopedia, comparison, leaderboard, settings, and chat workspace into the same root project.
 - Ship with Chinese and English UI plus documentation.
 - Default to a **noncommercial source-available license** so usage boundaries are explicit.
 
@@ -44,7 +44,7 @@ Minimum acceptance thresholds:
 - JWT access token plus refresh token authentication flow
 - Tenant-scoped RBAC and audit logs
 - Built-in Agent tool calling with plugin registration
-- Integrated model encyclopedia, comparison, leaderboard, provider settings, and chat demo pages
+- Integrated model encyclopedia, comparison, leaderboard, provider settings, and chat workspace pages
 - Chinese and English UI plus bilingual documentation
 - Docker Compose, Kubernetes, and Helm deployment assets
 - OpenAPI draft, Prisma schema, migrations, CI workflow, and contribution guide
@@ -65,6 +65,10 @@ Key choices:
 
 See [ARCHITECTURE.md](./ARCHITECTURE.md).
 
+## Product Readiness
+
+See [PRODUCT_READYNESS.md](./PRODUCT_READYNESS.md).
+
 ## 5. Repository Map
 
 See [REPOSITORY_MAP.md](./REPOSITORY_MAP.md).
@@ -81,26 +85,34 @@ Then open:
 
 - Web UI: `http://localhost:3000`
 - API health: `http://localhost:4000/api/v1/health`
+- Platform summary endpoint: `http://localhost:4000/api/v1/platform/summary`
 - OpenAPI draft: [`../api/openapi.yaml`](../api/openapi.yaml)
 - Community files: [CONTRIBUTING](../../CONTRIBUTING.md), [CODE_OF_CONDUCT](../../CODE_OF_CONDUCT.md), [SECURITY](../../SECURITY.md), [CHANGELOG](../../CHANGELOG.md)
 
-Default seeded account:
+Default bootstrap account:
 
-- Tenant: `demo`
-- Email: `owner@demo.local`
+- Tenant: `primary`
+- Email: `owner@primary.local`
 - Password: `ChangeMe123!`
 
-## 7. Minimum Demo Flow
+## 7. Minimum Product Validation Flow
 
-1. Register a tenant owner or sign in with the seeded demo account.
+1. Register a tenant owner or sign in with the seeded bootstrap account.
 2. Open the dashboard and inspect current tenant data.
 3. Browse `/models`, `/leaderboard`, `/compare`, `/chat`, and `/settings`.
-4. Call the built-in `echo` or `calculator` Agent from the dashboard API demo.
+4. Call the built-in `echo` or `calculator` Agent from the dashboard operations console.
 5. Review audit logs and Agent run history.
 
 ## 8. Deployment
 
 See [DEPLOYMENT.md](./DEPLOYMENT.md).
+
+### Configuration Notes
+
+- `CORS_ORIGIN` accepts comma-separated origins, which helps with preview environments and split frontend/backend hosting.
+- `NEXT_PUBLIC_API_URL` should point to the public backend base path, for example `https://api.example.com/api/v1`.
+- The browser client currently uses a local-storage bootstrap session for convenience; production browser flows should switch to HTTP-only cookies or a BFF.
+- The `/settings` page now persists local development provider configuration to disk, but it should still be replaced by managed secret storage in production.
 
 ## 9. Operations
 

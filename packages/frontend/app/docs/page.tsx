@@ -42,6 +42,7 @@ export default async function DocsPage(props: {
   const navGroups = getDocsNavigation(activeLocale);
   const zhPath = getLocaleSwitchPath(doc.path, 'zh');
   const enPath = getLocaleSwitchPath(doc.path, 'en');
+  const featuredDocs = navGroups[0]?.items.slice(0, 4) ?? [];
 
   return (
     <main className="shell docs-shell">
@@ -96,10 +97,21 @@ export default async function DocsPage(props: {
             <div>
               <div className="fine mono">{doc.path}</div>
               <h2 className="section-title docs-title">完整说明文档</h2>
+              <p className="fine">这里直接读取仓库内的 Markdown，你可以在左侧导航切换，也可以打开原始文件地址。</p>
             </div>
             <a className="ghost" href={getRawDocHref(doc.path)} target="_blank" rel="noreferrer">
               Open Raw
             </a>
+          </div>
+
+          <div className="docs-overview-grid">
+            {featuredDocs.map((item) => (
+              <Link key={item.path} className="panel docs-mini-card" href={getDocPageHref(item.path)}>
+                <div className="eyebrow">Docs</div>
+                <h3 className="section-title">{item.label}</h3>
+                <p className="fine">{item.path}</p>
+              </Link>
+            ))}
           </div>
 
           <MarkdownRenderer content={doc.content} currentPath={doc.path} />
