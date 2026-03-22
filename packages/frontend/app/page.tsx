@@ -3,6 +3,7 @@ import { AuthPanel } from "../components/auth-panel";
 import { ModelCatalogCard } from "../components/model-catalog-card";
 import { listModelArticles } from "../lib/model-content";
 import { getCatalogHighlights, modelCatalog } from "../lib/model-data";
+import { getRemoteModelCoverage } from "../lib/model-remote";
 import {
   getLeaderboardBundle,
   getLeaderboardMetadata,
@@ -26,6 +27,32 @@ export default async function HomePage() {
   const combinedLeader = bundle.feeds.combined.entries[0];
   const { cheapestModel, bestReasoningModel } = getCatalogHighlights();
   const modelArticles = await listModelArticles();
+  const remoteCoverage = await getRemoteModelCoverage();
+  const remoteSnapshot = remoteCoverage?.snapshot ?? null;
+  const intakeStages = remoteCoverage
+    ? [
+        {
+          label: "已收录",
+          value: remoteCoverage.collectedCount,
+          copy: "已经进入 curated 模型库并能挂接详情、对比和知识卡片。",
+        },
+        {
+          label: "推荐收录",
+          value: remoteCoverage.recommendedCount,
+          copy: "高上下文或高性价比候选，适合优先变成产品内可选模型。",
+        },
+        {
+          label: "预览观察",
+          value: remoteCoverage.previewCount,
+          copy: "需要跟踪 beta、preview 或定价变化，避免过早承诺。",
+        },
+        {
+          label: "免费实验",
+          value: remoteCoverage.freeCount,
+          copy: "适合给演示环境、验证脚本和低成本试用提供入口。",
+        },
+      ]
+    : [];
 
   const modules = [
     {
@@ -118,6 +145,22 @@ export default async function HomePage() {
               <div>当前综合榜首</div>
               <strong>
                 {combinedLeader?.modelName ?? "Combined Snapshot"}
+              </strong>
+            </div>
+            <div className="kpi">
+              <div>远程模型快照</div>
+              <strong>
+                {remoteSnapshot
+                  ? `${remoteSnapshot.totalModels} 个远程模型`
+                  : "等待同步"}
+              </strong>
+            </div>
+            <div className="kpi">
+              <div>远程映射状态</div>
+              <strong>
+                {remoteCoverage
+                  ? `${remoteCoverage.collectedCount} 已收录 / ${remoteCoverage.pendingCount} 待收录`
+                  : "等待分析"}
               </strong>
             </div>
           </div>
@@ -242,6 +285,66 @@ export default async function HomePage() {
           </div>
         </article>
       </section>
+
+      {remoteSnapshot ? (
+        <section className="panel stack">
+          <div className="topbar">
+            <div>
+              <div className="eyebrow">Remote Catalog</div>
+              <h2 className="section-title">已尝试抓取最新公开模型目录</h2>
+              <p className="fine">
+                首页不仅展示抓取结果，也把远程目录映射成可执行的模型收录工作流。
+              </p>
+            </div>
+            <div className="fine mono">{remoteSnapshot.fetchedAt}</div>
+          </div>
+          {intakeStages.length > 0 ? (
+            <div className="intake-stage-grid">
+              {intakeStages.map((stage) => (
+                <article key={stage.label} className="intake-stage-card">
+                  <span>{stage.label}</span>
+                  <strong>{stage.value}</strong>
+                  <p>{stage.copy}</p>
+                </article>
+              ))}
+            </div>
+          ) : null}
+          <div className="cards compact-cards">
+            {remoteSnapshot.featured.slice(0, 6).map((item) => (
+              <article key={item.id} className="panel stack compact-model-card">
+                <div>
+                  <h3 className="card-title">{item.name}</h3>
+                  <div className="fine">{item.id}</div>
+                </div>
+                <div className="pill-row">
+                  <span className="pill">
+                    {remoteCoverage?.items.find((entry) => entry.id === item.id)
+                      ?.providerLabel ?? item.provider}
+                  </span>
+                  <span className="pill">{item.modality}</span>
+                  <span className="pill">
+                    {remoteCoverage?.items.find((entry) => entry.id === item.id)
+                      ?.collected
+                      ? "已收录"
+                      : "待收录"}
+                  </span>
+                  {remoteCoverage?.items.find((entry) => entry.id === item.id)
+                    ?.recommended ? (
+                    <span className="pill">推荐</span>
+                  ) : null}
+                </div>
+                <div className="fine">
+                  上下文 {item.contextLength.toLocaleString("en-US")} · 输入 $
+                  {item.promptPricePer1M ?? "-"}/1M
+                </div>
+                <div className="fine">
+                  输出 ${item.completionPricePer1M ?? "-"}/1M · slug {item.slug}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section className="stack">
         <div className="section-heading">

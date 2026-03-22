@@ -121,11 +121,12 @@ docker compose up --build
 - `npm run build`
 - `./scripts/check.sh`
 - `npm run leaderboard:refresh --workspace=packages/frontend`
+- `npm run models:refresh --workspace=packages/frontend`
 
 模型内容说明：
 
 - 如果 `content/models/*.mdx` 中存在与模型 slug 对应的内容文件，前端模型详情页会自动把这部分内容作为知识卡片展示出来。
-- 当前已接入示例包括 `gpt-4o`、`gpt-4-1`、`claude-sonnet-4`、`gemini-2-5-pro`、`deepseek-r1`，后续继续补内容时无需额外改页面结构。
+- 当前已接入示例包括 `gpt-4o`、`gpt-4-1`、`gpt-4-1-mini`、`o4-mini`、`claude-sonnet-4`、`claude-3-5-sonnet`、`gemini-2-5-pro`、`gemini-2-5-flash`、`deepseek-r1`、`deepseek-v3`、`mistral-large`、`mistral-small-4`、`grok-4-20-beta`，后续继续补内容时无需额外改页面结构。
 
 常用快捷脚本：
 
@@ -167,7 +168,7 @@ docker compose up --build
 
 ## 文档导航
 
-- 站内文档中心：启动前端后访问 `/docs`
+- 站内帮助中心：启动前端后访问 `/docs`
 - 英文总览：`docs/en/README.md`
 - 中文总览：`docs/zh/README.md`
 - 产品就绪度：`docs/en/PRODUCT_READYNESS.md`

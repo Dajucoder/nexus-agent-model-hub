@@ -1,8 +1,14 @@
-# Nexus Agent Model Hub Documentation
+# Nexus Agent Model Hub Help Overview
 
 Source-available product baseline for multi-tenant authentication, Agent operations, model discovery, ranking, and a chat workspace with bilingual UI and docs.
 
 **English** | [中文](../zh/README.md)
+
+## How To Use This Help
+
+- If you are new to the project, start with overview, deployment, and operations.
+- If you are troubleshooting a local or server environment, go straight to deployment and operations.
+- If you plan to modify code, continue with contributing, repository map, and license guidance.
 
 ## About
 
@@ -109,11 +115,12 @@ Useful validation commands:
 - `npm run build`
 - `./scripts/check.sh`
 - `npm run leaderboard:refresh --workspace=packages/frontend`
+- `npm run models:refresh --workspace=packages/frontend`
 
 Model content note:
 
 - `content/models/*.mdx` can now enrich model detail pages automatically when a matching slug exists.
-- The repository currently includes connected examples for `gpt-4o`, `gpt-4-1`, `claude-sonnet-4`, `gemini-2-5-pro`, and `deepseek-r1`.
+- The repository currently includes connected examples for `gpt-4o`, `gpt-4-1`, `gpt-4-1-mini`, `o4-mini`, `claude-sonnet-4`, `claude-3-5-sonnet`, `gemini-2-5-pro`, `gemini-2-5-flash`, `deepseek-r1`, `deepseek-v3`, `mistral-large`, `mistral-small-4`, and `grok-4-20-beta`.
 
 Default bootstrap account:
 

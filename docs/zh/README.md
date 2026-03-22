@@ -1,8 +1,14 @@
-# Nexus Agent Model Hub 文档总览
+# Nexus Agent Model Hub 帮助总览
 
 Nexus Agent Model Hub 是一套面向多租户登录、Agent 工具调用、模型目录、排行榜与会话工作区场景的源码开放产品基线仓库，提供双语界面、双语文档、Docker 部署资产与可扩展插件能力。
 
 [English](../en/README.md) | **中文**
+
+## 帮助使用建议
+
+- 如果你是第一次接手项目，建议优先看“快速开始”、“部署指南”、“运维手册”。
+- 如果你正在排查环境问题，优先查看“部署指南”和“运维手册”。
+- 如果你准备参与代码修改，再继续看“贡献指南”、“仓库结构”和“许可证说明”。
 
 ## 关于项目
 
@@ -109,11 +115,12 @@ docker compose up --build
 - `npm run build`
 - `./scripts/check.sh`
 - `npm run leaderboard:refresh --workspace=packages/frontend`
+- `npm run models:refresh --workspace=packages/frontend`
 
 模型内容说明：
 
 - 如果 `content/models/*.mdx` 中存在与模型 slug 对应的内容文件，模型详情页现在会自动把这部分内容合并展示出来。
-- 当前已经接入的示例内容包括 `gpt-4o`、`gpt-4-1`、`claude-sonnet-4`、`gemini-2-5-pro`、`deepseek-r1`，后续继续补充时无需改详情页结构。
+- 当前已经接入的示例内容包括 `gpt-4o`、`gpt-4-1`、`gpt-4-1-mini`、`o4-mini`、`claude-sonnet-4`、`claude-3-5-sonnet`、`gemini-2-5-pro`、`gemini-2-5-flash`、`deepseek-r1`、`deepseek-v3`、`mistral-large`、`mistral-small-4`、`grok-4-20-beta`，后续继续补充时无需改详情页结构。
 
 默认预置初始账号：
 

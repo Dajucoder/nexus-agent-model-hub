@@ -162,6 +162,9 @@ export function DashboardClient() {
   const dict = getDictionary(locale);
   const latestRun = overview.agentRuns[0];
   const latestAudit = overview.auditLogs[0];
+  const sessionTenantSlug = session?.tenantSlug ?? "primary";
+  const isBootstrapTenant =
+    (overview.tenant?.slug ?? sessionTenantSlug) === "primary";
 
   async function run(path: string, init?: RequestInit) {
     if (!session) return;
@@ -198,8 +201,53 @@ export function DashboardClient() {
     return null;
   }
 
+  const activeSession = session;
+
   return (
     <div className="stack">
+      <section className="panel stack dashboard-welcome">
+        <div className="topbar">
+          <div>
+            <div className="eyebrow">Workspace Onboarding</div>
+            <h1 className="section-title">
+              欢迎进入 {overview.tenant?.name ?? activeSession.tenantSlug}
+            </h1>
+          </div>
+          <div className="pill-row">
+            <span className="pill">{activeSession.user.role}</span>
+            <span className="pill">
+              {isBootstrapTenant ? "Bootstrap Tenant" : "Custom Tenant"}
+            </span>
+          </div>
+        </div>
+        <div className="insight-grid">
+          <article className="insight-card">
+            <span>第一步</span>
+            <strong>检查工作区配置</strong>
+            <p>
+              先确认当前租户、用户与后端版本都能正常读取，再继续调试 Agent
+              和模型能力。
+            </p>
+          </article>
+          <article className="insight-card">
+            <span>第二步</span>
+            <strong>配置供应商密钥</strong>
+            <p>
+              如果你准备体验真实模型调用，下一步建议先到 `/settings`
+              保存可用的供应商配置。
+            </p>
+          </article>
+          <article className="insight-card">
+            <span>第三步</span>
+            <strong>跑一次 Agent</strong>
+            <p>
+              执行一次内置 Agent
+              后，这个控制台里的最近运行和审计日志就会开始出现真实记录。
+            </p>
+          </article>
+        </div>
+      </section>
+
       <div className="panel">
         <div className="topbar">
           <div>

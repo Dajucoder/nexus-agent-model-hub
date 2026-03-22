@@ -1,0 +1,127 @@
+{
+  "fetchedAt": "2026-03-22T18:38:17.160Z",
+  "source": "https://openrouter.ai/api/v1/models",
+  "totalModels": 352,
+  "featured": [
+    {
+      "id": "xiaomi/mimo-v2-omni",
+      "name": "Xiaomi: MiMo-V2-Omni",
+      "provider": "xiaomi",
+      "slug": "xiaomi-mimo-v2-omni-20260318",
+      "contextLength": 262144,
+      "promptPricePer1M": 0.4,
+      "completionPricePer1M": 2,
+      "modality": "text+image+audio+video->text"
+    },
+    {
+      "id": "xiaomi/mimo-v2-pro",
+      "name": "Xiaomi: MiMo-V2-Pro",
+      "provider": "xiaomi",
+      "slug": "xiaomi-mimo-v2-pro-20260318",
+      "contextLength": 1048576,
+      "promptPricePer1M": 1,
+      "completionPricePer1M": 3,
+      "modality": "text->text"
+    },
+    {
+      "id": "minimax/minimax-m2.7",
+      "name": "MiniMax: MiniMax M2.7",
+      "provider": "minimax",
+      "slug": "minimax-minimax-m2-7-20260318",
+      "contextLength": 204800,
+      "promptPricePer1M": 0.3,
+      "completionPricePer1M": 1.2,
+      "modality": "text->text"
+    },
+    {
+      "id": "openai/gpt-5.4-nano",
+      "name": "OpenAI: GPT-5.4 Nano",
+      "provider": "openai",
+      "slug": "openai-gpt-5-4-nano-20260317",
+      "contextLength": 400000,
+      "promptPricePer1M": 0.2,
+      "completionPricePer1M": 1.25,
+      "modality": "text+image+file->text"
+    },
+    {
+      "id": "openai/gpt-5.4-mini",
+      "name": "OpenAI: GPT-5.4 Mini",
+      "provider": "openai",
+      "slug": "openai-gpt-5-4-mini-20260317",
+      "contextLength": 400000,
+      "promptPricePer1M": 0.75,
+      "completionPricePer1M": 4.5,
+      "modality": "text+image+file->text"
+    },
+    {
+      "id": "mistralai/mistral-small-2603",
+      "name": "Mistral: Mistral Small 4",
+      "provider": "mistralai",
+      "slug": "mistralai-mistral-small-2603",
+      "contextLength": 262144,
+      "promptPricePer1M": 0.15,
+      "completionPricePer1M": 0.6,
+      "modality": "text+image->text"
+    },
+    {
+      "id": "z-ai/glm-5-turbo",
+      "name": "Z.ai: GLM 5 Turbo",
+      "provider": "z-ai",
+      "slug": "z-ai-glm-5-turbo-20260315",
+      "contextLength": 202752,
+      "promptPricePer1M": 0.96,
+      "completionPricePer1M": 3.2,
+      "modality": "text->text"
+    },
+    {
+      "id": "x-ai/grok-4.20-multi-agent-beta",
+      "name": "xAI: Grok 4.20 Multi-Agent Beta",
+      "provider": "x-ai",
+      "slug": "x-ai-grok-4-20-multi-agent-beta-20260309",
+      "contextLength": 2000000,
+      "promptPricePer1M": 2,
+      "completionPricePer1M": 6,
+      "modality": "text+image->text"
+    },
+    {
+      "id": "x-ai/grok-4.20-beta",
+      "name": "xAI: Grok 4.20 Beta",
+      "provider": "x-ai",
+      "slug": "x-ai-grok-4-20-beta-20260309",
+      "contextLength": 2000000,
+      "promptPricePer1M": 2,
+      "completionPricePer1M": 6,
+      "modality": "text+image->text"
+    },
+    {
+      "id": "nvidia/nemotron-3-super-120b-a12b:free",
+      "name": "NVIDIA: Nemotron 3 Super (free)",
+      "provider": "nvidia",
+      "slug": "nvidia-nemotron-3-super-120b-a12b-20230311",
+      "contextLength": 262144,
+      "promptPricePer1M": 0,
+      "completionPricePer1M": 0,
+      "modality": "text->text"
+    },
+    {
+      "id": "nvidia/nemotron-3-super-120b-a12b",
+      "name": "NVIDIA: Nemotron 3 Super",
+      "provider": "nvidia",
+      "slug": "nvidia-nemotron-3-super-120b-a12b-20230311",
+      "contextLength": 262144,
+      "promptPricePer1M": 0.1,
+      "completionPricePer1M": 0.5,
+      "modality": "text->text"
+    },
+    {
+      "id": "bytedance-seed/seed-2.0-lite",
+      "name": "ByteDance Seed: Seed-2.0-Lite",
+      "provider": "bytedance-seed",
+      "slug": "bytedance-seed-seed-2-0-lite-20260309",
+      "contextLength": 262144,
+      "promptPricePer1M": 0.25,
+      "completionPricePer1M": 2,
+      "modality": "text+image+video->text"
+    }
+  ]
+}

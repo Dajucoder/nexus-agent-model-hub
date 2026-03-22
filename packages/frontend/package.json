@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start -p 3000",
     "leaderboard:refresh": "node ./scripts/refresh-leaderboard.mjs",
+    "models:refresh": "node ./scripts/refresh-model-catalog.mjs",
     "prelint": "node ./scripts/prepare-typecheck.mjs",
     "lint": "tsc --noEmit",
     "pretypecheck": "node ./scripts/prepare-typecheck.mjs",
