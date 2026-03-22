@@ -10,4 +10,3 @@ coverage
 .env
 .env.*
 *.tsbuildinfo
-packages/frontend/.data

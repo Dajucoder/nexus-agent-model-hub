@@ -25,6 +25,7 @@ RUN npm config set registry "${NPM_REGISTRY}"
 COPY --from=builder /app/packages/frontend/.next/standalone ./
 COPY --from=builder /app/packages/frontend/.next/static ./packages/frontend/.next/static
 COPY --from=builder /app/packages/frontend/public ./packages/frontend/public
+COPY --from=builder /app/content ./content
 COPY --from=builder /app/docs ./docs
 COPY --from=builder /app/README.md ./README.md
 COPY --from=builder /app/CONTRIBUTING.md ./CONTRIBUTING.md
