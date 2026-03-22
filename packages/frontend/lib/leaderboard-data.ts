@@ -24,6 +24,13 @@ type RawBundle = {
   feeds: Record<Exclude<LeaderboardFeedId, "combined">, RawFeed>;
 };
 
+type FeedResult = {
+  feed: RawFeed;
+  source: "live" | "snapshot";
+  status: "ok" | "fallback";
+  message: string;
+};
+
 const snapshotPath = join(process.cwd(), ".data/leaderboard-snapshots.json");
 
 function lookupModel(modelId: string) {
@@ -157,6 +164,28 @@ async function fetchOpenRouterFeed(): Promise<RawFeed | null> {
   } catch {
     return null;
   }
+}
+
+async function resolveOpenRouterFeed(
+  snapshotFeed: RawFeed,
+): Promise<FeedResult> {
+  const remoteFeed = await fetchOpenRouterFeed();
+  if (remoteFeed) {
+    return {
+      feed: remoteFeed,
+      source: "live",
+      status: "ok",
+      message: "OpenRouter public page parsed successfully.",
+    };
+  }
+
+  return {
+    feed: snapshotFeed,
+    source: "snapshot",
+    status: "fallback",
+    message:
+      "Remote OpenRouter rankings were unavailable or unparseable, so the repository snapshot was used.",
+  };
 }
 
 function materializeFeed(rawFeed: RawFeed): LeaderboardFeed {
@@ -298,12 +327,12 @@ function buildCombinedFeed(
 
 export async function getLeaderboardBundle(): Promise<LeaderboardBundle> {
   const snapshotBundle = await loadSnapshotBundle();
-  const remoteOpenRouter = await fetchOpenRouterFeed();
+  const openrouterResult = await resolveOpenRouterFeed(
+    snapshotBundle.feeds.openrouter,
+  );
 
   const arenaFeed = materializeFeed(snapshotBundle.feeds.arena);
-  const openrouterFeed = materializeFeed(
-    remoteOpenRouter ?? snapshotBundle.feeds.openrouter,
-  );
+  const openrouterFeed = materializeFeed(openrouterResult.feed);
   const combinedFeed = buildCombinedFeed(arenaFeed, openrouterFeed);
 
   return {
@@ -312,6 +341,13 @@ export async function getLeaderboardBundle(): Promise<LeaderboardBundle> {
       arena: arenaFeed,
       openrouter: openrouterFeed,
       combined: combinedFeed,
+    },
+    diagnostics: {
+      openrouter: {
+        source: openrouterResult.source,
+        status: openrouterResult.status,
+        message: openrouterResult.message,
+      },
     },
   };
 }

@@ -113,6 +113,7 @@ docker compose up --build
 模型内容说明：
 
 - 如果 `content/models/*.mdx` 中存在与模型 slug 对应的内容文件，模型详情页现在会自动把这部分内容合并展示出来。
+- 当前已经接入的示例内容包括 `gpt-4o`、`claude-sonnet-4`、`gemini-2-5-pro`，后续继续补充时无需改详情页结构。
 
 默认预置初始账号：
 

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AuthPanel } from "../components/auth-panel";
 import { ModelCatalogCard } from "../components/model-catalog-card";
+import { listModelArticles } from "../lib/model-content";
 import { getCatalogHighlights, modelCatalog } from "../lib/model-data";
 import {
   getLeaderboardBundle,
@@ -24,6 +25,7 @@ export default async function HomePage() {
   const leaderboardMeta = getLeaderboardMetadata(bundle);
   const combinedLeader = bundle.feeds.combined.entries[0];
   const { cheapestModel, bestReasoningModel } = getCatalogHighlights();
+  const modelArticles = await listModelArticles();
 
   const modules = [
     {
@@ -193,6 +195,10 @@ export default async function HomePage() {
                 <span>榜单供应商覆盖</span>
                 <strong>{leaderboardMeta.providerCount} 类来源</strong>
               </div>
+              <div className="status-item">
+                <span>知识卡片覆盖</span>
+                <strong>{modelArticles.length} 篇模型文章</strong>
+              </div>
             </div>
           </section>
         </div>
@@ -235,6 +241,49 @@ export default async function HomePage() {
             </Link>
           </div>
         </article>
+      </section>
+
+      <section className="stack">
+        <div className="section-heading">
+          <div className="stack">
+            <div className="eyebrow">Knowledge Coverage</div>
+            <h2 className="section-title">模型百科内容正在逐步接入</h2>
+          </div>
+        </div>
+        <div className="cards compact-cards">
+          {modelArticles.length > 0 ? (
+            modelArticles.map((article) => (
+              <article
+                key={article.slug}
+                className="panel stack compact-model-card"
+              >
+                <div>
+                  <h3 className="card-title">{article.title}</h3>
+                  <div className="fine">{article.relativePath}</div>
+                </div>
+                <div className="pill-row">
+                  <span className="pill">状态 {article.status}</span>
+                  {article.tags.slice(0, 2).map((tag) => (
+                    <span key={tag} className="pill">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link className="ghost" href={`/models/${article.slug}`}>
+                  打开模型知识卡片
+                </Link>
+              </article>
+            ))
+          ) : (
+            <article className="panel stack compact-model-card">
+              <h3 className="card-title">等待更多内容</h3>
+              <p className="fine">
+                当前仓库还可以继续补充更多
+                `content/models/*.mdx`，详情页会自动接入。
+              </p>
+            </article>
+          )}
+        </div>
       </section>
 
       <section className="stack">

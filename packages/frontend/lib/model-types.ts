@@ -91,4 +91,11 @@ export interface LeaderboardFeed {
 export interface LeaderboardBundle {
   updatedAt: string;
   feeds: Record<LeaderboardFeedId, LeaderboardFeed>;
+  diagnostics?: {
+    openrouter: {
+      source: "live" | "snapshot";
+      status: "ok" | "fallback";
+      message: string;
+    };
+  };
 }

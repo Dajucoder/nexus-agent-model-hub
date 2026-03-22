@@ -113,6 +113,7 @@ Useful validation commands:
 Model content note:
 
 - `content/models/*.mdx` can now enrich model detail pages automatically when a matching slug exists.
+- The repository currently includes connected examples for `gpt-4o`, `claude-sonnet-4`, and `gemini-2-5-pro`.
 
 Default bootstrap account:
 

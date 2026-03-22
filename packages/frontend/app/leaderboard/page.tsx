@@ -35,6 +35,7 @@ export default function LeaderboardPage() {
 
   const activeFeed = data?.feeds[tab];
   const activeEntries = activeFeed?.entries ?? [];
+  const openrouterDiagnostics = data?.diagnostics?.openrouter;
   const leader = activeEntries[0];
   const lowCostLeader = [...activeEntries].sort(
     (left, right) => left.inputPrice - right.inputPrice,
@@ -68,6 +69,13 @@ export default function LeaderboardPage() {
             <span className="pill accent-pill">
               {activeFeed?.mode === "live" ? "自动抓取中" : "快照回退中"}
             </span>
+            {openrouterDiagnostics ? (
+              <span className="pill">
+                {openrouterDiagnostics.status === "ok"
+                  ? "远程可用"
+                  : "使用快照"}
+              </span>
+            ) : null}
             {(["arena", "openrouter", "combined"] as const).map((item) => (
               <button
                 key={item}
@@ -149,6 +157,9 @@ export default function LeaderboardPage() {
               OpenRouter
               榜单会优先尝试抓取公开页面并映射到本地模型目录；如果网络受限、结构变化或抓取失败，接口会自动回退到仓库内快照，确保线上始终有一致输出。
             </p>
+            {openrouterDiagnostics ? (
+              <p className="fine">状态说明：{openrouterDiagnostics.message}</p>
+            ) : null}
           </div>
         </section>
         <div className="pill-row">

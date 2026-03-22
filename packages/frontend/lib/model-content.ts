@@ -8,6 +8,14 @@ export type ModelArticle = {
   relativePath: string;
 };
 
+export type ModelArticleSummary = {
+  slug: string;
+  title: string;
+  status: string;
+  tags: string[];
+  relativePath: string;
+};
+
 function parseFrontmatterValue(raw: string) {
   const trimmed = raw.trim();
 
@@ -88,4 +96,37 @@ export async function getModelArticle(
     body: parsed.body,
     relativePath,
   };
+}
+
+export async function listModelArticles(): Promise<ModelArticleSummary[]> {
+  const repoRoot = resolveRepoRoot();
+  const directory = path.join(repoRoot, "content", "models");
+  const { readdir } = await import("node:fs/promises");
+  const files = await readdir(directory);
+
+  const articles = await Promise.all(
+    files
+      .filter((file) => file.endsWith(".mdx") && !file.startsWith("_"))
+      .map(async (file) => {
+        const slug = file.replace(/\.mdx$/, "");
+        const article = await getModelArticle(slug);
+        if (!article) {
+          return null;
+        }
+
+        return {
+          slug,
+          title: String(article.frontmatter.name ?? slug),
+          status: String(article.frontmatter.status ?? "active"),
+          tags: Array.isArray(article.frontmatter.tags)
+            ? article.frontmatter.tags.map(String)
+            : [],
+          relativePath: article.relativePath,
+        } satisfies ModelArticleSummary;
+      }),
+  );
+
+  return articles.filter(
+    (article): article is ModelArticleSummary => article !== null,
+  );
 }
