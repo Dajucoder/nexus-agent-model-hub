@@ -1,6 +1,6 @@
 ARG NPM_REGISTRY=https://mirrors.tuna.tsinghua.edu.cn/npm/
 
-FROM node:20-alpine AS deps
+FROM node:20-bookworm-slim AS deps
 ARG NPM_REGISTRY
 WORKDIR /app
 RUN npm config set registry "${NPM_REGISTRY}"
@@ -9,7 +9,7 @@ COPY package-lock.json ./
 COPY packages/frontend/package.json packages/frontend/package.json
 RUN npm ci --workspace=packages/frontend
 
-FROM node:20-alpine AS builder
+FROM node:20-bookworm-slim AS builder
 ARG NPM_REGISTRY
 WORKDIR /app
 RUN npm config set registry "${NPM_REGISTRY}"
@@ -17,7 +17,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 RUN npm run build --workspace=packages/frontend
 
-FROM node:20-alpine AS runner
+FROM node:20-bookworm-slim AS runner
 ARG NPM_REGISTRY
 WORKDIR /app
 ENV NODE_ENV=production
